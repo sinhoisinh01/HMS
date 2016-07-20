@@ -13,6 +13,21 @@ angular.module('DuToan2', ['ui.router'])
                     }
                 }
             })
+            .state('login', {
+                url: '/login',
+                views: {
+                    'header': {
+                        templateUrl : ''
+                    },
+                    'content': {
+                        templateUrl : 'views/login.html',
+                        controller  : 'LoginController'
+                    },
+                    'sideBar': {
+                        templateUrl : ''
+                    }
+                }
+            })
             .state('home', {
                 url: '/home',
                 views: {
