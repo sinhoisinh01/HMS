@@ -13,10 +13,9 @@ class Categories extends Migration
     public function up()
     {
          Schema::create('categories', function(Blueprint $table) {
-            $table->integer('id')->unsigned();
+            $table->increments('id');
             $table->integer('construction_id')->unsigned();
             $table->string('name');
-            $table->primary('id');
             $table->foreign('construction_id')->references("id")->on("constructions");
         });
     }

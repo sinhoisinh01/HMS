@@ -9,7 +9,7 @@ class Constructions extends Migration
     {
         Schema::create('constructions', function(Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
+            $table->string('user_id');
             $table->string('name');
             $table->string('supplier_id');
             $table->string('address');

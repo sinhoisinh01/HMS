@@ -26,7 +26,7 @@ angular.module('DuToan2')
         resize_estimate_table();
         resize_new_work();
         $scope.category_work = {};
-        $http.get(baseURL + "category_work/" +)
+        $http.get(baseURL + "category_work/")
 
     }])
     .controller('Categories', ['$stateParams','$http', 'baseURL','$scope', function ($stateParams, $http, baseURL,$scope) {
