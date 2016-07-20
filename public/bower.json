@@ -1,0 +1,24 @@
+{
+  "name": "DuToan2",
+  "authors": [
+    "lightnguyen <duyminhdeptrai95@gmail.com>"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.5.7",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.6.3",
+    "angular-ui-router": "^0.3.1"
+  }
+}
