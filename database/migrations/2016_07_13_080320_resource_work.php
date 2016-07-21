@@ -13,12 +13,12 @@ class ResourceWork extends Migration
      public function up()
     {
          Schema::create('resource_work', function(Blueprint $table) {
-            $table->string('work_id');
             $table->string('resource_id');
+            $table->string('work_id');
             $table->integer('amount');
-            $table->primary(['work_id','resource_id']);
-            $table->foreign('work_id')->references("id")->on("works");
-            $table->foreign('resource_id')->references("id")->on("resources");
+            $table->primary(['resource_id','work_id']);
+            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('work_id')->references('id')->on('works');
         });
     }
 

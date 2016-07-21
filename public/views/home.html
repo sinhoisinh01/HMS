@@ -1,84 +1,32 @@
-<div id="construction_wrapper">	
-	<div id="construction">
-		<div id="construction_options">
-			<a onclick="$('#them_sua_construction').modal({show:true})">
-				<div class="open_option" >
-					<div class="open_option_thumbnail">
-						<img src="images/add_icon.png">
-					</div>
-					<div class="open_option_title">Tạo công trình mới</div>
-				</div>
-			</a>
-			<a onclick="$('#construction_all').modal({show:true})">
-				<div class="open_option">
-					<div class="open_option_thumbnail">
-						<img src="images/all_icon.png">
-					</div>
-					<div class="open_option_title">Tất cả công trình</div>
-				</div>
-			</a>
-			<a href="">
-				<div class="open_option" id="authorize-button" onclick="handleAuthClick(event); openPicker();">
-					<div class="open_option_thumbnail">
-						<img src="images/googledrive_logo.png">
-					</div>
-					<div class="open_option_title">Mở bằng Google Drive</div>
-				</div>
-			</a>
-			<a href="">
-				<div class="open_option">
-					<div class="open_option_thumbnail">
-						<img src="images/excel_logo.png">
-					</div>
-					<div class="open_option_title">Mở tệp Excel trên máy</div>
-				</div>
-			</a>
-		</div>
-		<div id="recent_construction" ng-controller="RecentContructions" ng-repeat="construction in recentConstructions">
-		<h2>Công trình gần đây</h2>
-			<a ui-sref="construction({id: construction.id})">
-				<div class="construction_item">
-					<div class="construction_item_thumbnail">
-					</div>
-					<div class="construction_item_meta">
-						<div class="construction_item_title">					
-							{{construction.name}}
-						</div>
-						<div class="construction_item_row">			
-							Mở vào: {{getDateFormat(construction.updated_at)|date:'dd-MM-yyyy'}}
-						</div>
-					</div>
-				</div>
-			</a>
-		</div>
-
-		<div id="construction_all" class="modal fade" data-backdrop="static" role="dialog" ng-controller="AllConstructions">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h2 class="modal-title">Tất cả công trình</h2>
-					</div>
-					<div class="modal-body" ng-repeat="construction in allConstructions">
-						<a ui-sref="construction({id: construction.id})">
-							<div class="construction_item">
-								<div class="construction_item_thumbnail"></div>
-								<div class="construction_item_meta">
-									<div class="construction_item_title">{{construction.name}}</div>
-									<div class="construction_item_row">	
-										Mở vào: {{getDateFormat(construction.updated_at)|date:'dd-MM-yyyy'}}
-									</div>
-								</div>
-							</div>
-							
-						</a>
-					</div>
-					<div class="modal-footer" style="clear:both">
-					  <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	
-	</div>
+<div class="container">
+    <div id="construction_options">
+        <div class="open_option" ng-click="add()">
+            <img class="open_option_thumbnail" src="images/add_icon.png">
+            <div class="open_option_title">Tạo công trình mới</div>
+        </div>
+        <div class="open_option" ng-click="viewAll()">
+            <img class="open_option_thumbnail" src="images/all_icon.png">
+            <div class="open_option_title">Tất cả công trình</div>
+        </div>
+        <div class="open_option">
+            <img class="open_option_thumbnail" src="images/googledrive_logo.png">
+            <div class="open_option_title">Mở bằng Google Drive</div>
+        </div>
+        <div class="open_option">
+            <img class="open_option_thumbnail" src="images/excel_logo.png">
+            <div class="open_option_title">Mở tệp Excel trên máy</div>
+        </div>
+    </div>
+    <h2 ng-show="recentConstructions" id="recent_construction_title">Công trình gần đây</h2>
+    <div id="recent_construction" ng-repeat="construction in recentConstructions">
+        <div ui-sref="construction({construction_id: construction.id})" class="construction_item">
+            <div class="construction_item_thumbnail"></div>
+            <div class="construction_item_meta">
+                <div class="construction_item_title">{{construction.name}}</div>
+                <div class="construction_item_row">
+                    Mở vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

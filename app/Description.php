@@ -1,0 +1,18 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Description extends Model
+{
+    protected $fillable = array('category_id', 'work_id',
+        'content', 'amount', 'width', 'length', 'height');
+
+    public $timestamps = false;
+
+    public function category_work()
+    {
+        return $this->belongsTo('App\CategoryWork');
+    }
+}

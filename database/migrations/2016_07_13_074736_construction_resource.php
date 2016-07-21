@@ -16,9 +16,7 @@ class ConstructionResource extends Migration
             $table->integer('construction_id')->unsigned();
             $table->string('resource_id');
             $table->integer('price');
-            $table->primary(['construction_id','resource_id']);    
-        });
-         Schema::table('construction_resource', function(Blueprint $table) {
+            $table->primary(['construction_id','resource_id']);
             $table->foreign('construction_id')->references('id')->on('constructions');
             $table->foreign('resource_id')->references('id')->on('resources');
         });
