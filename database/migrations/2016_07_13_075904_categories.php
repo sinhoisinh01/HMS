@@ -16,7 +16,7 @@ class Categories extends Migration
             $table->increments('id');
             $table->integer('construction_id')->unsigned();
             $table->string('name');
-            $table->foreign('construction_id')->references("id")->on("constructions");
+            $table->foreign('construction_id')->references('id')->on('constructions');
         });
     }
 

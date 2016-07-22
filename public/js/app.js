@@ -1,4 +1,5 @@
-angular.module('DuToan2', ['ui.router'])
+angular.module('HMS', ['ui.router','ui.bootstrap'])
+    .constant("baseURL", "http://localhost/HMS/public/")
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider
@@ -6,7 +7,7 @@ angular.module('DuToan2', ['ui.router'])
                 url: '/',
                 views: {
                     'header': {
-                        templateUrl : 'views/aboutMenu.html'
+                        templateUrl : ''
                     },
                     'content': {
                         templateUrl : 'views/about.html'
@@ -22,9 +23,6 @@ angular.module('DuToan2', ['ui.router'])
                     'content': {
                         templateUrl : 'views/login.html',
                         controller  : 'LoginController'
-                    },
-                    'sideBar': {
-                        templateUrl : ''
                     }
                 }
             })
@@ -32,25 +30,34 @@ angular.module('DuToan2', ['ui.router'])
                 url: '/home',
                 views: {
                     'header': {
-                        templateUrl : 'views/homeMenu.html',
-                        //controller  : 'HomeMenuController'
+                        templateUrl : 'views/menu.html',
+                        controller  : 'MenuController'
                     },
                     'content': {
                         templateUrl : 'views/home.html',
-                        controller  : 'RecentContructions'
+                        controller  : 'HomeController'
                     }
                 }
             })
             .state('construction', {
-                url: '/construction/:id',
+                url: '/construction/:construction_id',
                 views: {
                     'header': {
-                        templateUrl : 'views/estimateTableTop.html',
-                        controller  : 'ConstructionTop'
+                        templateUrl : 'views/menu.html',
+                        controller  : 'MenuController'
                     },
                     'content': {
-                        templateUrl : 'views/estimateTable.html',
-                        controller  : 'EstimateTable'
+                        templateUrl : 'views/table.html',
+                        controller  : 'TableController'
+                    }
+                }
+            })
+            .state('construction.category', {
+                url: '/construction/:construction_id/category/:category_id',
+                views: {
+                    'content': {
+                        templateUrl : 'views/table.html',
+                        controller  : 'TableController'
                     }
                 }
             })

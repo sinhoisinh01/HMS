@@ -9,7 +9,7 @@ class Constructions extends Migration
     {
         Schema::create('constructions', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('user_id');
+            $table->integer('user_id')->unsigned();
             $table->string('name');
             $table->string('supplier_id');
             $table->string('address');
@@ -19,7 +19,7 @@ class Constructions extends Migration
             $table->string('design_type');
             $table->string('level');
             $table->timestamps();
-            $table->foreign('user_id')->references("id")->on("users");
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
     public function down()

@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-	public $timestamps = false;
-	protected $table = 'categories';// to map to table categories
+	protected $table = 'categories';
+
     protected $fillable = array('id','construction_id','name');
+
+	public $timestamps = false;
+
+    public function construction()
+    {
+        return $this->belongsTo('App\Construction');
+    }
+
+    public function works()
+    {
+        return $this->belongsToMany('App\Work');
+    }
 }

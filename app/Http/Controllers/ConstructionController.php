@@ -2,23 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
 use App\Construction;
+use Illuminate\Support\Facades\Auth;
 
 class ConstructionController extends Controller
 {
-	function getAll() {
-		$idUser = 0;// would be session['user_id']
-        $construction = Construction::where('user_id',$idUser)->get();
-        return response()->json($construction);
+    function getAll()
+    {
+        return response()->json(Auth::user()->constructions);
     }
-    function getRecent() {
-    	$idUser = 0;// would be session['user_id']
-        $recentConstructions = Construction::where('user_id',$idUser)
-        ->orderBy('updated_at', 'DESC')
-        ->limit(4)
-        ->get();
 
+    function getRecent()
+    {
+        $recentConstructions = Auth::user()->constructions()
+            ->orderBy('updated_at', 'DESC')
+            ->limit(4)
+            ->get();
         return response()->json($recentConstructions);
+    }
+
+    function add()
+    {
+        $construction = Construction::create([
+            'user_id' => Auth::user()->id,
+            'name' => $_GET['name'],
+            'supplier_id' => 'absent from form',
+            'address' => $_GET['address'],
+            'investor' => $_GET['investor'],
+            'contractor' => $_GET['contractor'],
+            'type' => $_GET['type'],
+            'design_type' => $_GET['design_type'],
+            'level' => $_GET['level']
+        ]);
+        return response()->json($construction->id);
     }
 }
