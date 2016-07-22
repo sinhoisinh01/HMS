@@ -28,7 +28,7 @@ angular.module('HMS')
 				console.log(element.id);
 				auth2.attachClickHandler(element, {},
 					function(googleUser) {
-					  onSignIn(googleUser);
+					  $scope.onSignIn(googleUser);
 					}, function(error) {
 					  alert(JSON.stringify(error, undefined, 2));
 					});

@@ -3,19 +3,19 @@
     <h2 class="modal-title">Tạo công trình mới</h2>
 </div>
 <div class="modal-body">
-    <form name="form">
+    <form name="formAddContruction">
     <div class="row">
         <div class="col-lg-1"></div>
         <div class="col-lg-10">
             <h3>Thông tin chung</h3>
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : formAddContruction.contructionName.$error.required && formAddContruction.contructionName.$dirty }">
                 <label>Tên công trình</label>
-                <input type="text" ng-model="name" class="form-control" value="" required>
+                <input type="text" name="contructionName" ng-model="name" class="form-control" value="" required>
             </div>
             <div class="form-group">
                 <label>Địa điểm</label><br>
                 <input style="width:50%;display:inline-block" type="text" ng-model="address1" class="form-control"
-                       placeholder="273 An Dương Vương P.3 Q.5" value="" required>
+                       placeholder="273 An Dương Vương P.3 Q.5" value="">
                 <select style="width:30%;display:inline-block" ng-model="address2" class="form-control">
                     <option value="HCM">Hồ Chí Minh</option>
                     <option value="HN">Hà Nội</option>
@@ -23,11 +23,11 @@
             </div>
             <div class="form-group">
                 <label>Chủ đầu tư</label>
-                <input type="text" ng-model="investor" class="form-control" value="" required>
+                <input type="text" ng-model="investor" class="form-control" value="">
             </div>
             <div class="form-group">
                 <label>Đơn vị thực hiện</label>
-                <input type="text" ng-model="contractor" class="form-control" value="" required>
+                <input type="text" ng-model="contractor" class="form-control" value="">
             </div>
             <h3>Loại công trình</h3>
             <div class="form-group">
@@ -87,5 +87,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancel()">Đóng</button>
-    <button type="submit" class="btn btn-primary" ng-click="create()" ng-disabled="form.$invalid">Tạo mới</button>
+    <button type="submit" class="btn btn-primary" ng-click="create()" ng-disabled="formAddContruction.$invalid">Tạo mới</button>
 </div>
