@@ -1,13 +1,14 @@
 angular.module('HMS')
-    .controller('LoginController', ['$state', '$http', 'baseURL', '$scope',
-        function ($state, $http, baseURL, $scope) {
+    .controller('LoginController', ['$state', '$scope','$rootScope',
+        function ($state, $scope, $rootScope) {
             gapi.load('auth2', function () {
                 auth2 = gapi.auth2.init({
                     client_id: '711327534359-06jkjslp3oqpmsrqmdivg3pk0go8pbud.apps.googleusercontent.com'
                 });
             });
-            $scope.onSignIn = function () {
-                // keep some information on front-end
+            $scope.onSignIn = function (googleUser) {
+                $rootScope.token = googleUser.getAuthResponse().id_token;
+                console.log($rootScope.token);
                 $state.go('home')
             };
             $scope.signOut = function () {
@@ -18,7 +19,4 @@ angular.module('HMS')
                     'onsuccess': $scope.onSignIn
                 });
         }])
-    .controller('MenuController', ['$stateParams', '$http', 'baseURL', '$scope',
-        function ($stateParams, $http, baseURL, $scope) {
-
-        }]);
+    .controller('NavController', function () {});

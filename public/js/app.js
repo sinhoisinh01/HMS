@@ -6,9 +6,6 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
             .state('about', {
                 url: '/',
                 views: {
-                    'header': {
-                        templateUrl : ''
-                    },
                     'content': {
                         templateUrl : 'views/about.html'
                     }
@@ -17,9 +14,6 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
             .state('login', {
                 url: '/login',
                 views: {
-                    'header': {
-                        templateUrl : ''
-                    },
                     'content': {
                         templateUrl : 'views/login.html',
                         controller  : 'LoginController'
@@ -29,9 +23,9 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
             .state('home', {
                 url: '/home',
                 views: {
-                    'header': {
-                        templateUrl : 'views/menu.html',
-                        controller  : 'MenuController'
+                    'nav': {
+                        templateUrl : 'views/nav.html',
+                        controller  : 'NavController'
                     },
                     'content': {
                         templateUrl : 'views/home.html',
@@ -42,21 +36,25 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
             .state('construction', {
                 url: '/construction/:construction_id',
                 views: {
-                    'header': {
-                        templateUrl : 'views/menu.html',
+                    'nav': {
+                        templateUrl : 'views/nav.html',
+                        controller  : 'NavController'
+                    },
+                    'menu': {
+                        templateUrl : 'views/table/menu.html',
                         controller  : 'MenuController'
                     },
-                    'content': {
-                        templateUrl : 'views/table.html',
-                        controller  : 'TableController'
+                    'categories': {
+                        templateUrl : 'views/table/categories.html',
+                        controller  : 'CategoriesController'
                     }
                 }
             })
             .state('construction.category', {
-                url: '/construction/:construction_id/category/:category_id',
+                url: '/category/:category_id',
                 views: {
-                    'content': {
-                        templateUrl : 'views/table.html',
+                    'content@': {
+                        templateUrl : 'views/table/table.html',
                         controller  : 'TableController'
                     }
                 }

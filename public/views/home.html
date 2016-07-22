@@ -17,9 +17,10 @@
             <div class="open_option_title">Mở tệp Excel trên máy</div>
         </div>
     </div>
-    <h2 ng-show="recentConstructions" id="recent_construction_title">Công trình gần đây</h2>
-    <div id="recent_construction" ng-repeat="construction in recentConstructions">
-        <div ui-sref="construction({construction_id: construction.id})" class="construction_item">
+    <div id="recent_construction">
+        <h2 ng-show="recentConstructions" id="recent_construction_title">Công trình gần đây</h2>
+        <div ui-sref="construction({construction_id: construction.id})" class="construction_item"
+             ng-repeat="construction in recentConstructions">
             <div class="construction_item_thumbnail"></div>
             <div class="construction_item_meta">
                 <div class="construction_item_title">{{construction.name}}</div>
