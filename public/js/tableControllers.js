@@ -1,14 +1,7 @@
 angular.module('HMS')
-    .controller('TableTopController', ['$stateParams', '$http', 'baseURL', '$scope',
-        function ($stateParams, $http, baseURL, $scope) {
-
-        }])
-    .controller('TableController', ['$stateParams', '$http', 'baseURL', '$scope',
-        function ($stateParams, $http, baseURL, $scope) {
-
-        }])
-    .controller('CategoriesController', ['$stateParams', '$http', 'baseURL', '$scope', '$uibModal',
-        function ($stateParams, $http, baseURL, $scope, $uibModal) {
+    .controller('MenuController', function () {})
+    .controller('TableController', function () {})
+    .controller('CategoriesController', function ($stateParams, $http, baseURL, $scope, $uibModal) {
             $scope.categories = [];
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id,
@@ -25,7 +18,7 @@ angular.module('HMS')
                     $scope.categories.push(category);
                 });
             };
-        }])
+        })
     .controller('AddCategoryController', function ($stateParams, $http, baseURL, $scope, $uibModalInstance) {
         $scope.create = function () {
             $http({
