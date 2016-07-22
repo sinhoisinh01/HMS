@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('MenuController', function () {})
+    .controller('ToolbarController', function () {})
     .controller('TableController', function () {})
     .controller('CategoriesController', function ($stateParams, $http, baseURL, $scope, $uibModal) {
             $scope.categories = [];

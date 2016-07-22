@@ -1,0 +1,180 @@
+<div id="tai_khoan">
+	<ul class="nav navbar-nav navbar-right">
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+			<ul class="dropdown-menu message-dropdown">
+				<li class="message-preview">
+					<a href="#">
+						<div class="media">
+							<span class="pull-left">
+								<img class="media-object" src="http://placehold.it/50x50" alt="">
+							</span>
+							<div class="media-body">
+								<h5 class="media-heading"><strong>SDM</strong>
+								</h5>
+								<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+								<p>Lorem ipsum dolor sit amet, consectetur...</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="message-preview">
+					<a href="#">
+						<div class="media">
+							<span class="pull-left">
+								<img class="media-object" src="http://placehold.it/50x50" alt="">
+							</span>
+							<div class="media-body">
+								<h5 class="media-heading"><strong>SDM</strong>
+								</h5>
+								<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+								<p>Lorem ipsum dolor sit amet, consectetur...</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="message-preview">
+					<a href="#">
+						<div class="media">
+							<span class="pull-left">
+								<img class="media-object" src="http://placehold.it/50x50" alt="">
+							</span>
+							<div class="media-body">
+								<h5 class="media-heading"><strong>SDM</strong>
+								</h5>
+								<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+								<p>Lorem ipsum dolor sit amet, consectetur...</p>
+							</div>
+						</div>
+					</a>
+				</li>
+				<li class="message-footer">
+					<a href="#">Read All New Messages</a>
+				</li>
+			</ul>
+		</li>
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+			<ul class="dropdown-menu alert-dropdown">
+				<li>
+					<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+				</li>
+				<li class="divider"></li>
+				<li>
+					<a href="#">View All</a>
+				</li>
+			</ul>
+		</li>
+		<li class="dropdown" id="profile">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li>
+					<a href=""><i class="fa fa-fw fa-user"></i> Thông tin cá nhân</a>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-fw fa-gear"></i> Cài đặt</a>
+				</li>
+				<li class="divider"></li>
+				<li id="log_out">
+					<a href=""><i class="fa fa-fw fa-power-off"></i> Đăng xuất</a>
+					<iframe id="logoutframe" src="https://accounts.google.com/logout" style="display: none"></iframe>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<div id="menu_bar">
+	<i class="fa fa-bars" id="menu_toggle"></i>
+	<ul id="menu">	
+		<li class="has-children"><a>Tệp</a>
+			<ul>
+				<li><a><i>&nbsp;</i>Mới <i class="fa fa-angle-right"></i></a>
+					<ul>
+						<li><a onclick="$('#them_sua_cong_trinh').modal({show:true})">Công trình...</a></li>
+						<li><a onclick="$('#them_hang_muc').modal({show:true})">Hạng mục...</a></li>
+					</ul>
+				</li>
+				<li><a onclick="$('#mo_cong_trinh').modal({show:true})"><i>&nbsp;</i>Mở...</a></li>
+				<div class="menu_divider"></div>
+				<li>
+					<a><i class="fa fa-file-excel-o"></i>Xuất tệp Excel <i class="fa fa-angle-right"></i></a>
+					<ul>
+						<li><a href="">Công trình</a></li>
+						<li><a href="<?php echo site_url("DuToan/export")?>">Hạng mục</a></li>
+					</ul>
+				</li>
+				<li>
+					<a><i class="fa fa-file-pdf-o"></i>Xuất tệp PDF <i class="fa fa-angle-right"></i></a>
+					<ul>
+						<li><a href="">Công trình</a></li>
+						<li><a href="">Hạng mục</a></li>
+					</ul>
+				</li>
+				<div class="menu_divider"></div>
+				<li>
+					<a href="">
+						<i class="fa fa-print"></i>In...
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="has-children"><a>Công trình</a>
+			<ul>
+				<li><a><i>&nbsp;</i>Phân tích công trình...</a></li>
+				<div class="menu_divider"></div>
+				<li><a onclick=""><i class="fa fa-info"></i>Thông tin công trình</a></li>
+				<div class="menu_divider"></div>
+				<li>
+					<a onclick="return confirm('Bạn sẽ xóa toàn bộ công trình hiện hành, bạn có chắc muốn tiếp tục?')" 
+					href="<?php echo site_url("CongTrinh/xoa")."/".$_SESSION["ma_cong_trinh"]?>">
+						<i class="fa fa-trash" ></i>Xóa công trình
+					</a>
+				</li>	
+			</ul>
+		</li>
+		<li class="has-children"><a>Hạng mục</a>
+			<ul>
+				<li><a><i>&nbsp;</i>Phân tích hạng mục</a></li>
+				<div class="menu_divider"></div>
+				<li>
+					<a onclick="$('#import_hang_muc').modal({show:true})">
+						<i class="fa fa-file-excel-o"></i>Nhập từ tệp Excel...
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li class="has-children"><a>Dữ liệu</a>
+			<ul>
+				<li>
+					<a onclick="$('#cong_tac_phat_sinh').modal({show:true});resize_cong_tac_ps()">
+						<i>&nbsp;</i>Tạo công tác mới
+					</a>
+				</li>
+				<div class="menu_divider"></div>
+				<li><a><i class="fa fa-download "></i>Tải đơn giá...</a></li>
+			</ul>	
+		</li>
+		<li class="has-children"><a>Công cụ</a>
+			<ul>
+				<li><a onclick="calculator()"><i class="fa fa-calculator"></i> Máy tính</a></li>
+			</ul>
+		</li>
+		<li class="has-children"><a>Hiển thị</a>
+			<ul>
+				<li><a onclick="show_hide_left()">Ẩn/hiện danh sách hạng mục</a></li>
+				<li><a>Cài đặt...</a></li>
+			</ul>
+		</li>
+		<li class="has-children"><a>Trợ giúp</a>
+			<ul>
+				<li onclick="next_step(1)"><a>Chế độ hướng dẫn</a></li>
+				<li><a>Video hướng dẫn</a></li>
+			</ul>					
+		</li>
+		<li>
+			<a>Thao tác lần cuối vào lúc: 
+			<?php $date = new datetime($ngay_thao_tac); echo date_format($date,"d-m-Y h:i:s") ?></a>
+		</li>
+	</ul>
+</div>

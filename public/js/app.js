@@ -37,12 +37,12 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
                 url: '/construction/:construction_id',
                 views: {
                     'nav': {
-                        templateUrl : 'views/nav.html',
-                        controller  : 'NavController'
+                        templateUrl : 'views/table/tableNav.html',
+                        controller  : 'TableNavController'
                     },
-                    'menu': {
-                        templateUrl : 'views/table/menu.html',
-                        controller  : 'MenuController'
+                    'toolbar': {
+                        templateUrl : 'views/table/toolbar.html',
+                        controller  : 'ToolbarController'
                     },
                     'categories': {
                         templateUrl : 'views/table/categories.html',
