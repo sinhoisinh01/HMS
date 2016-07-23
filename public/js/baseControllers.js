@@ -1,6 +1,6 @@
-angular.module('HMS')
-    .controller('LoginController', ['$state', '$scope','$rootScope',
-        function ($state, $scope, $rootScope) {
+angular.module('HMS'/*, ['ngCookies']*/)
+    .controller('LoginController', ['$state', '$scope', '$rootScope', /*'$cookieStore',*/
+        function ($state, $scope, $rootScope, $cookieStore) {
             gapi.load('auth2', function () {
                 auth2 = gapi.auth2.init({
                     client_id: '711327534359-06jkjslp3oqpmsrqmdivg3pk0go8pbud.apps.googleusercontent.com'
@@ -8,12 +8,15 @@ angular.module('HMS')
 				$scope.attachSignIn(document.getElementById('googleSignIn'));
             });
             $scope.onSignIn = function (googleUser) {
-                $rootScope.token = googleUser.getAuthResponse().id_token;
+                //$cookieStore.put('googleToken', googleUser.getAuthResponse().id_token);
+				$rootScope.token = googleUser.getAuthResponse().id_token;
+				//$rootScope.token = $cookieStore.get('googleToken');
                 console.log($rootScope.token);
                 $state.go('home')
             };
             $scope.signOut = function () {
                 auth2.disconnect();
+				$cookieStore.remove('googleToken');
             };
             
 			/* I think we could remove these codes below because it doesn't make error
