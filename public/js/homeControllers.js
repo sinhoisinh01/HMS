@@ -1,6 +1,5 @@
 angular.module('HMS')
-    .controller('HomeController', ['$http', 'baseURL', '$scope', '$state', '$uibModal', '$cookies',
-        function ($http, baseURL, $scope, $state, $uibModal, $cookies) {
+    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $cookies) {
             $scope.recentConstructions = {};
             $scope.getDateFormat = function (timestamp) {
                 return new Date(timestamp);
@@ -28,8 +27,8 @@ angular.module('HMS')
                     $state.go('construction', {'construction_id': construction_id});
                 });
             };
-        }])
-    .controller('AddConstructionController', function ($http, baseURL, $scope, $uibModalInstance) {
+        })
+    .controller('AddConstructionController', function ($http, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction',
@@ -53,7 +52,7 @@ angular.module('HMS')
             $uibModalInstance.dismiss();
         };
     })
-    .controller('AllConstructionsController', function ($http, baseURL, $scope, $uibModalInstance) {
+    .controller('AllConstructionsController', function ($http, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.allConstructions = {};
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);

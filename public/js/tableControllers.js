@@ -1,9 +1,11 @@
 angular.module('HMS')
+    .controller('TableNavController', function () {
+    })
     .controller('ToolbarController', function () {
     })
     .controller('TableController', function () {
     })
-    .controller('CategoriesController', function ($stateParams, $http, baseURL, $scope, $uibModal) {
+    .controller('CategoriesController', function ($stateParams, $http, baseURL, $scope, $uibModal, $cookies) {
         $scope.categories = [];
         $http({
             url: baseURL + 'construction/' + $stateParams.construction_id,
@@ -21,7 +23,7 @@ angular.module('HMS')
             });
         };
     })
-    .controller('AddCategoryController', function ($stateParams, $http, baseURL, $scope, $uibModalInstance) {
+    .controller('AddCategoryController', function ($stateParams, $http, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id + '/' + $scope.name,

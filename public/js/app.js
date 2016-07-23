@@ -40,6 +40,10 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         templateUrl : 'views/nav.html',
                         controller  : 'NavController'
                     },
+                    'tableNav': {
+                        templateUrl : 'views/table/tableNav.html',
+                        controller  : 'TableNavController'
+                    },
                     'toolbar': {
                         templateUrl : 'views/table/toolbar.html',
                         controller  : 'ToolbarController'
