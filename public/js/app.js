@@ -1,4 +1,4 @@
-angular.module('HMS', ['ui.router','ui.bootstrap'])
+angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
     .constant("baseURL", "http://localhost/HMS/public/")
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
@@ -37,8 +37,8 @@ angular.module('HMS', ['ui.router','ui.bootstrap'])
                 url: '/construction/:construction_id',
                 views: {
                     'nav': {
-                        templateUrl : 'views/table/tableNav.html',
-                        controller  : 'TableNavController'
+                        templateUrl : 'views/nav.html',
+                        controller  : 'NavController'
                     },
                     'toolbar': {
                         templateUrl : 'views/table/toolbar.html',

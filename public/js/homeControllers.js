@@ -1,5 +1,6 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal) {
+    .controller('HomeController', ['$http', 'baseURL', '$scope', '$state', '$uibModal', '$cookies',
+        function ($http, baseURL, $scope, $state, $uibModal, $cookies) {
             $scope.recentConstructions = {};
             $scope.getDateFormat = function (timestamp) {
                 return new Date(timestamp);
@@ -7,7 +8,7 @@ angular.module('HMS')
             $http({
                 url: baseURL + 'home',
                 method: "GET",
-                params: {token: auth2.currentUser.get().hg.id_token}
+                params: {token: $cookies.get('googleToken')}
             }).then(function (response) {
                 $scope.recentConstructions = response.data;
             });
@@ -27,14 +28,14 @@ angular.module('HMS')
                     $state.go('construction', {'construction_id': construction_id});
                 });
             };
-        })
+        }])
     .controller('AddConstructionController', function ($http, baseURL, $scope, $uibModalInstance) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction',
                 method: "GET",
                 params: {
-                    token: auth2.currentUser.get().hg.id_token,
+                    token: $cookies.get('googleToken'),
                     name: $scope.name,
                     supplier_id: $scope.supplier_id,
                     address: $scope.address1 + $scope.address2,
@@ -60,7 +61,7 @@ angular.module('HMS')
         $http({
             url: baseURL + 'home/allConstructions',
             method: "GET",
-            params: {token: auth2.currentUser.get().hg.id_token}
+            params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
             $scope.allConstructions = response.data;
         });

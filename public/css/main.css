@@ -193,7 +193,7 @@ i{cursor:pointer;}
 	display:inline-block;
 	float:left;
 }
-.toolbar_button i:active{color:#CCC;};
+.toolbar_button i:active{color:#CCC;}
 .toolbar_button select{
 	height:20px;
 	width:auto;
