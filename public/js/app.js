@@ -3,14 +3,6 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');
         $stateProvider
-            .state('about', {
-                url: '/',
-                views: {
-                    'content': {
-                        templateUrl : 'views/about.html'
-                    }
-                }
-            })
             .state('login', {
                 url: '/login',
                 views: {
