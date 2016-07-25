@@ -5,7 +5,7 @@ angular.module('HMS')
     })
     .controller('TableController', function () {
     })
-    .controller('CategoriesController', function ($stateParams, $http, baseURL, $scope, $uibModal, $cookies) {
+    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $cookies) {
         $scope.categories = [];
         $http({
             url: baseURL + 'construction/' + $stateParams.construction_id,
@@ -13,6 +13,9 @@ angular.module('HMS')
             params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
             $scope.categories = response.data;
+        }, function () {
+            $cookies.remove('googleToken');
+            $state.go('login');
         });
         $scope.add = function () {
             $uibModal.open({
@@ -31,6 +34,9 @@ angular.module('HMS')
                 params: {token: $cookies.get('googleToken')}
             }).then(function (response) {
                 $uibModalInstance.close(response.data);
+            }, function () {
+                $cookies.remove('googleToken');
+                $state.go('login');
             });
         };
         $scope.cancel = function () {

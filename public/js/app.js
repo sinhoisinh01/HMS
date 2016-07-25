@@ -13,7 +13,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 }
             })
             .state('home', {
-                url: '/home',
+                url: '/',
                 views: {
                     'nav': {
                         templateUrl : 'views/nav.html',
