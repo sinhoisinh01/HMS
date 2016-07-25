@@ -8,7 +8,7 @@
     <div id="category_content" ng-controller="CategoriesController">
         <i ng-click="add()" class="material-icons">add_circle_outline</i>
         <div class="category_item" ng-repeat="category in categories">
-            <i ui-sref=".category({category_id:category.id})">{{category.name}}</i>
+            <i ui-sref=".category({category_id:category.id,workplace:estimate})">{{category.name}}</i>
             <div class="category_options">
                 <i class="glyphicon glyphicon-remove"></i>
                 <i class="glyphicon glyphicon-edit"></i>

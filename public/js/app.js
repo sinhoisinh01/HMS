@@ -46,10 +46,15 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                     }
                 }
             })
-            .state('construction.category', {
-                url: '/category/:category_id',
+     
+			.state('construction.category', {
+                url: '/category/:category_id/:workplace',
                 views: {
-                    'content@': {
+                    '': { templateUrl: 'views/workplace/content.html' },
+					'header@construction.category' : {
+						templateUrl : 'views/workplace/tabs.html'
+                    },
+					'table@construction.category': {
                         templateUrl : 'views/workplace/tables/estimateTable.html',
                         controller  : 'TableController'
                     }
