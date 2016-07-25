@@ -10,7 +10,7 @@
         <div class="category_item" ng-repeat="category in categories">
             <i ui-sref=".category({category_id:category.id,workplace:estimate})">{{category.name}}</i>
             <div class="category_options">
-                <i class="glyphicon glyphicon-remove"></i>
+                <i ng-click="remove(category.id)" class="glyphicon glyphicon-remove"></i>
                 <i class="glyphicon glyphicon-edit"></i>
             </div>
         </div>
