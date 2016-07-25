@@ -31,7 +31,7 @@ angular.module('HMS')
             });
         };
     })
-    .controller('AddConstructionController', function ($http, baseURL, $scope, $uibModalInstance, $cookies) {
+    .controller('AddConstructionController', function ($http, $state, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction',
@@ -58,7 +58,7 @@ angular.module('HMS')
             $uibModalInstance.dismiss();
         };
     })
-    .controller('AllConstructionsController', function ($http, baseURL, $scope, $uibModalInstance, $cookies) {
+    .controller('AllConstructionsController', function ($http, $state, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.allConstructions = {};
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
@@ -69,6 +69,9 @@ angular.module('HMS')
             params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
             $scope.allConstructions = response.data;
+        }, function () {
+            $cookies.remove('googleToken');
+            $state.go('login');
         });
         $scope.cancel = function () {
             $uibModalInstance.dismiss()

@@ -20,8 +20,6 @@ angular.module('HMS')
             auth2.attachClickHandler('googleSignIn', {},
                 function (googleUser) {
                     $scope.onSignIn(googleUser);
-                }, function (error) {
-                    alert(JSON.stringify(error, undefined, 2));
                 });
         });
         $scope.onSignIn = function (googleUser) {

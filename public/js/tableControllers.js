@@ -25,37 +25,35 @@ angular.module('HMS')
                 $scope.categories.push(category);
             });
         };
-		$scope.remove = function (category_id) {
+        $scope.remove = function (category_id) {
             $http({
-				url: baseURL + 'construction/' + $stateParams.construction_id + '/'+ category_id,
-				method: 'DELETE',
-				params: {token: $cookies.get('googleToken')}
-			}).then(function () {
-				for (var c in $scopecategories)
-				{
-					if ($scope.categories[c].id === category_id)
-					{
-						delete $scope.categories[c];
-						break;
-					}
-				}
-			}, function () {
-				$cookies.remove('googleToken');
-				$state.go('login');
-			});
+                url: baseURL + 'construction/' + $stateParams.construction_id + '/' + category_id,
+                method: 'DELETE',
+                params: {token: $cookies.get('googleToken')}
+            }).then(function () {
+                for (var c in $scope.categories) {
+                    if ($scope.categories[c].id === category_id) {
+                        delete $scope.categories[c];
+                        break;
+                    }
+                }
+            }, function () {
+                $cookies.remove('googleToken');
+                $state.go('login');
+            });
         };
     })
-    .controller('AddCategoryController', function ($stateParams, $http, baseURL, $scope, $uibModalInstance, $cookies) {
+    .controller('AddCategoryController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id,
                 method: "POST",
-                params: {token: $cookies.get('googleToken'), name: $scope.name}
+                data: {token: $cookies.get('googleToken'), name: $scope.name}
             }).then(function (response) {
                 $uibModalInstance.close(response.data);
             }, function () {
-                //$cookies.remove('googleToken');
-                //$state.go('login');
+                $cookies.remove('googleToken');
+                $state.go('login');
             });
         };
         $scope.cancel = function () {

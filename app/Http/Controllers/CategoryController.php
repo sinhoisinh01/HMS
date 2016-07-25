@@ -17,20 +17,16 @@ class CategoryController extends Controller
 
     function add($construction_id)
     {
-		$postdata = file_get_contents('php://input');
-		$data = json_decode($postdata, true);
-		print_r($data);
-		$name = $data->name;
         if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            return response()->json(Category::create(['construction_id' => $construction_id, 'name' => $name]));
+            return response()->json(Category::create(['construction_id' => $construction_id, 'name' => json_decode(file_get_contents('php://input'))->name]));
         return redirect('/index.html#/login');
     }
-	function remove($construction_id, $category_id)
-	{
-		if (Auth::user()->id === Construction::find($construction_id)->user_id)
-		{
-			Category::find($category_id)->delete();
-		}
-        return redirect('/index.html#/login');
-	}
+
+    function remove($construction_id, $category_id)
+    {
+        if (Auth::user()->id === Construction::find($construction_id)->user_id) {
+            Category::find($category_id)->delete();
+        } else
+            return redirect('/index.html#/login');
+    }
 }
