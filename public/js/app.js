@@ -32,9 +32,9 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         templateUrl : 'views/nav.html',
                         controller  : 'NavController'
                     },
-                    'tableNav': {
-                        templateUrl : 'views/workplace/tableNav.html',
-                        controller  : 'TableNavController'
+                    'menu': {
+                        templateUrl : 'views/workplace/menu.html',
+                        controller  : 'MenuController'
                     },
                     'toolbar': {
                         templateUrl : 'views/workplace/toolbar.html',
@@ -49,20 +49,22 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
             .state('construction.category', {
                 url: '/category/:category_id',
                 views: {
-                    'content': {
-                        templateUrl: 'views/workplace/content.html'
+                    'tabs@' : {
+                        templateUrl : 'views/workplace/tabs.html',
+                        controller : 'TabsController'
                     }
                 }
             })
 			.state('construction.category.table', {
                 url: '/category/:category_id/:table',
                 views: {
-					'header@construction.category' : {
-						templateUrl : 'views/workplace/tabs.html'
-                    },
-					'table@construction.category': {
-                        templateUrl : 'views/workplace/tables/estimateTable.html',
-                        controller  : 'TableController'
+					'table@': {
+                        templateUrl : function ($stateParams){
+                            return 'views/workplace/tables/' + $stateParams.table + 'Table.html';
+                        },
+                        controller  :  function ($stateParams){
+                            return $stateParams.table + 'TableController';
+                        }
                     }
                 }
             })

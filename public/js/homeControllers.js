@@ -11,7 +11,7 @@ angular.module('HMS')
         }).then(function (response) {
             $scope.recentConstructions = response.data;
         }, function () {
-            $cookies.remove('googleToken');
+            $cookies.put('googleToken', '');
             $state.go('login');
         });
         $scope.add = function () {

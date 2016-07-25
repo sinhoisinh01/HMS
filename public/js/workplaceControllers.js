@@ -1,9 +1,10 @@
 angular.module('HMS')
-    .controller('TableNavController', function () {
+    .controller('MenuController', function () {
     })
     .controller('ToolbarController', function () {
     })
-    .controller('TableController', function () {
+    .controller('TabsController', function ($rootScope) {
+        $rootScope.showPanel = true;
     })
     .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $cookies) {
         $scope.categories = [];
@@ -33,7 +34,7 @@ angular.module('HMS')
             }).then(function () {
                 for (var c in $scope.categories) {
                     if ($scope.categories[c].id === category_id) {
-                        delete $scope.categories[c];
+                        $scope.categories.splice(c,1);
                         break;
                     }
                 }

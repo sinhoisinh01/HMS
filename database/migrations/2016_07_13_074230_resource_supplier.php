@@ -13,8 +13,8 @@ class ResourceSupplier extends Migration
     public function up()
     {
         Schema::create('resource_supplier', function(Blueprint $table) {
-            $table->string('resource_id');
-            $table->string('supplier_id');
+            $table->string('resource_id', 100);
+            $table->string('supplier_id', 100);
             $table->integer('price');
             $table->primary(['resource_id','supplier_id']);
             $table->foreign('resource_id')->references('id')->on('resources');
