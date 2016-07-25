@@ -33,15 +33,15 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         controller  : 'NavController'
                     },
                     'tableNav': {
-                        templateUrl : 'views/table/tableNav.html',
+                        templateUrl : 'views/workplace/tableNav.html',
                         controller  : 'TableNavController'
                     },
                     'toolbar': {
-                        templateUrl : 'views/table/toolbar.html',
+                        templateUrl : 'views/workplace/toolbar.html',
                         controller  : 'ToolbarController'
                     },
                     'categories': {
-                        templateUrl : 'views/table/categories.html',
+                        templateUrl : 'views/workplace/categories.html',
                         controller  : 'CategoriesController'
                     }
                 }
@@ -50,7 +50,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 url: '/category/:category_id',
                 views: {
                     'content@': {
-                        templateUrl : 'views/table/table.html',
+                        templateUrl : 'views/workplace/tables/estimateTable.html',
                         controller  : 'TableController'
                     }
                 }
