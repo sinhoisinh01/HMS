@@ -31,11 +31,11 @@ angular.module('HMS')
 				method: 'DELETE',
 				params: {token: $cookies.get('googleToken')}
 			}).then(function () {
-				for (var c in categories)
+				for (var c in $scopecategories)
 				{
-					if (categories[c].id === category_id)
+					if ($scope.categories[c].id === category_id)
 					{
-						delete categories[c];
+						delete $scope.categories[c];
 						break;
 					}
 				}
