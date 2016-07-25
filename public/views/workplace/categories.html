@@ -1,4 +1,5 @@
 <div class="col-md-2">
+    <!-- See the issue on Git for modifications -->
     <div id="category_header_top">
         <p>Danh Sách Hạng Mục</p>
     </div>
@@ -8,9 +9,9 @@
     <div id="category_content" ng-controller="CategoriesController">
         <i ng-click="add()" class="material-icons">add_circle_outline</i>
         <div class="category_item" ng-repeat="category in categories">
-            <i ui-sref=".category({category_id:category.id})">{{category.name}}</i>
+            <i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
             <div class="category_options">
-                <i class="glyphicon glyphicon-remove"></i>
+                <i ng-click="remove(category.id)" class="glyphicon glyphicon-remove"></i>
                 <i class="glyphicon glyphicon-edit"></i>
             </div>
         </div>

@@ -23,10 +23,14 @@ class ConstructionController extends Controller
 
     function add()
     {
+        foreach(['supplier_id','address','investor','contractor','type','design_type','level'] as $field) {
+            if (!isset($_GET[$field]))
+                $_GET[$field] = null;
+        }
         $construction = Construction::create([
             'user_id' => Auth::user()->id,
             'name' => $_GET['name'],
-            'supplier_id' => 'absent from form',
+            'supplier_id' => $_GET['supplier_id'],
             'address' => $_GET['address'],
             'investor' => $_GET['investor'],
             'contractor' => $_GET['contractor'],

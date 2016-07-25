@@ -21,5 +21,6 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     $app->get('/home/allConstructions', 'ConstructionController@getAll');
     $app->get('/construction','ConstructionController@add');
     $app->get('/construction/{construction_id}', 'CategoryController@get');
-    $app->get('/construction/{construction_id}/{name}', 'CategoryController@add');
+    $app->post('/construction/{construction_id}', 'CategoryController@add');
+	$app->delete('/construction/{construction_id}/{category_id}', 'CategoryController@remove');
 });

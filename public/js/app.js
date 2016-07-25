@@ -13,7 +13,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 }
             })
             .state('home', {
-                url: '/home',
+                url: '/',
                 views: {
                     'nav': {
                         templateUrl : 'views/nav.html',
@@ -32,16 +32,16 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         templateUrl : 'views/nav.html',
                         controller  : 'NavController'
                     },
-                    'tableNav': {
-                        templateUrl : 'views/table/tableNav.html',
-                        controller  : 'TableNavController'
+                    'menu': {
+                        templateUrl : 'views/workplace/menu.html',
+                        controller  : 'MenuController'
                     },
                     'toolbar': {
-                        templateUrl : 'views/table/toolbar.html',
+                        templateUrl : 'views/workplace/toolbar.html',
                         controller  : 'ToolbarController'
                     },
                     'categories': {
-                        templateUrl : 'views/table/categories.html',
+                        templateUrl : 'views/workplace/categories.html',
                         controller  : 'CategoriesController'
                     }
                 }
@@ -49,9 +49,22 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
             .state('construction.category', {
                 url: '/category/:category_id',
                 views: {
-                    'content@': {
-                        templateUrl : 'views/table/table.html',
-                        controller  : 'TableController'
+                    'tabs@' : {
+                        templateUrl : 'views/workplace/tabs.html',
+                        controller : 'TabsController'
+                    }
+                }
+            })
+			.state('construction.category.table', {
+                url: '/category/:category_id/:table',
+                views: {
+					'table@': {
+                        templateUrl : function ($stateParams){
+                            return 'views/workplace/tables/' + $stateParams.table + 'Table.html';
+                        },
+                        controller  :  function ($stateParams){
+                            return $stateParams.table + 'TableController';
+                        }
                     }
                 }
             })
