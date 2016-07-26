@@ -1,31 +1,8 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-	<!-- See the issue on Git for modifications -->
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavController">
+	<div>{{construction_name}}</div>
 	<ul class="nav navbar-nav navbar-right">
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-			<ul class="dropdown-menu message-dropdown">
-				<li class="message-preview">
-					<a href="#">
-						<div class="media">
-							<span class="pull-left">
-								<img class="media-object" src="http://placehold.it/50x50" alt="">
-							</span>
-							<div class="media-body">
-								<h5 class="media-heading"><strong>SDM</strong>
-								</h5>
-								<p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-								<p>Lorem ipsum dolor sit amet, consectetur...</p>
-							</div>
-						</div>
-					</a>
-				</li>
-				<li class="message-footer">
-					<a href="#">Read All New Messages</a>
-				</li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+			<a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i><b class="caret"></b></a>
 			<ul class="dropdown-menu alert-dropdown">
 				<li>
 					<a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
@@ -36,22 +13,14 @@
 				</li>
 			</ul>
 		</li>
-		<li class="dropdown" id="profile">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-				<b class="caret"></b></a>
-			<ul class="dropdown-menu">
-				<li>
-					<a href=""><i class="fa fa-fw fa-user"></i> Thông tin cá nhân</a>
-				</li>
-				<li>
-					<a href="#"><i class="fa fa-fw fa-gear"></i> Cài đặt</a>
-				</li>
-				<li class="divider"></li>
-				<li id="log_out">
-					<a href=""><i class="fa fa-fw fa-power-off"></i> Đăng xuất</a>
-					<!--iframe id="logoutframe" src="https://accounts.google.com/logout" style="display: none"></iframe-->
-				</li>
-			</ul>
+		<li id="profile">
+			<a class="" ng-click="settings()">
+				<img src="{{userPicture}}">
+				{{userName}}
+			</a>
+		</li>
+		<li>
+			<a ng-click="logOut()"><i class="fa fa-sign-out"></i>Sign out</a>
 		</li>
 	</ul>
 </nav>
