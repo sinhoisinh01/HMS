@@ -1,19 +1,23 @@
-<div class="col-md-2">
+<button ng-click="showCategories()">Collapsible</button>
+<div class="col-md-2" ng-hide="hideCategories">
     <!-- See the issue on Git for modifications -->
-    <div id="category_header_top">
-        <p>Danh Sách Hạng Mục</p>
-    </div>
-    <div id="category_header_bot">
-        <input class="form-control" placeholder="Tìm hạng mục" id="input_search_category" type="text">
-    </div>
-    <div id="category_content" ng-controller="CategoriesController">
-        <i ng-click="add()" class="material-icons">add_circle_outline</i>
-        <div class="category_item" ng-repeat="category in categories">
-            <i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
-            <div class="category_options">
-                <i ng-click="remove(category.id)" class="glyphicon glyphicon-remove"></i>
-                <i ng-click="edit(category.id, category.name)" class="glyphicon glyphicon-edit"></i>
-            </div>
-        </div>
-    </div>
+	
+    <div>
+		<div id="category_header_top">
+			<p>Danh Sách Hạng Mục</p>
+		</div>
+		<div id="category_header_bot">
+			<input class="form-control input-sm" placeholder="Tìm hạng mục" id="input_search_category" type="text" ng-model="input_search_category">
+		</div>
+		<div id="category_content" ng-controller="CategoriesController">
+			<i ng-click="add()" class="material-icons">add_circle_outline</i>
+			<div class="category_item" ng-repeat="category in categories | filter:{name : input_search_category}">
+				<i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
+				<div class="category_options">
+					<i ng-click="remove(category.id)" class="glyphicon glyphicon-remove"></i>
+					<i ng-click="edit(category.id, category.name)" class="glyphicon glyphicon-edit"></i>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
