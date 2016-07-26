@@ -6,8 +6,9 @@ angular.module('HMS')
     .controller('TabsController', function ($rootScope) {
         $rootScope.showPanel = true;
     })
-    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $cookies) {
+    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $rootScope, $uibModal, $cookies) {
         $scope.categories = [];
+		$rootScope.hideCategories = false;
         $http({
             url: baseURL + 'construction/' + $stateParams.construction_id,
             method: 'GET',
@@ -18,6 +19,9 @@ angular.module('HMS')
             $cookies.remove('googleToken');
             $state.go('login');
         });
+		$scope.showCategories = function() {
+			$rootScope.hideCategories = !$rootScope.hideCategories;
+		};
         $scope.add = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/addCategory.html',
