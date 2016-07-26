@@ -26,6 +26,23 @@ angular.module('HMS')
                 $scope.categories.push(category);
             });
         };
+		$scope.edit = function (id, name) {
+			$scope.name = name;
+			$scope.id = id;
+			$scope.oldName = name;
+            $uibModal.open({
+                templateUrl: 'views/modals/editCategory.html',
+                controller: 'EditCategoryController',
+				scope: $scope
+            }).result.then(function (name) {
+				for (var c in $scope.categories) {
+                    if ($scope.categories[c].id === $scope.id) {
+                        $scope.categories[c].name = name;
+                        break;
+                    }
+                }
+            });
+        };
         $scope.remove = function (category_id) {
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id + '/' + category_id,
@@ -60,4 +77,27 @@ angular.module('HMS')
         $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
+    })
+	.controller('EditCategoryController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
+        $scope.edit = function () {
+            $http({
+                url: baseURL + 'construction/' + $stateParams.construction_id + '/' + $scope.id,
+                method: "PUT",
+                data: {token: $cookies.get('googleToken'), name: $scope.name}
+            }).then(function () {
+                $uibModalInstance.close($scope.name);
+            }, function () {
+                $cookies.remove('googleToken');
+                $state.go('login');
+            });
+        };
+        $scope.cancel = function() {
+            $uibModalInstance.dismiss('cancel');
+        };
+		$scope.isValid = function() {
+			if(angular.isDefined($scope.name) && $scope.oldName != $scope.name)
+				return true;
+			return false;
+		}
     });
+	

@@ -21,6 +21,14 @@ class CategoryController extends Controller
             return response()->json(Category::create(['construction_id' => $construction_id, 'name' => json_decode(file_get_contents('php://input'))->name]));
         return redirect('/index.html#/login');
     }
+	
+	function update($construction_id, $category_id)
+    {
+        if (Auth::user()->id === Construction::find($construction_id)->user_id) {
+            Category::find($category_id)->update(['name' => json_decode(file_get_contents('php://input'))->name]);
+        } else
+            return redirect('/index.html#/login');
+    }
 
     function remove($construction_id, $category_id)
     {

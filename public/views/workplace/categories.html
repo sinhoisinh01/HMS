@@ -12,7 +12,7 @@
             <i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
             <div class="category_options">
                 <i ng-click="remove(category.id)" class="glyphicon glyphicon-remove"></i>
-                <i class="glyphicon glyphicon-edit"></i>
+                <i ng-click="edit(category.id, category.name)" class="glyphicon glyphicon-edit"></i>
             </div>
         </div>
     </div>
