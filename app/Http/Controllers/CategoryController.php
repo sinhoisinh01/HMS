@@ -15,6 +15,11 @@ class CategoryController extends Controller
         return redirect('/index.html#/login');
     }
 
+    function getName($construction_id, $category_id)
+    {
+        //return response()->json(Category::where('construction_id'=>$construction_id,'id'=>$category_id)->name);
+    }
+     
     function add($construction_id)
     {
         if (Auth::user()->id === Construction::find($construction_id)->user_id)

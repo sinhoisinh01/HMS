@@ -44,6 +44,9 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         templateUrl : 'views/workplace/categories.html',
                         controller  : 'CategoriesController'
                     }
+                },
+                params: {
+                    name: null
                 }
             })
             .state('construction.category', {

@@ -19,7 +19,7 @@
     </div>
     <div id="recent_construction">
         <h2 ng-show="recentConstructions" id="recent_construction_title">Recent</h2>
-        <div ui-sref="construction({construction_id: construction.id})" class="construction_item"
+        <div ui-sref="construction({construction_id: construction.id, name:construction.name})" class="construction_item"
              ng-repeat="construction in recentConstructions">
             <div class="construction_item_thumbnail"></div>
             <div class="construction_item_meta">

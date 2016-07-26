@@ -18,8 +18,8 @@ angular.module('HMS')
             $uibModal.open({
                 templateUrl: 'views/modals/addConstruction.html',
                 controller: 'AddConstructionController'
-            }).result.then(function (construction_id) {
-                $state.go('construction', {'construction_id': construction_id});
+            }).result.then(function (construction) {
+                $state.go('construction', {'construction_id': construction.id, name:construction.name });
             });
         };
         $scope.viewAll = function () {

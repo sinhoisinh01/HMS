@@ -19,6 +19,8 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
     $app->get('/home', 'ConstructionController@getRecent');
     $app->get('/home/allConstructions', 'ConstructionController@getAll');
+    $app->get('/construction/{construction_id}/getName','ConstructionController@getName');
+    //$app->get('/construction/{construction_id}/category/{category_id}/getName','CategoryController@getName');
     $app->get('/construction','ConstructionController@add');
     $app->get('/construction/{construction_id}', 'CategoryController@get');
     $app->post('/construction/{construction_id}', 'CategoryController@add');

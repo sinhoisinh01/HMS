@@ -1,5 +1,6 @@
 angular.module('HMS')
-    .controller('MenuController', function () {
+    .controller('MenuController', function ($rootScope, $stateParams) {
+        $rootScope.constructionName = $stateParams.name;
     })
     .controller('ToolbarController', function () {
     })

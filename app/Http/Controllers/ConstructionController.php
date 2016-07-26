@@ -21,6 +21,11 @@ class ConstructionController extends Controller
         return response()->json($recentConstructions);
     }
 
+    function getName($construction_id)
+    {
+        return response()->json(Construction::find($construction_id)->name);
+    }
+
     function add()
     {
         foreach(['supplier_id','address','investor','contractor','type','design_type','level'] as $field) {
