@@ -7,9 +7,10 @@ angular.module('HMS')
             $cookies.remove('googleToken');
             $state.go('login');
         };
-        $scope.name = $cookies.get('googleName');
+        $scope.userName = $cookies.get('googleName'); 
+        $scope.userPicture = $cookies.get('googleImageUrl'); 
     })
-    .controller('LoginController', function ($state, $scope, $cookies) {
+    .controller('LoginController', function ($state, $scope, $rootScope, $cookies) {
         if ($cookies.get('googleToken')) {
             $state.go('home');
         }
@@ -25,6 +26,7 @@ angular.module('HMS')
         $scope.onSignIn = function (googleUser) {
             $cookies.put('googleToken', googleUser.getAuthResponse().id_token);
             $cookies.put('googleName', googleUser.getBasicProfile().getName());
+            $cookies.put('googleImageUrl', googleUser.getBasicProfile().getImageUrl());
             $state.go('home')
         };
     });

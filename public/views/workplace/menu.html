@@ -1,67 +1,67 @@
 <div id="menu_bar">
 	<i class="fa fa-bars" id="menu_toggle"></i>
 	<ul id="menu">	
-		<li class="has-children"><a>Tệp</a>
+		<li class="has-children"><a>File</a>
 			<ul>
-				<li><a><i>&nbsp;</i>Mới <i class="fa fa-angle-right"></i></a>
+				<li><a><i>&nbsp;</i>New <i class="fa fa-angle-right"></i></a>
 					<ul>
-						<li><a onclick="$('#them_sua_cong_trinh').modal({show:true})">Công trình...</a></li>
-						<li><a onclick="$('#them_hang_muc').modal({show:true})">Hạng mục...</a></li>
+						<li><a onclick="$('#them_sua_cong_trinh').modal({show:true})">Construction...</a></li>
+						<li><a onclick="$('#them_hang_muc').modal({show:true})">Category...</a></li>
 					</ul>
 				</li>
-				<li><a onclick="$('#mo_cong_trinh').modal({show:true})"><i>&nbsp;</i>Mở...</a></li>
+				<li><a onclick="$('#mo_cong_trinh').modal({show:true})"><i>&nbsp;</i>Open...</a></li>
 				<div class="menu_divider"></div>
 				<li>
-					<a><i class="fa fa-file-excel-o"></i>Xuất tệp Excel <i class="fa fa-angle-right"></i></a>
+					<a><i class="fa fa-file-excel-o"></i>Export Excel <i class="fa fa-angle-right"></i></a>
 					<ul>
-						<li><a href="">Công trình</a></li>
-						<li><a href="<?php echo site_url("DuToan/export")?>">Hạng mục</a></li>
+						<li><a href="">Construction</a></li>
+						<li><a href="<?php echo site_url("DuToan/export")?>">Category</a></li>
 					</ul>
 				</li>
 				<li>
-					<a><i class="fa fa-file-pdf-o"></i>Xuất tệp PDF <i class="fa fa-angle-right"></i></a>
+					<a><i class="fa fa-file-pdf-o"></i>Export PDF <i class="fa fa-angle-right"></i></a>
 					<ul>
-						<li><a href="">Công trình</a></li>
-						<li><a href="">Hạng mục</a></li>
+						<li><a href="">Construction</a></li>
+						<li><a href="<?php echo site_url("DuToan/export")?>">Category</a></li>
 					</ul>
 				</li>
 				<div class="menu_divider"></div>
 				<li>
 					<a href="">
-						<i class="fa fa-print"></i>In...
+						<i class="fa fa-print"></i>Print...
 					</a>
 				</li>
 			</ul>
 		</li>
-		<li class="has-children"><a>Công trình</a>
+		<li class="has-children"><a>Construction</a>
 			<ul>
-				<li><a><i>&nbsp;</i>Phân tích công trình...</a></li>
+				<li><a><i>&nbsp;</i>Analyse construction...</a></li>
 				<div class="menu_divider"></div>
-				<li><a onclick=""><i class="fa fa-info"></i>Thông tin công trình</a></li>
+				<li><a onclick=""><i class="fa fa-info"></i>Construction info</a></li>
 				<div class="menu_divider"></div>
 				<li>
-					<a onclick="return confirm('Bạn sẽ xóa toàn bộ công trình hiện hành, bạn có chắc muốn tiếp tục?')" 
+					<a onclick="return confirm('Bạn sẽ xóa toàn bộ construction hiện hành, bạn có chắc muốn tiếp tục?')" 
 					href="<?php echo site_url("CongTrinh/xoa")."/".$_SESSION["ma_cong_trinh"]?>">
-						<i class="fa fa-trash" ></i>Xóa công trình
+						<i class="fa fa-trash" ></i>Delete construction
 					</a>
 				</li>	
 			</ul>
 		</li>
-		<li class="has-children"><a>Hạng mục</a>
+		<li class="has-children"><a>Category</a>
 			<ul>
-				<li><a><i>&nbsp;</i>Phân tích hạng mục</a></li>
+				<li><a><i>&nbsp;</i>Analyse category</a></li>
 				<div class="menu_divider"></div>
 				<li>
 					<a onclick="$('#import_hang_muc').modal({show:true})">
-						<i class="fa fa-file-excel-o"></i>Nhập từ tệp Excel...
+						<i class="fa fa-file-excel-o"></i>Import from Excel...
 					</a>
 				</li>
 			</ul>
 		</li>
-		<li class="has-children"><a>Dữ liệu</a>
+		<li class="has-children"><a>Data</a>
 			<ul>
 				<li>
-					<a onclick="$('#cong_tac_phat_sinh').modal({show:true});resize_cong_tac_ps()">
+					<a>
 						<i>&nbsp;</i>Tạo công tác mới
 					</a>
 				</li>
@@ -69,25 +69,25 @@
 				<li><a><i class="fa fa-download "></i>Tải đơn giá...</a></li>
 			</ul>	
 		</li>
-		<li class="has-children"><a>Công cụ</a>
+		<li class="has-children"><a>Tools</a>
 			<ul>
 				<li><a onclick="calculator()"><i class="fa fa-calculator"></i> Máy tính</a></li>
 			</ul>
 		</li>
-		<li class="has-children"><a>Hiển thị</a>
+		<li class="has-children"><a>View</a>
 			<ul>
 				<li><a onclick="show_hide_left()">Ẩn/hiện danh sách hạng mục</a></li>
 				<li><a>Cài đặt...</a></li>
 			</ul>
 		</li>
-		<li class="has-children"><a>Trợ giúp</a>
+		<li class="has-children"><a>Help</a>
 			<ul>
 				<li onclick="next_step(1)"><a>Chế độ hướng dẫn</a></li>
 				<li><a>Video hướng dẫn</a></li>
 			</ul>					
 		</li>
 		<li>
-			<a>Thao tác lần cuối vào lúc: 
+			<a>Last modified: 
 			<?php $date = new datetime($ngay_thao_tac); echo date_format($date,"d-m-Y h:i:s") ?></a>
 		</li>
 	</ul>

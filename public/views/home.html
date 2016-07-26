@@ -2,30 +2,30 @@
     <div id="construction_options">
         <div class="open_option" ng-click="add()">
             <img class="open_option_thumbnail" src="images/add_icon.png">
-            <div class="open_option_title">Tạo công trình mới</div>
+            <div class="open_option_title">New construction</div>
         </div>
         <div class="open_option" ng-click="viewAll()">
             <img class="open_option_thumbnail" src="images/all_icon.png">
-            <div class="open_option_title">Tất cả công trình</div>
+            <div class="open_option_title">All constructions</div>
         </div>
         <div class="open_option">
             <img class="open_option_thumbnail" src="images/googledrive_logo.png">
-            <div class="open_option_title">Mở bằng Google Drive</div>
+            <div class="open_option_title">Open with Google Drive</div>
         </div>
         <div class="open_option">
             <img class="open_option_thumbnail" src="images/excel_logo.png">
-            <div class="open_option_title">Mở tệp Excel trên máy</div>
+            <div class="open_option_title">Open on your PC</div>
         </div>
     </div>
     <div id="recent_construction">
-        <h2 ng-show="recentConstructions" id="recent_construction_title">Công trình gần đây</h2>
+        <h2 ng-show="recentConstructions" id="recent_construction_title">Recent</h2>
         <div ui-sref="construction({construction_id: construction.id})" class="construction_item"
              ng-repeat="construction in recentConstructions">
             <div class="construction_item_thumbnail"></div>
             <div class="construction_item_meta">
                 <div class="construction_item_title">{{construction.name}}</div>
                 <div class="construction_item_row">
-                    Mở vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                    Last modified: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
                 </div>
             </div>
         </div>

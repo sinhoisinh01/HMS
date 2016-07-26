@@ -56,7 +56,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 }
             })
 			.state('construction.category.table', {
-                url: '/category/:category_id/:table',
+                url: '/:table',
                 views: {
 					'table@': {
                         templateUrl : function ($stateParams){
