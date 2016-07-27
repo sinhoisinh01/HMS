@@ -1,6 +1,10 @@
-<ul class="nav nav-pills">
-    <li ui-sref=".table({table:'estimate'})" class="active">Dự toán</li>
-    <li ui-sref=".table({table:'analysis'})">Phân tích</li>
-    <li ui-sref=".table({table:'expend'})">Hao phí</li>
-    <li ui-sref=".table({table:'summary'})">Tổng hợp</li>
-</ul>
+<uib-tabset active="active">
+    <uib-tab index="0" heading="Dự toán" ui-sref=".table({table:'estimate'})">
+	</uib-tab>
+    <uib-tab index="1" heading="Phân tích" ui-sref=".table({table:'analysis'})">
+	</uib-tab>
+	<uib-tab index="2" heading="Hao phí" ui-sref=".table({table:'expend'})">
+	</uib-tab>
+	<uib-tab index="3" heading="Tổng hợp" ui-sref=".table({table:'summary'})">
+	</uib-tab>
+</uib-tabset>
