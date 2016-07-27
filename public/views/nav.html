@@ -1,13 +1,5 @@
-<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavController">
-	<ul class="nav navbar-nav navbar-left">
-		<li ng-hide="$state.current.name === 'home'">{{constructionName}}</li>
-	</ul>
-	<ul class="nav navbar-nav navbar-right">
-		<li class="" ng-click="settings()" id="profile">
-			<img src="{{userPicture}}">	{{userName}}
-		</li>
-		<li>
-			<i ng-click="logOut()" class="fa fa-sign-out">Sign out</i>
-		</li>
-	</ul>
-</nav>
+<ul class="list-inline">
+    <li ng-click="editConstruction()" id="constructionName" ng-hide="$state.current.name === 'home'">{{constructionName}}</li>
+    <li ng-click="editUser()" id="profile"><img src="{{userPicture}}">{{userName}}</li>
+    <li ng-click="logOut()" id="logOut"><i class="fa fa-sign-out"></i>Sign out</li>
+</ul>

@@ -4,41 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Construction;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    function get($construction_id)
+    function getAll(Request $request)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            return response()->json(Construction::find($construction_id)->categories);
+        if (Auth::user()->id === Construction::find($request->input('construction_id'))->user_id)
+            return response()->json(Construction::find($request->input('construction_id'))->categories);
         return redirect('/index.html#/login');
     }
 
-    function getName($construction_id, $category_id)
+    function add(Request $request)
     {
-        //return response()->json(Category::where('construction_id'=>$construction_id,'id'=>$category_id)->name);
-    }
-     
-    function add($construction_id)
-    {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            return response()->json(Category::create(['construction_id' => $construction_id, 'name' => json_decode(file_get_contents('php://input'))->name]));
+        if (Auth::user()->id === Construction::find($request->input('construction_id'))->user_id)
+            return response()->json(Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]));
         return redirect('/index.html#/login');
     }
-	
-	function update($construction_id, $category_id)
+
+    function get($category_id)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id) {
-            Category::find($category_id)->update(['name' => json_decode(file_get_contents('php://input'))->name]);
+        return response()->json(Category::find($category_id));
+    }
+	
+	function update(Request $request, $category_id)
+    {
+        if (Auth::user()->id === Category::find($category_id)->construction->user_id) {
+            Category::find($category_id)->update(['name' => $request->input('name')]);
         } else
             return redirect('/index.html#/login');
     }
 
-    function remove($construction_id, $category_id)
+    function remove($category_id)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id) {
-            Category::find($category_id)->delete();
+        if (Auth::user()->id === Category::find($category_id)->construction->user_id) {
+            Category::destroy($category_id);
         } else
             return redirect('/index.html#/login');
     }

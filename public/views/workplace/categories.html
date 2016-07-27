@@ -8,7 +8,7 @@
 		<div id="category_header_bot">
 			<input class="form-control input-sm" placeholder="Tìm hạng mục" id="input_search_category" type="text" ng-model="input_search_category">
 		</div>
-		<div id="category_content" ng-controller="CategoriesController">
+		<div id="category_content">
 			<i ng-click="add()" class="material-icons">add_circle_outline</i>
 			<div class="category_item" ng-repeat="category in categories | filter:{name : input_search_category}">
 				<i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>

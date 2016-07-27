@@ -5,7 +5,7 @@ angular.module('HMS')
             return new Date(timestamp);
         };
         $http({
-            url: baseURL + 'home',
+            url: baseURL + 'recentConstructions',
             method: "GET",
             params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
@@ -35,7 +35,7 @@ angular.module('HMS')
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction',
-                method: "GET",
+                method: "POST",
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
@@ -64,7 +64,7 @@ angular.module('HMS')
             return new Date(timestamp);
         };
         $http({
-            url: baseURL + 'home/allConstructions',
+            url: baseURL + 'constructions',
             method: "GET",
             params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
