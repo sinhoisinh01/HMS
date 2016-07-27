@@ -1,28 +1,18 @@
-<div class="col-md-12">
-    <div class="toolbar_button"><i class="fa fa-bold" id="format-bold"></i></div>
-    <div class="toolbar_button"><i class="fa fa-italic" id="format-italic"></i></div>
-    <div class="toolbar_button"><i class="fa fa-underline" id="format-underline"></i></div>
-    <div class="toolbar_button"><i class="fa fa-align-left" id="format-align-left"></i></div>
-    <div class="toolbar_button"><i class="fa fa-align-center" id="format-align-center"></i></div>
-    <div class="toolbar_button"><i class="fa fa-align-right" id="format-align-right"></i></div>
-    <div class="toolbar_button">
-        <select id="format-font-family">
-            <option value="Arial">Arial</option>
-            <option value="Times New Roman">Times New Roman</option>
-            <option value="Verdana, Helvetica, Arial, FreeSans, sans-serif">Verdana</option>
-        </select>
-    </div>
-    <div class="toolbar_button">
-        <select id="format-font-size">
-            <option ng-repeat="x in [6,7,8,9,10,11,12,13,14,16,18,24,36]" value="x">{{x}}</option>
-        </select>
-    </div>
-    <div class="toolbar_button">
-        <span>City/ Province:</span>
-        <select id="tinh_thanh" name="tinh_thanh"></select>
-    </div>
-    <div class="toolbar_button">
-        <span>&nbsp;Supplier:</span>
-        <select id="supplier_id" name="supplier_id"></select>
-    </div>
+<div class="well well-sm">
+    <i class="fa fa-bold" ng-click=""></i>
+    <i class="fa fa-italic" ng-click=""></i>
+    <i class="fa fa-underline" ng-click=""></i>
+    <i class="fa fa-align-left" ng-click=""></i>
+    <i class="fa fa-align-center" ng-click=""></i>
+    <i class="fa fa-align-right" ng-click=""></i>
+    <select ng-model="font" ng-init="font = 'Arial'">
+        <option>Arial</option>
+        <option>Times New Roman</option>
+        <option>Verdana</option>
+    </select>
+    <select ng-model="fontSize" ng-init="fontSize = 12" ng-options="x for x in [6,7,8,9,10,11,12,13,14,16,18,24,36]"></select>
+    <span> City/Province:</span>
+    <select ng-model="city" ng-init="city = options[0]" ng-options="city.name for city in cities"></select>
+    <span> Supplier:</span>
+    <select ng-model="supplier" ng-init="supplier = options[0]" ng-options="supplier.name for supplier in suppliers"></select>
 </div>
