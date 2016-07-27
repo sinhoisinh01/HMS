@@ -17,10 +17,9 @@
 				<div class="controls form-inline">
 					<input type="text" ng-model="address" size="40" class="form-control"
 						   placeholder="Ví dụ: 273 An Dương Vương P.3 Q.5">
-					<select ng-model="supplier_id" class="form-control">
-						<option value="" selected disabled>Chọn thành phố</option>
-						<option value="HCM">Hồ Chí Minh</option>
-						<option value="HN">Hà Nội</option>
+					<select ng-model="supplier_id" class="form-control"
+					ng-options="x as x.name for x in [{id:'HCM', name:'Hồ Chí Minh'}, {id:'HN', name:'Hà Nội'}] track by x.id">
+						<option value="" selected disabled>- Chọn thành phố -</option>
 					</select>
 				</div>
             </div>
@@ -35,29 +34,23 @@
             <h3>Loại công trình</h3>
             <div class="form-group">
                 <label>Loại công trình</label>
-                <select ng-model="type" class="form-control">
-                    <option value="" selected disabled>Chọn loại công trình</option>
-					<option value="1">Dân dụng</option>
-                    <option value="2">Công nghiệp</option>
-                    <option value="3">Giao thông</option>
-                    <option value="4">Thủy lợi</option>
-                    <option value="5">Hạ tầng kỹ thuật</option>
+                <select ng-model="type" class="form-control"
+				ng-options="x for x in ['Dân dụng', 'Công nghiệp', 'Giao thông', 'Thủy lợi', 'Hạ tầng kỹ thuật']">
+                    <option value="" selected disabled>- Chọn loại công trình -</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Loại thiết kế</label>
-                <select ng-model="design_type" class="form-control">
-                    <option value="" selected disabled>Chọn loại thiết kế</option>
-					<option value="1">Thiết kế 1 bước</option>
-                    <option value="2">Thiết kế 2 bước</option>
-                    <option value="3">Thiết kế 3 bước</option>
+                <select ng-model="design_type" class="form-control"
+				ng-options="x for x in ['Thiết kế 1 bước', 'Thiết kế 2 bước', 'Thiết kế 3 bước']">
+                    <option value="" selected disabled>- Chọn loại thiết kế -</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>Cấp công trình</label>
                 <select ng-model="level" class="form-control"
                 ng-options="x for x in ['Cấp I', 'Cấp II', 'Cấp III', 'Cấp IV', 'Cấp đặc biệt']">
-                    <option value="" selected disabled>Chọn cấp công trình</option>
+                    <option value="" selected disabled>- Chọn cấp công trình -</option>
                 </select>
             </div>
         </div>
