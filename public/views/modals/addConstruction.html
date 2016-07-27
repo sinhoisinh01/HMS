@@ -10,14 +10,14 @@
             <h3>Thông tin chung</h3>
             <div class="form-group" ng-class="{ 'has-error' : formAddConstruction.constructionName.$error.required && formAddConstruction.constructionName.$dirty }">
                 <label>Tên công trình*</label>
-                <input type="text" name="constructionName" placeholder="Ví dụ: Đại học Sài Gòn" ng-model="name" class="form-control" required>
+                <input name="constructionName" placeholder="Ví dụ: Đại học Sài Gòn" ng-model="name" class="form-control" required>
             </div>
             <div class="form-group">
                 <label>Địa điểm</label><br>
 				<div class="controls form-inline">
-					<input type="text" ng-model="address" size="40" class="form-control"
+					<input ng-model="address" size="40" class="form-control col-lg-8"
 						   placeholder="Ví dụ: 273 An Dương Vương P.3 Q.5">
-					<select ng-model="supplier_id" class="form-control"
+					<select ng-model="supplier_id" class="form-control col-lg-4"
 					ng-options="x as x.name for x in [{id:'HCM', name:'Hồ Chí Minh'}, {id:'HN', name:'Hà Nội'}] track by x.id">
 						<option value="" selected disabled>- Chọn thành phố -</option>
 					</select>
@@ -25,11 +25,11 @@
             </div>
             <div class="form-group">
                 <label>Chủ đầu tư</label>
-                <input type="text" ng-model="investor" class="form-control">
+                <input ng-model="investor" class="form-control">
             </div>
             <div class="form-group">
                 <label>Đơn vị thực hiện</label>
-                <input type="text" ng-model="contractor" class="form-control">
+                <input ng-model="contractor" class="form-control">
             </div>
             <h3>Loại công trình</h3>
             <div class="form-group">
