@@ -55,13 +55,9 @@
             </div>
             <div class="form-group">
                 <label>Cấp công trình</label>
-                <select ng-model="level" class="form-control">
+                <select ng-model="level" class="form-control"
+                ng-options="x for x in ['Cấp I', 'Cấp II', 'Cấp III', 'Cấp IV', 'Cấp đặc biệt']">
                     <option value="" selected disabled>Chọn cấp công trình</option>
-					<option value="1">Cấp I</option>
-                    <option value="2">Cấp II</option>
-                    <option value="3">Cấp III</option>
-                    <option value="4">Cấp IV</option>
-                    <option value="5">Cấp đặc biệt</option>
                 </select>
             </div>
         </div>
