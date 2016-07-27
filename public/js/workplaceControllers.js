@@ -1,6 +1,9 @@
 angular.module('HMS')
-    .controller('MenuController', function ($rootScope, $stateParams) {
+    .controller('MenuController', function ($scope, $rootScope, $stateParams) {
         $rootScope.constructionName = $stateParams.name;
+		$scope.collapseCategories = function() {
+			$rootScope.isCollapsedCategories = !$rootScope.isCollapsedCategories;
+		};
     })
     .controller('ToolbarController', function () {
     })
@@ -9,7 +12,7 @@ angular.module('HMS')
     })
     .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $rootScope, $uibModal, $cookies) {
         $scope.categories = [];
-		$rootScope.hideCategories = false;
+		$rootScope.isCollapsedCategories = false;
         $http({
             url: baseURL + 'construction/' + $stateParams.construction_id,
             method: 'GET',
@@ -20,9 +23,6 @@ angular.module('HMS')
             $cookies.remove('googleToken');
             $state.go('login');
         });
-		$scope.showCategories = function() {
-			$rootScope.hideCategories = !$rootScope.hideCategories;
-		};
         $scope.add = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/addCategory.html',

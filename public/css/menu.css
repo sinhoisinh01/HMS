@@ -1,9 +1,11 @@
 #menu_bar{
+	height: 15em; 
+	overflow: auto;
 	width:100%;
 	height:calc(100% - 22px);
+	margin-top: 51px;
 	background:white;
 	clear:both;
-	margin-top: 51px;
 }
 #menu{
 	width:100%;

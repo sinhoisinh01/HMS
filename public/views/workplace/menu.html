@@ -1,94 +1,72 @@
 <div id="menu_bar">
-	<i class="fa fa-bars" id="menu_toggle"></i>
-	<ul id="menu">	
-		<li class="has-children"><a>File</a>
-			<ul>
-				<li><a><i>&nbsp;</i>New <i class="fa fa-angle-right"></i></a>
-					<ul>
-						<li><a onclick="$('#them_sua_cong_trinh').modal({show:true})">Construction...</a></li>
-						<li><a onclick="$('#them_hang_muc').modal({show:true})">Category...</a></li>
-					</ul>
-				</li>
-				<li><a onclick="$('#mo_cong_trinh').modal({show:true})"><i>&nbsp;</i>Open...</a></li>
-				<div class="menu_divider"></div>
-				<li>
-					<a><i class="fa fa-file-excel-o"></i>Export Excel <i class="fa fa-angle-right"></i></a>
-					<ul>
-						<li><a href="">Construction</a></li>
-						<li><a href="<?php echo site_url("DuToan/export")?>">Category</a></li>
-					</ul>
-				</li>
-				<li>
-					<a><i class="fa fa-file-pdf-o"></i>Export PDF <i class="fa fa-angle-right"></i></a>
-					<ul>
-						<li><a href="">Construction</a></li>
-						<li><a href="<?php echo site_url("DuToan/export")?>">Category</a></li>
-					</ul>
-				</li>
-				<div class="menu_divider"></div>
-				<li>
-					<a href="">
-						<i class="fa fa-print"></i>Print...
-					</a>
-				</li>
-			</ul>
-		</li>
-		<li class="has-children"><a>Construction</a>
-			<ul>
-				<li><a><i>&nbsp;</i>Analyse construction...</a></li>
-				<div class="menu_divider"></div>
-				<li><a onclick=""><i class="fa fa-info"></i>Construction info</a></li>
-				<div class="menu_divider"></div>
-				<li>
-					<a onclick="return confirm('Bạn sẽ xóa toàn bộ construction hiện hành, bạn có chắc muốn tiếp tục?')" 
-					href="<?php echo site_url("CongTrinh/xoa")."/".$_SESSION["ma_cong_trinh"]?>">
-						<i class="fa fa-trash" ></i>Delete construction
-					</a>
-				</li>	
-			</ul>
-		</li>
-		<li class="has-children"><a>Category</a>
-			<ul>
-				<li><a><i>&nbsp;</i>Analyse category</a></li>
-				<div class="menu_divider"></div>
-				<li>
-					<a onclick="$('#import_hang_muc').modal({show:true})">
-						<i class="fa fa-file-excel-o"></i>Import from Excel...
-					</a>
-				</li>
-			</ul>
-		</li>
-		<li class="has-children"><a>Data</a>
-			<ul>
-				<li>
-					<a>
-						<i>&nbsp;</i>Tạo công tác mới
-					</a>
-				</li>
-				<div class="menu_divider"></div>
-				<li><a><i class="fa fa-download "></i>Tải đơn giá...</a></li>
-			</ul>	
-		</li>
-		<li class="has-children"><a>Tools</a>
-			<ul>
-				<li><a onclick="calculator()"><i class="fa fa-calculator"></i> Máy tính</a></li>
-			</ul>
-		</li>
-		<li class="has-children"><a>View</a>
-			<ul>
-				<li><a onclick="show_hide_left()">Ẩn/hiện danh sách hạng mục</a></li>
-				<li><a>Cài đặt...</a></li>
-			</ul>
-		</li>
-		<li class="has-children"><a>Help</a>
-			<ul>
-				<li onclick="next_step(1)"><a>Chế độ hướng dẫn</a></li>
-				<li><a>Video hướng dẫn</a></li>
-			</ul>					
-		</li>
-		<li>
-			<a>Last modified: 
-			<?php $date = new datetime($ngay_thao_tac); echo date_format($date,"d-m-Y h:i:s") ?></a>
-		</li>
-	</ul>
+  <div id="dropdown-long-content" class="well well-sm">
+	<div id="dropdown-hidden-container">
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  File <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>New</a></li>
+		  <li role="menuitem"><a>Open...</a></li>
+		  <li role="menuitem"><a>Import...</a></li>
+		  <li role="menuitem"><a>Export...</a></li>
+		  <li class="divider"></li>
+		  <li role="menuitem"><a>Print...</a></li>
+		</ul>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  Construction <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>Analyse construction...</a></li>
+		  <li role="menuitem"><a>Construction info</a></li>
+		</ul>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" ng-click="collapseCategories()">
+		  Category
+		</button>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  Data <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>Tải đơn giá...</a></li>
+		  <li role="menuitem"><a>Import đơn giá...</a></li>
+		  <li role="menuitem"><a>Export đơn giá...</a></li>
+		</ul>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  Tools <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>Tool 1</a></li>
+		  <li role="menuitem"><a>Tool 2</a></li>
+		</ul>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  View <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>Ẩn/hiện danh sách hạng mục</a></li>
+		  <li role="menuitem"><a>Cài đặt...</a></li>
+		</ul>
+	  </div>
+	  <div class="btn-group" uib-dropdown dropdown-append-to-body>
+		<button id="btn-append-to-to-body" class="btn btn-default" uib-dropdown-toggle>
+		  Help <span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+		  <li role="menuitem"><a>Chế độ hướng dẫn</a></li>
+		  <li role="menuitem"><a>Video hướng dẫn</a></li>
+		  <li role="menuitem"><a>Trợ giúp...</a></li>
+		</ul>
+	  </div>
+	  Last modified:
+	</div>
+  </div>
 </div>
