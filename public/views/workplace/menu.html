@@ -7,7 +7,7 @@
             <li role="menuitem"><a>Import...</a></li>
             <li role="menuitem"><a>Export...</a></li>
             <li class="divider"></li>
-            <li role="menuitem"><a>Print...</a></li>
+            
         </ul>
     </div>
     <div class="btn-group" uib-dropdown dropdown-append-to-body>
@@ -18,14 +18,11 @@
         </ul>
     </div>
     <div class="btn-group" uib-dropdown dropdown-append-to-body>
-        <button class="btn btn-default" ng-click="collapseCategories()"> Category </button>
-    </div>
-    <div class="btn-group" uib-dropdown dropdown-append-to-body>
         <button class="btn btn-default" uib-dropdown-toggle> Data <span class="caret"></span></button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-            <li role="menuitem"><a>Tải đơn giá...</a></li>
-            <li role="menuitem"><a>Import đơn giá...</a></li>
-            <li role="menuitem"><a>Export đơn giá...</a></li>
+            <li role="menuitem"><a>Download new supplier...</a></li>
+            <li role="menuitem"><a>Import supplier...</a></li>
+            <li role="menuitem"><a>Export supplier...</a></li>
         </ul>
     </div>
     <div class="btn-group" uib-dropdown dropdown-append-to-body>
@@ -38,16 +35,16 @@
     <div class="btn-group" uib-dropdown dropdown-append-to-body>
         <button class="btn btn-default" uib-dropdown-toggle> View <span class="caret"></span></button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-            <li role="menuitem"><a>Ẩn/hiện danh sách hạng mục</a></li>
-            <li role="menuitem"><a>Cài đặt...</a></li>
+            <li role="menuitem" ng-click="collapseCategories()"><a>Show/ Hide categories</a></li>
+            <li role="menuitem"><a>Settings...</a></li>
         </ul>
     </div>
     <div class="btn-group" uib-dropdown dropdown-append-to-body>
         <button class="btn btn-default" uib-dropdown-toggle> Help <span class="caret"></span></button>
         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-            <li role="menuitem"><a>Chế độ hướng dẫn</a></li>
-            <li role="menuitem"><a>Video hướng dẫn</a></li>
-            <li role="menuitem"><a>Trợ giúp...</a></li>
+            <li role="menuitem"><a>Tutorial mode</a></li>
+            <li role="menuitem"><a>Tutorial videos</a></li>
+            <li role="menuitem"><a>Something else...</a></li>
         </ul>
     </div>
     Last modified:

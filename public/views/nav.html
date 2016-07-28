@@ -1,5 +1,6 @@
 <ul class="list-inline">
-    <li ng-click="editConstruction()" id="constructionName" ng-hide="$state.current.name === 'home'">{{constructionName}}</li>
+	<li><a href="HMS.html">HMS</a></li>
+    <li ng-click="editConstruction(constructionID)" id="constructionName" ng-hide="$state.current.name === 'home'">{{constructionName}}</li>
     <li ng-click="editUser()" id="profile"><img src="{{userPicture}}">{{userName}}</li>
     <li ng-click="logOut()" id="logOut"><i class="fa fa-sign-out"></i>Sign out</li>
 </ul>

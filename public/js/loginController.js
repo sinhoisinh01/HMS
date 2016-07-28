@@ -15,6 +15,7 @@ angular.module('HMS')
         $scope.onSignIn = function (googleUser) {
             $cookies.put('googleToken', googleUser.getAuthResponse().id_token);
             $cookies.put('googleName', googleUser.getBasicProfile().getName());
+            //$cookies.put('googleMail', googleUser.getBasicProfile().getEmail());
             $cookies.put('googleImageUrl', googleUser.getBasicProfile().getImageUrl());
             $state.go('home')
         };

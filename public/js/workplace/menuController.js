@@ -20,4 +20,5 @@ angular.module('HMS')
                 $state.go('construction', {'construction_id': construction_id});
             });
         };
-    });
+    })
+    
