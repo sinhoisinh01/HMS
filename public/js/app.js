@@ -59,16 +59,19 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 }
             })
 			.state('construction.category.table', {
-                url: '/:table',
+                url: '/',
                 views: {
 					'table@': {
                         templateUrl : function ($stateParams){
                             return 'views/workplace/tables/' + $stateParams.table + 'Table.html';
                         },
-                        controller  :  function ($stateParams){
+                        controllerProvider  :  function ($stateParams){
                             return $stateParams.table + 'TableController';
                         }
                     }
-                }
+                },
+				params: {
+					table : 'estimate'
+				}
             })
     });
