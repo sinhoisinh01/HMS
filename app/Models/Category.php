@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,11 +14,11 @@ class Category extends Model
 
     public function construction()
     {
-        return $this->belongsTo('App\Construction');
+        return $this->belongsTo('App\Models\Construction');
     }
 
     public function works()
     {
-        return $this->belongsToMany('App\Work');
+        return $this->belongsToMany('App\Models\Work');
     }
 }

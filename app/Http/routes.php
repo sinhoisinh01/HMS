@@ -15,24 +15,30 @@ $app->get('/', function () {
     return redirect('/index.html');
 });
 
-$app->get('/test', 'CategoryController@test');
-
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
         $app->get('/user', 'UserController@get');
         $app->put('/user', 'UserController@update');
         $app->delete('/user','UserController@delete');
-
+        $app->get('/test', 'Controller@test');
         $app->get('/recentConstructions', 'ConstructionController@getRecent');
-        $app->get('/constructions', 'ConstructionController@getAll');
+        $app->get('/constructions', 'ConstructionController@getUserConstructions');
         $app->post('/construction', 'ConstructionController@add');
         $app->get('/construction/{construction_id}', 'ConstructionController@get');
         $app->put('/construction/{construction_id}', 'ConstructionController@update');
         $app->delete('/construction/{construction_id}', 'ConstructionController@remove');
 
-        $app->get('/categories', 'CategoryController@getAll');
+        $app->get('/categories/{construction_id}', 'CategoryController@getConstructionCategories');
         $app->post('/category', 'CategoryController@add');
         $app->get('/category/{category_id}', 'CategoryController@get');
         $app->put('/category/{category_id}', 'CategoryController@update');
         $app->delete('/category/{category_id}', 'CategoryController@remove');
+
+        $app->get('/works', 'WorkController@getAll');
+
+        $app->get('/categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
+        $app->get('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@get');
+        $app->post('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@add');
+        $app->put('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@update');
+        $app->delete('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@remove');
     });

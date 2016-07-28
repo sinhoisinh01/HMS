@@ -19,7 +19,7 @@ angular.module('HMS')
                 templateUrl: 'views/modals/addConstruction.html',
                 controller: 'AddConstructionController'
             }).result.then(function (construction) {
-                $state.go('construction', {'construction_id': construction.id, name:construction.name });
+                $state.go('construction', {'construction_id': construction.id, name:construction.name});
             });
         };
         $scope.viewAll = function () {
@@ -39,7 +39,7 @@ angular.module('HMS')
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
-                    supplier_id: $scope.supplier_id['id'],
+                    supplier_id: $scope.supplier_id,
                     address: $scope.address,
                     investor: $scope.investor,
                     contractor: $scope.contractor,

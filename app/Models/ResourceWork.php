@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +12,6 @@ class ResourceWork extends Model
 
     public function descriptions()
     {
-        return $this->hasMany('App\Description');
+        return $this->hasMany('App\Models\Description');
     }
 }

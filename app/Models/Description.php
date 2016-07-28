@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,6 @@ class Description extends Model
 
     public function category_work()
     {
-        return $this->belongsTo('App\CategoryWork');
+        return $this->belongsTo('App\Models\CategoryWork');
     }
 }

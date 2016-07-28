@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class Supplier extends Model
 
     public function constructions()
     {
-        return $this->hasMany('App\Construction');
+        return $this->hasMany('App\Models\Construction');
     }
 
     public function resources()
     {
-        return $this->belongsToMany('App\Resource');
+        return $this->belongsToMany('App\Models\Resource');
     }
 }

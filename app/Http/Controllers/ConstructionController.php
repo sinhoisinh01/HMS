@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Construction;
+use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,7 +13,7 @@ class ConstructionController extends Controller
         return response()->json(Auth::user()->constructions()->orderBy('updated_at', 'DESC')->limit(4)->get());
     }
 
-    function getAll()
+    function getUserConstructions()
     {
         return response()->json(Auth::user()->constructions);
     }
@@ -35,31 +35,25 @@ class ConstructionController extends Controller
 
     function get($construction_id)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            return response()->json(Construction::find($construction_id));
-        return redirect('/index.html#/login');
+        return response()->json(Construction::find($construction_id));
     }
 
     function update(Request $request, $construction_id)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            return response()->json(Construction::find($construction_id)->update([
-                'name' => $request->input('name'),
-                'supplier_id' => $request->input('supplier_id'),
-                'address' => $request->input('address'),
-                'investor' => $request->input('investor'),
-                'contractor' => $request->input('contractor'),
-                'type' => $request->input('type'),
-                'design_type' => $request->input('design_type'),
-                'level' => $request->input('level')
-            ]));
-        return redirect('/index.html#/login');
+        return response()->json(Construction::find($construction_id)->update([
+            'name' => $request->input('name'),
+            'supplier_id' => $request->input('supplier_id'),
+            'address' => $request->input('address'),
+            'investor' => $request->input('investor'),
+            'contractor' => $request->input('contractor'),
+            'type' => $request->input('type'),
+            'design_type' => $request->input('design_type'),
+            'level' => $request->input('level')
+        ]));
     }
 
     function remove($construction_id)
     {
-        if (Auth::user()->id === Construction::find($construction_id)->user_id)
-            Construction::destroy($construction_id);
-        return redirect('/index.html#/login');
+        Construction::destroy($construction_id);
     }
 }

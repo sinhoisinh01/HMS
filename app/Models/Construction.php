@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,21 +11,21 @@ class Construction extends Model
 
     public function supplier()
     {
-        return $this->belongsTo('App\Supplier');
+        return $this->belongsTo('App\Models\Supplier');
     }
 
     public function user()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function categories()
     {
-        return $this->hasMany('App\Category');
+        return $this->hasMany('App\Models\Category');
     }
 
     public function resources()
     {
-        return $this->belongsToMany('App\Resource');
+        return $this->belongsToMany('App\Models\Resource');
     }
 }

@@ -3,9 +3,9 @@ angular.module('HMS')
         $scope.categories = [];
 		$rootScope.isCollapsedCategories = false;
         $http({
-            url: baseURL + 'categories',
+            url: baseURL + 'categories/' + $stateParams.construction_id,
             method: 'GET',
-            params: {token: $cookies.get('googleToken'), construction_id: $stateParams.construction_id}
+            params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
             $scope.categories = response.data;
         }, function () {
@@ -81,6 +81,7 @@ angular.module('HMS')
             }).then(function () {
                 $uibModalInstance.close($scope.name);
             }, function () {
+                $uibModalInstance.dismiss();
                 $cookies.remove('googleToken');
                 $state.go('login');
             });

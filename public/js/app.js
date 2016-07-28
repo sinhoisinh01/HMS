@@ -70,8 +70,8 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         }
                     }
                 },
-				params: {
-					table : 'estimate'
-				}
+                params: {
+                    table: 'estimate'
+                }
             })
     });

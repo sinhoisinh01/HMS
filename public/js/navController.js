@@ -9,20 +9,21 @@ angular.module('HMS')
         };
         $scope.userName = $cookies.get('googleName');
         $scope.userPicture = $cookies.get('googleImageUrl');
-        $scope.$state = $state;
-        if ($state.current.name !== 'home') {
+        if ($state.current.name === 'home')
+            $scope.stateName = 'home';
+        else if ($stateParams.name)
+            $scope.stateName = $stateParams.name;
+        else // In case of reload
             $http({
-                url: baseURL + 'construction/'+ $stateParams.construction_id,
+                url: baseURL + 'construction/' + $stateParams.construction_id,
                 method: 'GET',
-                params: {token:$cookies.get('googleToken')}
-            }).then(function (response){
-                $rootScope.constructionName =  response.data.name;
-                $rootScope.constructionID =  response.data.id;
-            })
-        }  
-        $scope.editConstruction = function (construction_id) {
+                params: {token: $cookies.get('googleToken')}
+            }).then(function (response) {
+                $rootScope.stateName = response.data.name;
+            });
+        $scope.editConstruction = function () {
             $http({
-                url: baseURL + 'construction/' + construction_id,
+                url: baseURL + 'construction/' + $stateParams.construction_id,
                 method: 'GET',
                 params: {token: $cookies.get('googleToken')}
             }).then(function (response) {
@@ -34,23 +35,21 @@ angular.module('HMS')
                 $scope.type = response.data.type;
                 $scope.design_type = response.data.design_type;
                 $scope.level = response.data.level;
-
             }, function () {
                 $cookies.remove('googleToken');
                 $state.go('login');
             });
-
             $uibModal.open({
                 templateUrl: 'views/modals/editConstruction.html',
                 controller: 'EditConstructionController',
                 scope: $scope
             }).result.then(function () {
-               
+
             });
-        };   
+        };
     })
     .controller('EditConstructionController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
-         $scope.cancel = function () {
+        $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     });

@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('estimateTableController', ['$scope', function ($scope) {
+    .controller('estimateTableController', function ($scope) {
 		$scope.testEstimateTable = [
 			{
 				work_id : "AA.111000",
@@ -91,6 +91,13 @@ angular.module('HMS')
 			console.log(ele);
 			console.log(angular.element(ele));
 			$scope.pointerValue = angular.element(ele).html;
-		}
-	}])
-;
+		};
+		/*
+        $http({
+            url: baseURL + 'works',
+            method : "GET",
+            params : {token: $cookies.get('googleToken')}
+        }).then(function(response) {
+            $scope.works = response.data;
+        });*/
+    });
