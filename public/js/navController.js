@@ -26,7 +26,9 @@ angular.module('HMS')
                 $http({
                     url: baseURL + 'construction/' + $stateParams.construction_id,
                     method: 'GET',
-                    params: {token: $cookies.get('googleToken')}
+                    params: {
+                        token: $cookies.get('googleToken')
+                    }
                 }).then(function (response) {
                     $scope.name = response.data.name;
                     $scope.address = response.data.address;
@@ -44,14 +46,36 @@ angular.module('HMS')
                     templateUrl: 'views/modals/editConstruction.html',
                     controller: 'EditConstructionController',
                     scope: $scope
-                }).result.then(function () {
-
+                }).result.then(function (name) {
+                    $scope.stateName =  name;
                 });
             }
         };
     })
     .controller('EditConstructionController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
-        $scope.cancel = function () {
+        $scope.edit = function () {
+            $http({
+                url: baseURL + 'construction/' + $stateParams.construction_id,
+                method: "PUT",
+                params: {
+                    token: $cookies.get('googleToken'),
+                    name: $scope.name,
+                    supplier_id: $scope.supplier_id,
+                    address: $scope.address,
+                    investor: $scope.investor,
+                    contractor: $scope.contractor,
+                    type: $scope.type,
+                    design_type: $scope.design_type,
+                    level: $scope.level
+                }
+        }).then(function (response) {
+            $uibModalInstance.close($scope.name);
+        }, function () {
+                $cookies.remove('googleToken');
+                $state.go('login');
+            });
+        };   
+       $scope.cancel = function () {
             $uibModalInstance.dismiss('cancel');
         };
     });
