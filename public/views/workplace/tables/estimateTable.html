@@ -1,8 +1,8 @@
 <div class="input-group">
   <div class="input-group-addon"><span class="glyphicon glyphicon-pushpin"></span></div>
-  <input class="form-control input-sm" ng-model="this[focus]">
+  <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div>
-<table id="estimate_table">
+    <table id="estimate_table">
     <thead>
     <tr>
         <th>&nbsp</th>
@@ -19,33 +19,20 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="w in testEstimateTable">
-        <td></td>
-        <td contenteditable ng-model="w.work_id" ng-click="focus='workId[w.id]'"></td>
-        <td contenteditable ng-model="w[name]" ng-click="focus=''"></td>
-        <td contenteditable ng-model="amount" ng-click="focus=''"></td>
-        <td contenteditable ng-model="length[w.id]" ng-click="focus=''"></td>
-        <td contenteditable ng-model="width[w.id]" ng-click="focus=''"></td>
-        <td contenteditable ng-model="height[w.id]" ng-click="focus=''"></td>
-        <td contenteditable ng-model="value[w.id]" ng-click="focus=''"></td>
-        <td>{{w.unit}}</td>
-        <td>{{w.price}}</td>
-        <td>{{w.total}}</td>
+    <tr ng-repeat="work in tests track by $index">
+        <td>{{$index+1}}</td>
+        <td ng-repeat="field in ['work_id', 'name', 'amount', 'length', 'width', 'height', 'value']" contenteditable
+            ng-model="work[field]" ng-click="cellFocused($index,field,work[field])" ng-change="cellChanged(work[field])"></td>
+        <td>{{work.unit}}</td>
+        <td>{{work.price}}</td>
+        <td>{{work.value*w.price}}</td>
     </tr>
 	<tr>
-		<td></td>
-        <td contenteditable ng-model="workIdNew"></td>
-        <td contenteditable ng-model="nameNew"></td>
-        <td contenteditable ng-model="amountNew"></td>
-        <td contenteditable ng-model="lengthNew"></td>
-        <td contenteditable ng-model="widthNew"></td>
-        <td contenteditable ng-model="heightNew"></td>
-        <td contenteditable ng-model="valueNew"></td>
-        <td></td>
-        <td></td>
-        <td></td>
+		<td>{{tests.length+1}}</td>
+        <td contenteditable ng-model="newWorkID"></td>
+        <td contenteditable ng-model="newName"></td>
+        <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8]"></td>
     </tr>
-	</tr>
     </tbody>
 </table>
 <div id="sum_money">Tổng chi phí: 0 VNĐ</div>

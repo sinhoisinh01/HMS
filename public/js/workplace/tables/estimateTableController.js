@@ -1,8 +1,9 @@
 angular.module('HMS')
     .controller('estimateTableController', function ($cookies, baseURL, $http, $scope, $rootScope) {
-        $scope.testEstimateTable = [
+        $scope.input = $scope.index = $scope.field = '';
+        $scope.tests = [
             {
-                id:15,
+                id: 15,
                 work_id: "AA.111000",
                 name: "Xây nhà đá cạnh ao cá",
                 amount: "5",
@@ -15,7 +16,7 @@ angular.module('HMS')
                 total: ""
             },
             {
-                id:1,
+                id: 1,
                 work_id: "AB.11310",
                 name: "Something",
                 amount: "5",
@@ -28,7 +29,7 @@ angular.module('HMS')
                 total: ""
             },
             {
-                id:2,
+                id: 2,
                 work_id: "AA.111000",
                 name: "Another things",
                 amount: "5",
@@ -41,7 +42,7 @@ angular.module('HMS')
                 total: ""
             },
             {
-                id:3,
+                id: 3,
                 work_id: "AB.11310",
                 name: "More things",
                 amount: "5",
@@ -54,7 +55,7 @@ angular.module('HMS')
                 total: ""
             },
             {
-                id:4,
+                id: 4,
                 work_id: "AB.11310",
                 name: "More things",
                 amount: "5",
@@ -67,7 +68,7 @@ angular.module('HMS')
                 total: ""
             },
             {
-                id:5,
+                id: 5,
                 work_id: "AB.11310",
                 name: "More things",
                 amount: "5",
@@ -92,14 +93,17 @@ angular.module('HMS')
                 total: ""
             }
         ];
-        /*
-         $scope.getPointedValue = function(ele)
-         {
-         console.log(ele);
-         console.log(angular.element(ele));
-         $scope.pointerValue = angular.element(ele).html;
-         };*/
-
+        $scope.inputChanged = function (value) {
+            $scope.tests[$scope.index][$scope.field] = value;
+        };
+        $scope.cellFocused = function (index, field, value) {
+            $scope.index = index;
+            $scope.field = field;
+            $scope.input = value;
+        };
+        $scope.cellChanged = function (value) {
+            $scope.input = value;
+        };
         // works are put in rootScope because they never change
         // and in this way we can call it only once
         if (!$rootScope.works)

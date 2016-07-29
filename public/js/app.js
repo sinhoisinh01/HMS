@@ -77,22 +77,21 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
     })
     .directive('contenteditable', function() {
         return {
-            restrict: 'A',
+            restrict: "A",
             require: 'ngModel',
             link: function(scope, element, attrs, ngModel) {
-                ngModel.$render = function() {
-                    element.html(ngModel.$viewValue || '');
-                };
-                element.on('blur keyup change', function() {
-                    scope.$evalAsync(read);
-                });
-                read();
                 function read() {
                     var html = element.html();
                     if (attrs.stripBr && html == '<br>')
                         html = '';
                     ngModel.$setViewValue(html);
                 }
+                ngModel.$render = function() {
+                    element.html(ngModel.$viewValue || '');
+                };
+                element.bind("blur keyup change", function() {
+                    scope.$apply(read);
+                });
             }
         };
     });
