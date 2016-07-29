@@ -74,4 +74,25 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                     table: 'estimate'
                 }
             })
+    })
+    .directive('contenteditable', function() {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, element, attrs, ngModel) {
+                ngModel.$render = function() {
+                    element.html(ngModel.$viewValue || '');
+                };
+                element.on('blur keyup change', function() {
+                    scope.$evalAsync(read);
+                });
+                read();
+                function read() {
+                    var html = element.html();
+                    if (attrs.stripBr && html == '<br>')
+                        html = '';
+                    ngModel.$setViewValue(html);
+                }
+            }
+        };
     });

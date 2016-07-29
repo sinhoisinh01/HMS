@@ -1,6 +1,6 @@
 <div class="input-group">
   <div class="input-group-addon"><span class="glyphicon glyphicon-pushpin"></span></div>
-  <input type="text" class="form-control input-sm" ng-model="pointerValue">
+  <input class="form-control input-sm" ng-model="this[focus]">
 </div>
 <table id="estimate_table">
     <thead>
@@ -21,26 +21,26 @@
     <tbody>
     <tr ng-repeat="w in testEstimateTable">
         <td></td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.work_id}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.name}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.amount}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.length}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.width}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.height}}</td>
-        <td contenteditable ng-click="getPointedValue(this)">{{w.value}}</td>
-        <td ng-click="getPointedValue(this)">{{w.unit}}</td>
-        <td ng-click="getPointedValue(this)">{{w.price}}</td>
-        <td ng-click="getPointedValue(this)">{{w.total}}</td>
+        <td contenteditable ng-model="w.work_id" ng-click="focus='workId[w.id]'"></td>
+        <td contenteditable ng-model="w[name]" ng-click="focus=''"></td>
+        <td contenteditable ng-model="amount" ng-click="focus=''"></td>
+        <td contenteditable ng-model="length[w.id]" ng-click="focus=''"></td>
+        <td contenteditable ng-model="width[w.id]" ng-click="focus=''"></td>
+        <td contenteditable ng-model="height[w.id]" ng-click="focus=''"></td>
+        <td contenteditable ng-model="value[w.id]" ng-click="focus=''"></td>
+        <td>{{w.unit}}</td>
+        <td>{{w.price}}</td>
+        <td>{{w.total}}</td>
     </tr>
 	<tr>
 		<td></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
-        <td contenteditable></td>
+        <td contenteditable ng-model="workIdNew"></td>
+        <td contenteditable ng-model="nameNew"></td>
+        <td contenteditable ng-model="amountNew"></td>
+        <td contenteditable ng-model="lengthNew"></td>
+        <td contenteditable ng-model="widthNew"></td>
+        <td contenteditable ng-model="heightNew"></td>
+        <td contenteditable ng-model="valueNew"></td>
         <td></td>
         <td></td>
         <td></td>

@@ -22,30 +22,32 @@ angular.module('HMS')
                 $rootScope.stateName = response.data.name;
             });
         $scope.editConstruction = function () {
-            $http({
-                url: baseURL + 'construction/' + $stateParams.construction_id,
-                method: 'GET',
-                params: {token: $cookies.get('googleToken')}
-            }).then(function (response) {
-                $scope.name = response.data.name;
-                $scope.address = response.data.address;
-                $scope.supplier_id = response.data.supplier_id;
-                $scope.investor = response.data.investor;
-                $scope.contractor = response.data.contractor;
-                $scope.type = response.data.type;
-                $scope.design_type = response.data.design_type;
-                $scope.level = response.data.level;
-            }, function () {
-                $cookies.remove('googleToken');
-                $state.go('login');
-            });
-            $uibModal.open({
-                templateUrl: 'views/modals/editConstruction.html',
-                controller: 'EditConstructionController',
-                scope: $scope
-            }).result.then(function () {
+            if ($stateParams.construction_id) {
+                $http({
+                    url: baseURL + 'construction/' + $stateParams.construction_id,
+                    method: 'GET',
+                    params: {token: $cookies.get('googleToken')}
+                }).then(function (response) {
+                    $scope.name = response.data.name;
+                    $scope.address = response.data.address;
+                    $scope.supplier_id = response.data.supplier_id;
+                    $scope.investor = response.data.investor;
+                    $scope.contractor = response.data.contractor;
+                    $scope.type = response.data.type;
+                    $scope.design_type = response.data.design_type;
+                    $scope.level = response.data.level;
+                }, function () {
+                    $cookies.remove('googleToken');
+                    $state.go('login');
+                });
+                $uibModal.open({
+                    templateUrl: 'views/modals/editConstruction.html',
+                    controller: 'EditConstructionController',
+                    scope: $scope
+                }).result.then(function () {
 
-            });
+                });
+            }
         };
     })
     .controller('EditConstructionController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
