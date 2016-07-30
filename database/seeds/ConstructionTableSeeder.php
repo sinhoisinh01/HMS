@@ -13,7 +13,7 @@ class ConstructionTableSeeder extends Seeder
      */
     public function run()
     {
-        Construction::create(['name'=>'MinhProject','supplier_id'=>'HCM_CX_DG4845','address'=>'fdsa','investor'=>'dfsa','contractor'=>'fdsa','type'=>'afdsa',
-        'design_type'=>'d','level'=>'4','user_id'=>'0']);
+        Construction::create(['name'=>'MinhProject','supplier_id'=>'HCM','address'=>'test','investor'=>'test','contractor'=>'test','type'=>'',
+        'design_type'=>'','level'=>'','user_id'=>'0']);
     }
 }

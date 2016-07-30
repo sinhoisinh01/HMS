@@ -41,4 +41,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@add');
         $app->put('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@update');
         $app->delete('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@remove');
+
+        $app->get('/suppliers', 'SupplierController@getAll');
+        $app->get('/supplier/construction/{construction_id}', 'SupplierController@getConstructionSupplierID');
     });

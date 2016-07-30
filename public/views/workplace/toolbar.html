@@ -11,8 +11,6 @@
         <option>Verdana</option>
     </select>
     <select ng-model="fontSize" ng-init="fontSize = 12" ng-options="x for x in [6,7,8,9,10,11,12,13,14,16,18,24,36]"></select>
-    <span> City/Province:</span>
-    <select ng-model="city" ng-init="city = options[0]" ng-options="city.name for city in cities"></select>
     <span> Supplier:</span>
-    <select ng-model="supplier" ng-init="supplier = options[0]" ng-options="supplier.name for supplier in suppliers"></select>
+    <select ng-model="supplier" ng-options="supplier.name for supplier in suppliers"></select>
 </div>

@@ -19,7 +19,10 @@ class CategoryWork extends Migration
             $table->float('amount');
             $table->primary(['category_id','work_id']);
             $table->foreign('category_id')->references('id')->on('categories');
-             $table->foreign('work_id')->references('id')->on('works');
+            $table->foreign('work_id')
+            ->references('id')->on('works')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
         });
     }
 

@@ -13,6 +13,7 @@ class SupplierTableSeeder extends Seeder
      */
     public function run()
     {
-        Supplier::create(['id'=>'HCM_CX_DG4845','name'=>'Minh','address'=>'ff']);
+        Supplier::create(['id'=>'HCM','name'=>'Hồ Chí Minh','address'=>'']);
+        Supplier::create(['id'=>'HN','name'=>'Hà Nội','address'=>'']);
     }
 }

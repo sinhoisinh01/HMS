@@ -19,7 +19,9 @@ class Constructions extends Migration
             $table->string('design_type')->nullable();
             $table->string('level')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
         });
     }
     public function down()

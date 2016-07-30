@@ -18,7 +18,10 @@ class ResourceSupplier extends Migration
             $table->integer('price');
             $table->primary(['resource_id','supplier_id']);
             $table->foreign('resource_id')->references('id')->on('resources');
-            $table->foreign('supplier_id')->references('id')->on('suppliers');
+            $table->foreign('supplier_id')
+            ->references('id')->on('suppliers')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
         });
     }
 

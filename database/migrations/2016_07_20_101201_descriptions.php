@@ -21,7 +21,10 @@ class Descriptions extends Migration
 			$table->float('length')->unsigned();
 			$table->float('width')->unsigned();
 			$table->float('height')->unsigned();
-            $table->foreign(['category_id', 'work_id'])->references(['category_id', 'work_id'])->on('category_work');
+            $table->foreign(['category_id', 'work_id'])
+            ->references(['category_id', 'work_id'])->on('category_work')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
         });
     }
 

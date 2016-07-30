@@ -18,7 +18,10 @@ class ConstructionResource extends Migration
             $table->integer('price');
             $table->primary(['construction_id','resource_id']);
             $table->foreign('construction_id')->references('id')->on('constructions');
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('resource_id')
+            ->references('id')->on('resources')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
         });
     }
 
