@@ -10,10 +10,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 id: 1,
@@ -23,10 +23,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 id: 2,
@@ -36,10 +36,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 id: 3,
@@ -49,10 +49,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 id: 4,
@@ -62,10 +62,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 id: 5,
@@ -75,10 +75,10 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             },
             {
                 work_id: "AB.11310",
@@ -87,23 +87,34 @@ angular.module('HMS')
                 length: "3",
                 width: "4",
                 height: "20",
-                value: "",
+                value: 0,
                 unit: "cái",
-                price: "500000",
-                total: ""
+                price: 500000,
+                total: 0
             }
         ];
         $scope.inputChanged = function (value) {
-            $scope.tests[$scope.index][$scope.field] = value;
+            value = $scope.validateValue(value);
+			$scope.tests[$scope.index][$scope.field] = value;
         };
         $scope.cellFocused = function (index, field, value) {
-            $scope.index = index;
+            value = $scope.validateValue(value);
+			$scope.index = index;
             $scope.field = field;
             $scope.input = value;
         };
         $scope.cellChanged = function (value) {
-            $scope.input = value;
+			value = $scope.validateValue(value);
+			$scope.input = value;
         };
+		$scope.validateValue = function(value)
+		{
+			if (isNaN(value))
+				value = value.replace('<br>', '');
+			else
+				value = parseFloat(value);
+			return value;
+		}
         // works are put in rootScope because they never change
         // and in this way we can call it only once
         if (!$rootScope.works)

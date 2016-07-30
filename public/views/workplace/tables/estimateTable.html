@@ -19,13 +19,13 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="work in tests track by $index">
-        <td>{{$index+1}}</td>
+    <tr ng-repeat="work in tests track by $index" ng-init="rowsIndex = $index">
+        <td>{{$rowsIndex+1}}</td>
         <td ng-repeat="field in ['work_id', 'name', 'amount', 'length', 'width', 'height', 'value']" contenteditable
-            ng-model="work[field]" ng-click="cellFocused($index,field,work[field])" ng-change="cellChanged(work[field])"></td>
+            ng-model="work[field]" ng-click="cellFocused(rowsIndex,field,work[field])" ng-change="cellChanged(work[field])"></td>
         <td>{{work.unit}}</td>
         <td>{{work.price}}</td>
-        <td>{{work.value*w.price}}</td>
+        <td>{{work.value*work.price}}</td>
     </tr>
 	<tr>
 		<td>{{tests.length+1}}</td>
