@@ -11,7 +11,7 @@ class Constructions extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('name');
-            $table->string('supplier_id')->nullable();
+            $table->integer('supplier_id')->unsigned();
             $table->string('address')->nullable();
             $table->string('investor')->nullable();
             $table->string('contractor')->nullable();

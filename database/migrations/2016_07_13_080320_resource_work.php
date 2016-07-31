@@ -17,7 +17,9 @@ class ResourceWork extends Migration
             $table->string('work_id');
             $table->integer('amount');
             $table->primary(['resource_id','work_id']);
-            $table->foreign('resource_id')->references('id')->on('resources');
+            $table->foreign('resource_id')->references('id')->on('resources')
+            ->onDelete('cascade')
+            ->onUpdate('cascade');
             $table->foreign('work_id')
             ->references('id')->on('works')
             ->onDelete('cascade')

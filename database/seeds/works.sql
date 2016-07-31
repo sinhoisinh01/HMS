@@ -1,3 +1,42 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jul 31, 2016 at 05:24 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `du_toan`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `works`
+--
+
+CREATE TABLE IF NOT EXISTS `works` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `document` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `unit` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `works`
+--
+
 INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AA.11111', '1776-BXD/VP', 'Phát rừng loại 1 bằng thủ công, mật độ cây tiêu chuẩn/100m2 : 0 cây', '100m2'),
 ('AA.11112', '1776-BXD/VP', 'Phát rừng loại 1 bằng thủ công, mật độ cây tiêu chuẩn/100m2 <= 2 cây', '100m2'),
@@ -509,7 +548,8 @@ INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AB.27342', '1776-BXD/VP', 'Đào kênh mương rộng <= 20m bằng máy đào 2,3m3 + máy ủi 110cv, đất cấp II', '100m3'),
 ('AB.27343', '1776-BXD/VP', 'Đào kênh mương rộng <= 20m bằng máy đào 2,3m3 + máy ủi 110cv, đất cấp III', '100m3'),
 ('AB.27344', '1776-BXD/VP', 'Đào kênh mương rộng <= 20m bằng máy đào 2,3m3 + máy ủi 110cv, đất cấp IV', '100m3'),
-('AB.27411', '1776-BXD/VP', 'Đào kênh mương rộng > 20m bằng máy đào 0,8m3 + máy ủi 110cv, đất cấp I', '100m3'),
+('AB.27411', '1776-BXD/VP', 'Đào kênh mương rộng > 20m bằng máy đào 0,8m3 + máy ủi 110cv, đất cấp I', '100m3');
+INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AB.27412', '1776-BXD/VP', 'Đào kênh mương rộng > 20m bằng máy đào 0,8m3 + máy ủi 110cv, đất cấp II', '100m3'),
 ('AB.27413', '1776-BXD/VP', 'Đào kênh mương rộng > 20m bằng máy đào 0,8m3 + máy ủi 110cv, đất cấp III', '100m3'),
 ('AB.27414', '1776-BXD/VP', 'Đào kênh mương rộng > 20m bằng máy đào 0,8m3 + máy ủi 110cv, đất cấp IV', '100m3'),
@@ -987,7 +1027,8 @@ INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AB.57111', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá hỗn hợp lấp sông bằng ô tô tự đổ 12T, cự ly <= 2km', '100m3'),
 ('AB.57121', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá hỗn hợp lấp sông bằng ô tô tự đổ 27T, cự ly <= 2km', '100m3'),
 ('AB.57122', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá tảng, cục bê tông (0,4-1)m lấp sông bằng ô tô tự đổ 27T, cự ly <= 2km', '100m3'),
-('AB.57123', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá tảng, cục bê tông > 1m lấp sông bằng ô tô tự đổ 27T, cự ly <= 2km', '100v'),
+('AB.57123', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá tảng, cục bê tông > 1m lấp sông bằng ô tô tự đổ 27T, cự ly <= 2km', '100v');
+INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AB.57211', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá hỗn hợp lấp sông bằng ô tô tự đổ 12T, cự ly <= 4km', '100m3'),
 ('AB.57221', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá hỗn hợp lấp sông bằng ô tô tự đổ 27T, cự ly <= 4km', '100m3'),
 ('AB.57222', '1776-BXD/VP', 'Vận chuyển tiếp 1000m đá tảng, cục bê tông (0,4-1)m lấp sông bằng ô tô tự đổ 27T, cự ly <= 4km', '100m3'),
@@ -1110,3 +1151,17 @@ INSERT INTO `works` (`id`, `document`, `name`, `unit`) VALUES
 ('AB.68120', '1776-BXD/VP', 'Đắp đá lớp chuyển tiếp giữa lớp đệm và thân đập bằng đá có Dmax <= 400mm', '100m3'),
 ('AB.68210', '1776-BXD/VP', 'Đắp thân đập bằng đá có Dmax <= 800mm', '100m3'),
 ('AB.68220', '1776-BXD/VP', 'Đắp thân đập bằng đá có Dmax <= 1200mm', '100m3');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `works`
+--
+ALTER TABLE `works`
+  ADD PRIMARY KEY (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

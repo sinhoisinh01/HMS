@@ -15,9 +15,18 @@ angular.module('HMS')
             $state.go('login');
         });
         $scope.add = function () {
+             $http({
+                url: baseURL + 'suppliers',
+                method: 'GET',
+                params: {token: $cookies.get('googleToken')}
+            }).then(function(response){
+                $scope.suppliers = response.data;
+            });//get all suppliers to select
+
             $uibModal.open({
                 templateUrl: 'views/modals/addConstruction.html',
-                controller: 'AddConstructionController'
+                controller: 'AddConstructionController',
+                scope:$scope
             }).result.then(function (construction) {
                 $state.go('construction', {'construction_id': construction.id, name:construction.name});
             });

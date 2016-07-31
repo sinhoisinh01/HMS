@@ -1,3 +1,41 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jul 31, 2016 at 05:25 AM
+-- Server version: 5.6.26
+-- PHP Version: 5.6.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `du_toan`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resources`
+--
+
+CREATE TABLE IF NOT EXISTS `resources` (
+  `id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `unit` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `resources`
+--
+
 INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('M240001', 'Ô tô tự đổ 27T', 'ca'),
 ('M240002', 'Ô tô chở phế thải 7Tấn', 'ca'),
@@ -1342,7 +1380,8 @@ INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('V240605', 'Ray P26-25-24 (10m)', 'thanh'),
 ('V240606', 'Ray P26-25-24 (8,0m)', 'thanh'),
 ('V240607', 'Ray P26-25-24 (9,58m)', 'thanh'),
-('V240608', 'Ray P33-30 (12,5m)', 'thanh'),
+('V240608', 'Ray P33-30 (12,5m)', 'thanh');
+INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('V240609', 'Ray P33-30 (12m)', 'thanh'),
 ('V240610', 'Ray P38', 'thanh'),
 ('V240611', 'Ray P38 (12,5m)', 'thanh'),
@@ -2620,7 +2659,8 @@ INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('V330835', 'Cút thép không rỉ d=800mm', 'cái'),
 ('V330836', 'Cút thép không rỉ d=900mm', 'cái'),
 ('V330837', 'Cút thép không rỉ d=1000mm', 'cái'),
-('V330838', 'Cút thép không rỉ d=1200mm', 'cái'),
+('V330838', 'Cút thép không rỉ d=1200mm', 'cái');
+INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('V330839', 'Cút thép không rỉ d=1300mm', 'cái'),
 ('V330840', 'Cút thép không rỉ d=1400mm', 'cái'),
 ('V330841', 'Cút thép không rỉ d=1500mm', 'cái'),
@@ -3362,3 +3402,17 @@ INSERT INTO `resources` (`id`, `name`, `unit`) VALUES
 ('V331712', 'Vòi tắm hương sen 2 vòi, 1 hương sen', 'bộ'),
 ('V331713', 'Xăng', 'kg'),
 ('V331714', 'Xi măng PCB30', 'kg');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `resources`
+--
+ALTER TABLE `resources`
+  ADD PRIMARY KEY (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
