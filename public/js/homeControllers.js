@@ -15,7 +15,7 @@ angular.module('HMS')
             $state.go('login');
         });
         $scope.add = function () {
-             $http({
+            $http({
                 url: baseURL + 'suppliers',
                 method: 'GET',
                 params: {token: $cookies.get('googleToken')}
@@ -48,7 +48,7 @@ angular.module('HMS')
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
-                    supplier_id: $scope.supplier_id,
+                    supplier_id: $scope.supplier_id.id,
                     address: $scope.address,
                     investor: $scope.investor,
                     contractor: $scope.contractor,

@@ -13,8 +13,13 @@ class SupplierController extends Controller
         return response()->json(Supplier::get());
     }
 
-    function getConstructionSupplierID($construction_id)
+    function getConstructionSupplier($construction_id)
     {
-        return response()->json(Construction::find($construction_id)->supplier_id);
+        return response()->json(Construction::find($construction_id));
+    }
+
+    function changeSupplier($construction_id, $supplier_id)
+    {
+        Construction::where('id', $construction_id)->update(['supplier_id' => $supplier_id]);
     }
 }

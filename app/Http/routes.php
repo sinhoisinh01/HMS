@@ -43,5 +43,6 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->delete('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@remove');
 
         $app->get('/suppliers', 'SupplierController@getAll');
-        $app->get('/supplier/construction/{construction_id}', 'SupplierController@getConstructionSupplierID');
+        $app->get('/supplier/construction/{construction_id}', 'SupplierController@getConstructionSupplier');
+        $app->put('/supplier/construction/{construction_id}/{supplier_id}', 'SupplierController@changeSupplier');
     });

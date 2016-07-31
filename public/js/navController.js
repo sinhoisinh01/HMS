@@ -32,7 +32,8 @@ angular.module('HMS')
                 }).then(function (response) {
                     $scope.name = response.data.name;
                     $scope.address = response.data.address;
-                    $scope.supplier_id = response.data.supplier_id;
+                    var $selected = {id:response.data.supplier_id,name:response.data.name};
+                    $scope.supplier_id = $selected;
                     $scope.investor = response.data.investor;
                     $scope.contractor = response.data.contractor;
                     $scope.type = response.data.type;
@@ -42,6 +43,15 @@ angular.module('HMS')
                     $cookies.remove('googleToken');
                     $state.go('login');
                 });
+
+                $http({
+                    url: baseURL + 'suppliers',
+                    method: 'GET',
+                    params: {token: $cookies.get('googleToken')}
+                }).then(function(response){
+                    $scope.suppliers = response.data;
+                });//get all suppliers to select
+
                 $uibModal.open({
                     templateUrl: 'views/modals/editConstruction.html',
                     controller: 'EditConstructionController',
@@ -60,7 +70,7 @@ angular.module('HMS')
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
-                    supplier_id: $scope.supplier_id,
+                    supplier_id: $scope.supplier_id.id,
                     address: $scope.address,
                     investor: $scope.investor,
                     contractor: $scope.contractor,

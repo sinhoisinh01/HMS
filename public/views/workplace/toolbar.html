@@ -12,7 +12,7 @@
     </select>
     <select ng-model="fontSize" ng-init="fontSize = 12" ng-options="x for x in [6,7,8,9,10,11,12,13,14,16,18,24,36]"></select>
     <span> Supplier:</span>
-    <select ng-model="supplier">
-		<option ng-repeat="s in suppliers" ng-value="s.id" ng-selected="supplier == s.id">{{s.name}}</option>
+    <select ng-model="supplier" ng-change='changeSupplier()'
+    ng-options="supplier as supplier.name for supplier in suppliers track by supplier.id">
 	</select>
 </div>
