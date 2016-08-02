@@ -18,18 +18,18 @@ class CategoryController extends Controller
         return response()->json(Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]));
     }
 
-    function get($category_id)
+    function get($id)
     {
-        return response()->json(Category::find($category_id));
+        return response()->json(Category::find($id));
     }
 
-    function update(Request $request, $category_id)
+    function update(Request $request, $id)
     {
-        Category::find($category_id)->update(['name' => $request->input('name')]);
+        Category::find($id)->update(['name' => $request->input('name')]);
     }
 
-    function remove($category_id)
+    function remove($id)
     {
-        Category::destroy($category_id);
+        Category::destroy($id);
     }
 }

@@ -98,10 +98,9 @@ angular.module('HMS')
 			$scope.tests[$scope.index][$scope.field] = value;
         };
         $scope.cellFocused = function (index, field, value) {
-            value = $scope.validateValue(value);
 			$scope.index = index;
             $scope.field = field;
-            $scope.input = value;
+            $scope.input = $scope.validateValue(value);
         };
         $scope.cellChanged = function (value) {
 			value = $scope.validateValue(value);
@@ -114,7 +113,7 @@ angular.module('HMS')
 			else
 				value = parseFloat(value);
 			return value;
-		}
+		};
         // works are put in rootScope because they never change
         // and in this way we can call it only once
         if (!$rootScope.works)

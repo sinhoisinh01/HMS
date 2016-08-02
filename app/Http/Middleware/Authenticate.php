@@ -39,6 +39,6 @@ class Authenticate
         if ($this->auth->guard($guard)->user()) {
             return $next($request);
         }
-        return response('Unauthorized.', 401);
+        return redirect('http://localhost/HMS/public/HMS.html#/login/');
     }
 }

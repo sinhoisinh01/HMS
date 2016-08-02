@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\User;
 use Google_Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -37,13 +38,10 @@ class AuthServiceProvider extends ServiceProvider
             if ($request->input('token')) {
                 $ticket = $client->verifyIdToken($request->token);
                 if ($ticket) {
-                    $data = $ticket->getAttributes();
-                    $user = User::where('google_id', $data['payload']['sub'])->first();
-                    if (!$user)
-                        $user = User::create(['email' => $data['payload']['email'],
-                            'google_id' => $data['payload']['sub'],
-                            'first_name' => $data['payload']['given_name'],
-                            'last_name' => $data['payload']['family_name']]);
+                    if ($request->path() === 'logout')
+                        $client->revokeToken();
+                    else
+                        $user = User::where('google_id', $ticket->getAttributes()['payload']['sub'])->first();
                 }
             }
             return $user;

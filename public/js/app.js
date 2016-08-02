@@ -4,7 +4,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
         $urlRouterProvider.otherwise('/');
         $stateProvider
             .state('login', {
-                url: '/login',
+                url: '/login/:token',
                 views: {
                     'content': {
                         templateUrl : 'views/login.html',

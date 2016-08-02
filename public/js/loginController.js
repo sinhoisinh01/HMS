@@ -1,22 +1,15 @@
 angular.module('HMS')
-    .controller('LoginController', function ($state, $scope, $rootScope, $cookies) {
+    .controller('LoginController', function ($state, $scope, $stateParams, $cookies, $http, baseURL, $window) {
         if ($cookies.get('googleToken')) {
             $state.go('home');
         }
-        gapi.load('auth2', function () {
-            auth2 = gapi.auth2.init({
-                client_id: '711327534359-06jkjslp3oqpmsrqmdivg3pk0go8pbud.apps.googleusercontent.com'
+        if ($stateParams.token) {
+            $cookies.put('googleToken', $stateParams.token);
+            $state.go('home');
+        }
+        $scope.signIn = function () {
+            $http.get(baseURL + 'login').then(function (response) {
+                $window.location = response.data;
             });
-            auth2.attachClickHandler('googleSignIn', {},
-                function (googleUser) {
-                    $scope.onSignIn(googleUser);
-                });
-        });
-        $scope.onSignIn = function (googleUser) {
-            $cookies.put('googleToken', googleUser.getAuthResponse().id_token);
-            $cookies.put('googleName', googleUser.getBasicProfile().getName());
-            //$cookies.put('googleMail', googleUser.getBasicProfile().getEmail());
-            $cookies.put('googleImageUrl', googleUser.getBasicProfile().getImageUrl());
-            $state.go('home')
         };
     });

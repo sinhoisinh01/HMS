@@ -10,20 +10,15 @@ class ResourceWork extends Migration
      *
      * @return void
      */
-     public function up()
+    public function up()
     {
-         Schema::create('resource_work', function(Blueprint $table) {
+        Schema::create('resource_work', function (Blueprint $table) {
             $table->string('resource_id');
             $table->string('work_id');
             $table->integer('amount');
-            $table->primary(['resource_id','work_id']);
-            $table->foreign('resource_id')->references('id')->on('resources')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
-            $table->foreign('work_id')
-            ->references('id')->on('works')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            $table->primary(['resource_id', 'work_id']);
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
+            $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');
         });
     }
 

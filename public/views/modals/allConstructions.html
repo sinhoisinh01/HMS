@@ -1,9 +1,10 @@
 <div class="modal-header">
-    <button class="close" ng-click="cancel()">&times;</button>
+    <button class="close" ng-click="$dismiss()">&times;</button>
     <h2 class="modal-title">Tất cả công trình</h2>
 </div>
-<div class="modal-body" ng-repeat="construction in allConstructions">
-    <div ui-sref="construction({id: construction.id})" class="construction_item">
+<div class="modal-body">
+    <div ng-repeat="construction in constructions"
+         ui-sref="construction({id: construction.id})" class="construction_item">
         <div class="construction_item_thumbnail"></div>
         <div class="construction_item_meta">
             <div class="construction_item_title">{{construction.name}}</div>
@@ -14,5 +15,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-default" ng-click="cancel()">Đóng</button>
+    <button class="btn btn-default" ng-click="$dismiss()">Đóng</button>
 </div>

@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ConstructionController extends Controller
 {
-    function getRecent()
-    {
-        return response()->json(Auth::user()->constructions()->orderBy('updated_at', 'DESC')->limit(4)->get());
-    }
-
     function getUserConstructions()
     {
         return response()->json(Auth::user()->constructions);
@@ -33,14 +28,14 @@ class ConstructionController extends Controller
         ]));
     }
 
-    function get($construction_id)
+    function get($id)
     {
-        return response()->json(Construction::find($construction_id));
+        return response()->json(Construction::find($id));
     }
 
-    function update(Request $request, $construction_id)
+    function update(Request $request, $id)
     {
-        return response()->json(Construction::find($construction_id)->update([
+        return response()->json(Construction::find($id)->update([
             'name' => $request->input('name'),
             'supplier_id' => $request->input('supplier_id'),
             'address' => $request->input('address'),
@@ -52,8 +47,8 @@ class ConstructionController extends Controller
         ]));
     }
 
-    function remove($construction_id)
+    function remove($id)
     {
-        Construction::destroy($construction_id);
+        Construction::destroy($id);
     }
 }

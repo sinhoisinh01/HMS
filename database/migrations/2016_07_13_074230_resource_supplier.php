@@ -12,16 +12,13 @@ class ResourceSupplier extends Migration
      */
     public function up()
     {
-        Schema::create('resource_supplier', function(Blueprint $table) {
+        Schema::create('resource_supplier', function (Blueprint $table) {
             $table->string('resource_id', 100);
             $table->integer('supplier_id')->unsigned();
             $table->integer('price');
-            $table->primary(['resource_id','supplier_id']);
-            $table->foreign('resource_id')->references('id')->on('resources');
-            $table->foreign('supplier_id')
-            ->references('id')->on('suppliers')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+            $table->primary(['resource_id', 'supplier_id']);
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
         });
     }
 

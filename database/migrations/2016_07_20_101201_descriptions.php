@@ -12,19 +12,18 @@ class Descriptions extends Migration
      */
     public function up()
     {
-        Schema::create('descriptions', function(Blueprint $table) {
+        Schema::create('descriptions', function (Blueprint $table) {
             $table->increments('id');
-			$table->integer('category_id')->unsigned();
+            $table->integer('category_id')->unsigned();
             $table->string('work_id');
             $table->string('content');
-			$table->float('amount')->unsigned();
-			$table->float('length')->unsigned();
-			$table->float('width')->unsigned();
-			$table->float('height')->unsigned();
+            $table->float('amount')->unsigned();
+            $table->float('length')->unsigned();
+            $table->float('width')->unsigned();
+            $table->float('height')->unsigned();
             $table->foreign(['category_id', 'work_id'])
-            ->references(['category_id', 'work_id'])->on('category_work')
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
+                ->references(['category_id', 'work_id'])->on('category_work')
+                ->onDelete('cascade');
         });
     }
 

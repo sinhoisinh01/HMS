@@ -1,42 +1,40 @@
 angular.module('HMS')
     .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $cookies) {
-        $scope.recentConstructions = {};
+        $scope.recentConstructions = [];
+        $scope.suppliers = [];
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
         $http({
-            url: baseURL + 'recentConstructions',
+            url: baseURL + 'constructions',
             method: "GET",
             params: {token: $cookies.get('googleToken')}
         }).then(function (response) {
-            $scope.recentConstructions = response.data;
-        }, function () {
-            $cookies.put('googleToken', '');
-            $state.go('login');
+            $scope.constructions = response.data;
+            $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                return new Date(b.updated_at) - new Date(a.updated_at);
+            }).slice(0, 4);
         });
         $scope.add = function () {
             $http({
                 url: baseURL + 'suppliers',
                 method: 'GET',
                 params: {token: $cookies.get('googleToken')}
-            }).then(function(response){
+            }).then(function (response) {
                 $scope.suppliers = response.data;
-            });//get all suppliers to select
-
+            });
             $uibModal.open({
                 templateUrl: 'views/modals/addConstruction.html',
                 controller: 'AddConstructionController',
-                scope:$scope
+                scope: $scope
             }).result.then(function (construction) {
-                $state.go('construction', {'construction_id': construction.id, name:construction.name});
+                $state.go('construction', {'construction_id': construction.id, name: construction.name});
             });
         };
         $scope.viewAll = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
-                controller: 'AllConstructionsController'
-            }).result.then(function (construction_id) {
-                $state.go('construction', {'construction_id': construction_id});
+                scope: $scope
             });
         };
     })
@@ -48,7 +46,7 @@ angular.module('HMS')
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
-                    supplier_id: $scope.supplier_id.id,
+                    supplier_id: $scope.supplier.id,
                     address: $scope.address,
                     investor: $scope.investor,
                     contractor: $scope.contractor,
@@ -65,24 +63,5 @@ angular.module('HMS')
         };
         $scope.cancel = function () {
             $uibModalInstance.dismiss();
-        };
-    })
-    .controller('AllConstructionsController', function ($http, $state, baseURL, $scope, $uibModalInstance, $cookies) {
-        $scope.allConstructions = {};
-        $scope.getDateFormat = function (timestamp) {
-            return new Date(timestamp);
-        };
-        $http({
-            url: baseURL + 'constructions',
-            method: "GET",
-            params: {token: $cookies.get('googleToken')}
-        }).then(function (response) {
-            $scope.allConstructions = response.data;
-        }, function () {
-            $cookies.remove('googleToken');
-            $state.go('login');
-        });
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss()
         };
     });

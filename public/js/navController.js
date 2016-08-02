@@ -1,9 +1,14 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, $http, $rootScope, $state, $stateParams, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $scope, $uibModal) {
         if (!$cookies.get('googleToken')) {
             $state.go('login');
         }
         $scope.logOut = function () {
+            $http({
+                url: baseURL + 'logout',
+                method: 'GET',
+                params: {token: $cookies.get('googleToken')}
+            });
             $cookies.remove('googleToken');
             $state.go('login');
         };
@@ -19,45 +24,44 @@ angular.module('HMS')
                 method: 'GET',
                 params: {token: $cookies.get('googleToken')}
             }).then(function (response) {
-                $rootScope.stateName = response.data.name;
+                $scope.stateName = response.data.name;
             });
         $scope.editConstruction = function () {
             if ($stateParams.construction_id) {
                 $http({
                     url: baseURL + 'construction/' + $stateParams.construction_id,
                     method: 'GET',
-                    params: {
-                        token: $cookies.get('googleToken')
-                    }
+                    params: {token: $cookies.get('googleToken')}
                 }).then(function (response) {
                     $scope.name = response.data.name;
                     $scope.address = response.data.address;
-                    var $selected = {id:response.data.supplier_id,name:response.data.name};
-                    $scope.supplier_id = $selected;
+                    $scope.supplier_id = response.data.supplier_id;
                     $scope.investor = response.data.investor;
                     $scope.contractor = response.data.contractor;
                     $scope.type = response.data.type;
                     $scope.design_type = response.data.design_type;
                     $scope.level = response.data.level;
-                }, function () {
-                    $cookies.remove('googleToken');
-                    $state.go('login');
+                    $http({
+                        url: baseURL + 'supplier/' + $scope.supplier_id,
+                        method: 'GET',
+                        params: {token: $cookies.get('googleToken')}
+                    }).then(function (response) {
+                        $scope.supplier = response.data;
+                    });
                 });
-
                 $http({
                     url: baseURL + 'suppliers',
                     method: 'GET',
                     params: {token: $cookies.get('googleToken')}
-                }).then(function(response){
+                }).then(function (response) {
                     $scope.suppliers = response.data;
-                });//get all suppliers to select
-
+                });
                 $uibModal.open({
                     templateUrl: 'views/modals/editConstruction.html',
                     controller: 'EditConstructionController',
                     scope: $scope
                 }).result.then(function (name) {
-                    $scope.stateName =  name;
+                    $scope.stateName = name;
                 });
             }
         };
@@ -70,7 +74,7 @@ angular.module('HMS')
                 params: {
                     token: $cookies.get('googleToken'),
                     name: $scope.name,
-                    supplier_id: $scope.supplier_id.id,
+                    supplier_id: $scope.supplier.id,
                     address: $scope.address,
                     investor: $scope.investor,
                     contractor: $scope.contractor,
@@ -78,15 +82,12 @@ angular.module('HMS')
                     design_type: $scope.design_type,
                     level: $scope.level
                 }
-        }).then(function (response) {
-            $uibModalInstance.close($scope.name);
-        }, function () {
-                $cookies.remove('googleToken');
-                $state.go('login');
+            }).then(function () {
+                $uibModalInstance.close($scope.name);
             });
-        };   
-       $scope.cancel = function () {
-            $uibModalInstance.dismiss('cancel');
+        };
+        $scope.cancel = function () {
+            $uibModalInstance.dismiss();
         };
     });
     
