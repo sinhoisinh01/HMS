@@ -16,9 +16,9 @@ class Users extends Migration
             $table->increments('id');
             $table->string('google_id');
             $table->string('refresh_token');
-            $table->string('name')->nullable();
-            $table->string('urlImage')->nullable();
             $table->string('email');
+            $table->string('name')->nullable();
+            $table->string('picture')->nullable();
         });
     }
 

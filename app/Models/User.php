@@ -12,7 +12,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable;
 
-    protected $fillable = ['google_id', 'refresh_token', 'first_name', 'email', 'last_name'];
+    protected $fillable = ['google_id', 'refresh_token', 'name', 'email', 'picture'];
 
     public $timestamps = false;
 

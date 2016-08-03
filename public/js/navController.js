@@ -12,13 +12,18 @@ angular.module('HMS')
             $cookies.remove('googleToken');
             $state.go('login');
         };
-        $scope.userName = $cookies.get('googleName');
-        $scope.userPicture = $cookies.get('googleImageUrl');
+        $http({
+            url: baseURL + 'user',
+            method: 'GET',
+            params: {token: $cookies.get('googleToken')}
+        }).then(function (response) {
+            $scope.user = response.data;
+        });
         if ($state.current.name === 'home')
             $scope.stateName = 'home';
         else if ($stateParams.name)
             $scope.stateName = $stateParams.name;
-        else // In case of reload
+        else
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id,
                 method: 'GET',
@@ -61,33 +66,24 @@ angular.module('HMS')
                     controller: 'EditConstructionController',
                     scope: $scope
                 }).result.then(function (name) {
-                    $scope.stateName = name;
+                    $http({
+                        url: baseURL + 'construction/' + $stateParams.construction_id,
+                        method: "PUT",
+                        params: {
+                            token: $cookies.get('googleToken'),
+                            name: $scope.name,
+                            supplier_id: $scope.supplier.id,
+                            address: $scope.address,
+                            investor: $scope.investor,
+                            contractor: $scope.contractor,
+                            type: $scope.type,
+                            design_type: $scope.design_type,
+                            level: $scope.level
+                        }
+                    }).then(function () {
+                        $scope.stateName = name;
+                    });
                 });
             }
         };
-    })
-    .controller('EditConstructionController', function ($stateParams, $state, $http, baseURL, $scope, $uibModalInstance, $cookies) {
-        $scope.edit = function () {
-            $http({
-                url: baseURL + 'construction/' + $stateParams.construction_id,
-                method: "PUT",
-                params: {
-                    token: $cookies.get('googleToken'),
-                    name: $scope.name,
-                    supplier_id: $scope.supplier.id,
-                    address: $scope.address,
-                    investor: $scope.investor,
-                    contractor: $scope.contractor,
-                    type: $scope.type,
-                    design_type: $scope.design_type,
-                    level: $scope.level
-                }
-            }).then(function () {
-                $uibModalInstance.close($scope.name);
-            });
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss();
-        };
     });
-    
