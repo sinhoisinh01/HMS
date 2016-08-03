@@ -23,7 +23,8 @@
              ng-repeat="construction in recentConstructions">
             <div class="construction_item_thumbnail"></div>
             <div class="construction_item_meta">
-                <div class="construction_item_title">{{construction.name}}</div>
+                <div class="construction_item_title">{{construction.name}}
+				<a><i class="fa fa-ellipsis-v"></i></a></div>
                 <div class="construction_item_row">
                     Last modified: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
                 </div>

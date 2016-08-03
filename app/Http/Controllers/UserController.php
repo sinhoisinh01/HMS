@@ -16,5 +16,6 @@ class UserController extends Controller
     function remove()
     {
         User::destroy(Auth::user()->id);
+		//$client->revokeToken();
     }
 }

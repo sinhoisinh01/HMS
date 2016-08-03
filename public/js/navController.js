@@ -1,17 +1,21 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $scope, $uibModal) {
+	.controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $scope, $uibModal) {
         if (!$cookies.get('googleToken')) {
             $state.go('login');
         }
         $scope.logOut = function () {
-            $http({
-                url: baseURL + 'logout',
-                method: 'GET',
-                params: {token: $cookies.get('googleToken')}
-            });
             $cookies.remove('googleToken');
             $state.go('login');
         };
+		$scope.deleteUser = function () {
+			$http({
+				url: baseURL + 'user',
+				method: 'DELETE',
+				params: {token: $cookies.get('googleToken')}
+			}).then(function() {
+				$scope.logOut();
+			});
+		};
         $http({
             url: baseURL + 'user',
             method: 'GET',
@@ -86,4 +90,7 @@ angular.module('HMS')
                 });
             }
         };
+		$scope.dynamicPopover = {
+			templateUrl: 'views/popoverTemplate.html'
+		};
     });
