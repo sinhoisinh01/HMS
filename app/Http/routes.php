@@ -20,10 +20,10 @@ $app->get('/loginCallBack', 'LoginController@callBack');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
-        $app->get('/logout', function () {});
+        $app->get('/refreshToken', 'LoginController@refreshToken');
 
         $app->get('/user', 'UserController@get');
-        $app->delete('/user', 'UserController@delete');
+        $app->delete('/user', 'UserController@remove');
 
         $app->get('/constructions', 'ConstructionController@getUserConstructions');
         $app->post('/construction', 'ConstructionController@add');

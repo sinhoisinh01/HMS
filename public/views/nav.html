@@ -1,5 +1,27 @@
 <ul class="list-inline container">
-	<li ui-sref="home">HMS</li>
-    <li ng-click="editConstruction()" id="constructionName" >{{stateName}}</li>
-	<li><a popover-placement="bottom" uib-popover-template="dynamicPopover.templateUrl"><img src="{{user.picture}}" alt="Profile Picture" class="img-circle" alt="Profile Picture" width="20" height="20"></a></li>
+    <li ui-sref="home">HMS</li>
+    <li ng-click="editConstruction()" id="constructionName">{{stateName}}</li>
+    <li><a popover-placement="bottom" uib-popover-template="'popover'">
+        <img ng-src="{{user.picture}}" alt="picture" class="img-circle" width="20" height="20">
+    </a></li>
 </ul>
+
+<script type="text/ng-template" id="popover">
+    <div>
+        <div class="row">
+            <div class="col-xs-4">
+                <img ng-src="{{user.picture}}" class="img-circle" alt="picture" width="70" height="70"
+                     style="margin-bottom : 10px">
+            </div>
+            <div class="col-xs-8"><b>{{user.name}}</b><br>{{user.email}}</div>
+        </div>
+        <div class="row well well-sm">
+            <div class="col-xs-8">
+                <button type="button" class="btn btn-default" ng-click="deleteUser()">Delete Account</button>
+            </div>
+            <div class="col-xs-4">
+                <button type="button" class="btn btn-default" ng-click="logOut()">Sign out</button>
+            </div>
+        </div>
+    </div>
+</script>

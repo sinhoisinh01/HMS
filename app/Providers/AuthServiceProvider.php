@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\User;
 use Google_Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -32,18 +31,8 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
         $this->app['auth']->viaRequest('api', function ($request) {
             $user = null;
-            $client = new Google_Client();
-            $client->setClientId('711327534359-06jkjslp3oqpmsrqmdivg3pk0go8pbud.apps.googleusercontent.com');
-            $client->setClientSecret('1g6sPg-yQX8NgOkwYamie2o1');
-            if ($request->input('token')) {
-                $ticket = $client->verifyIdToken($request->token);
-                if ($ticket) {
-                    if ($request->path() === 'logout')
-                        $client->revokeToken();
-                    else
-                        $user = User::where('google_id', $ticket->getAttributes()['payload']['sub'])->first();
-                }
-            }
+            if ($request->input('token'))
+                $user = User::where('token', $request->token)->first();
             return $user;
         });
     }
