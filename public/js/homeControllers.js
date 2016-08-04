@@ -1,26 +1,16 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $cookies) {
-        $scope.recentConstructions = [];
-        $scope.suppliers = [];
+    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal) {
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
-        $http({
-            url: baseURL + 'constructions',
-            method: "GET",
-            params: {token: $cookies.get('googleToken')}
-        }).then(function (response) {
+        $http.get(baseURL + 'constructions').then(function (response) {
             $scope.constructions = response.data;
             $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
                 return new Date(b.updated_at) - new Date(a.updated_at);
             }).slice(0, 4);
         });
         $scope.add = function () {
-            $http({
-                url: baseURL + 'suppliers',
-                method: 'GET',
-                params: {token: $cookies.get('googleToken')}
-            }).then(function (response) {
+            $http.get(baseURL + 'suppliers').then(function (response) {
                 $scope.suppliers = response.data;
             });
             $uibModal.open({
@@ -38,13 +28,12 @@ angular.module('HMS')
             });
         };
     })
-    .controller('AddConstructionController', function ($http, $state, baseURL, $scope, $uibModalInstance, $cookies) {
+    .controller('AddConstructionController', function ($http, $state, baseURL, $scope, $uibModalInstance) {
         $scope.create = function () {
             $http({
                 url: baseURL + 'construction',
                 method: "POST",
                 params: {
-                    token: $cookies.get('googleToken'),
                     name: $scope.name,
                     supplier_id: $scope.supplier.id,
                     address: $scope.address,
@@ -56,12 +45,6 @@ angular.module('HMS')
                 }
             }).then(function (response) {
                 $uibModalInstance.close(response.data);
-            }, function () {
-                $cookies.remove('googleToken');
-                $state.go('login');
             });
-        };
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss();
         };
     });

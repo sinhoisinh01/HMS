@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<button class="close" ng-click="cancel()">&times;</button>
+	<button class="close" ng-click="$dismiss()">&times;</button>
 	<h2 class="modal-title">Sửa hạng mục</h2>
 </div>
 <div class="modal-body">
@@ -9,6 +9,6 @@
 	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-default" ng-click="cancel()">Đóng</button>
-	<button class="btn btn-primary" ng-click="edit()" ng-disabled="!name.length || name===oldName">Cập nhật</button>
+	<button class="btn btn-default" ng-click="$dismiss()">Đóng</button>
+	<button class="btn btn-primary" ng-click="$close(name)" ng-disabled="!name.length || name===oldName">Cập nhật</button>
 </div>

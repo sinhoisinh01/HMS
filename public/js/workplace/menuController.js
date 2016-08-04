@@ -1,24 +1,28 @@
 angular.module('HMS')
-    .controller('MenuController', function ($rootScope, $stateParams, $scope, $uibModal) {
-        $rootScope.constructionName = $stateParams.name;
+    .controller('MenuController', function ($http, baseURL, $rootScope, $stateParams, $scope, $uibModal) {
         $scope.collapseCategories = function() {
             $rootScope.isCollapsedCategories = !$rootScope.isCollapsedCategories;
         };
 		$scope.add = function () {
+            $http.get(baseURL + 'suppliers').then(function (response) {
+                $scope.suppliers = response.data;
+            });
             $uibModal.open({
                 templateUrl: 'views/modals/addConstruction.html',
-                controller: 'AddConstructionController'
+                controller: 'AddConstructionController',
+                scope: $scope
             }).result.then(function (construction) {
                 $state.go('construction', {'construction_id': construction.id, name:construction.name });
             });
         };
 		$scope.viewAll = function () {
+            $http.get(baseURL + 'constructions').then(function (response) {
+                $scope.constructions = response.data;
+            });
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
-                controller: 'AllConstructionsController'
-            }).result.then(function (construction_id) {
-                $state.go('construction', {'construction_id': construction_id});
+                scope: $scope
             });
         };
-    })
+    });
     

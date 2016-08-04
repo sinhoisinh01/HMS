@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
-use Google_Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -29,10 +29,10 @@ class AuthServiceProvider extends ServiceProvider
         // application. The callback which receives the incoming request instance
         // should return either a User instance or null. You're free to obtain
         // the User instance via an API token or any other method necessary.
-        $this->app['auth']->viaRequest('api', function ($request) {
+        $this->app['auth']->viaRequest('api', function (Request $request) {
             $user = null;
-            if ($request->input('token'))
-                $user = User::where('token', $request->token)->first();
+            if ($request->cookie('googleToken'))
+                $user = User::where('token', $request->cookie('googleToken'))->first();
             return $user;
         });
     }

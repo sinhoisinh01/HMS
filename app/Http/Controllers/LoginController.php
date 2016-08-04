@@ -49,7 +49,7 @@ class LoginController extends Controller
         $client->setClientId(env('APP_CLIENT_ID'));
         $client->setClientSecret(env('APP_CLIENT_SECRET'));
         $client->refreshToken(Auth::user()->refresh_token);
-        $token = json_decode($client->getAccessToken());
+        $accessToken = json_decode($client->getAccessToken());
         //use this token to connect to google drive api
     }
 }
