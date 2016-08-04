@@ -30,13 +30,12 @@
     </tr>
     <tr>
         <td>{{tests.length+1}}</td>
-        <td contenteditable ng-model="searchWork"></td>
-        <td></td>
+        <td contenteditable ng-model="newLine" ng-change="cellChanged(newLine)"></td>
         <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
     </tr>
     </tbody>
 </table>
-<div id="works_table" ng-show="searchWork.replace('<br>', '')">
+<div id="works_table" ng-show="searchWork">
     <table>
         <thead>
         <tr>
@@ -48,7 +47,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="work in works | filter:validateValue(searchWork.replace('<br>', ''))">
+        <tr ng-repeat="work in works | filter:searchWork">
             <td>{{work.code}}</td>
             <td>{{work.document}}</td>
             <td>{{work.name}}</td>

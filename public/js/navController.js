@@ -53,7 +53,6 @@ angular.module('HMS')
             }
         };
     })
-
     .controller('EditConstructionController', function ($stateParams, $rootScope, $scope, $http, baseURL, $uibModalInstance) {
         $scope.edit = function () {
             $http({
@@ -70,7 +69,7 @@ angular.module('HMS')
                     level: $scope.level
                 }
             }).then(function () {
-                $rootScope.supplier = $scope.supplier;
+                $rootScope.$broadcast('supplierChange', $scope.supplier);
                 $uibModalInstance.close($scope.name);
             });
         }

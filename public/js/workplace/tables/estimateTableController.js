@@ -42,9 +42,9 @@ angular.module('HMS')
             }
         ];
         $scope.inputChanged = function (value) {
-            $scope.searchWork = $scope.validateValue(value);
             if ($scope.index && $scope.field)
-                $scope.tests[$scope.index][$scope.field] = $scope.validateValue(value);
+                $scope.searchWork = $scope.tests[$scope.index][$scope.field]
+                    = $scope.validateValue(value);
         };
         $scope.cellFocused = function (index, field, value) {
             $scope.index = index;
@@ -52,13 +52,12 @@ angular.module('HMS')
             $scope.input = $scope.validateValue(value);
         };
         $scope.cellChanged = function (value) {
-            $scope.input = $scope.validateValue(value);
-            $scope.searchWork = $scope.input;
-    };
-        $scope.validateValue = function (value) {
-            return isNaN(value) ? value.replace('<br>', '') : parseFloat(value);
+            $scope.searchWork = $scope.input = $scope.validateValue(value);
         };
-       
+        $scope.validateValue = function (value) {
+            if (value)
+                return isNaN(value) ? value.replace('<br>', '') : parseFloat(value);
+        };
         if (!$rootScope.works)
             $http.get(baseURL + 'works').then(function (response) {
                 $rootScope.works = response.data;
