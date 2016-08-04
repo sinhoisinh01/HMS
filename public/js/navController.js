@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -37,7 +37,7 @@ angular.module('HMS')
                         $scope.level = response.data.level;
                         $http.get(baseURL + 'supplier/' + $scope.supplier_id)
                             .then(function (response) {
-                                $scope.supplier = response.data;
+                                $rootScope.supplier = response.data;
                             });
                     });
                 $http.get(baseURL + 'suppliers').then(function (response) {
@@ -54,7 +54,7 @@ angular.module('HMS')
         };
     })
 
-    .controller('EditConstructionController', function ($stateParams, $scope, $http, baseURL, $uibModalInstance) {
+    .controller('EditConstructionController', function ($stateParams, $rootScope, $scope, $http, baseURL, $uibModalInstance) {
         $scope.edit = function () {
             $http({
                 url: baseURL + 'construction/' + $stateParams.construction_id,
@@ -70,6 +70,7 @@ angular.module('HMS')
                     level: $scope.level
                 }
             }).then(function () {
+                $rootScope.supplier = $scope.supplier;
                 $uibModalInstance.close($scope.name);
             });
         }

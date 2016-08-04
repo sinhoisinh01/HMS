@@ -111,6 +111,7 @@ angular.module('HMS')
                 value = parseFloat(value);
             return value;
         };
+       
         if (!$rootScope.works)
             $http.get(baseURL + 'works').then(function (response) {
                 $rootScope.works = response.data;

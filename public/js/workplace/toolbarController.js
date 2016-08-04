@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('ToolbarController', function (baseURL, $cookies, $http, $scope, $state, $stateParams) {
+    .controller('ToolbarController', function (baseURL, $cookies, $http,$rootScope, $scope, $state, $stateParams) {
         $http.get(baseURL + 'suppliers').then(function (response) {
             $scope.suppliers = response.data;
         });
@@ -8,7 +8,7 @@ angular.module('HMS')
                 $scope.construction = response.data;
                 $http.get(baseURL + 'supplier/' + $scope.construction.supplier_id)
                     .then(function (response) {
-                        $scope.supplier = response.data;
+                        $rootScope.supplier = response.data;
                     });
             });
         $scope.changeSupplier = function () {
@@ -19,7 +19,7 @@ angular.module('HMS')
                     params: {
                         name: $scope.construction.name,
                         address: $scope.construction.address,
-                        supplier_id: $scope.supplier.id,
+                        supplier_id: $rootScope.supplier.id,
                         investor: $scope.construction.investor,
                         contractor: $scope.construction.contractor,
                         type: $scope.construction.type,
@@ -27,9 +27,9 @@ angular.module('HMS')
                         level: $scope.construction.level
                     }
                 }).then(function () {}, function () {
-                    $scope.supplier = $scope.oldValue;
+                    $rootScope.supplier = $scope.oldValue;
                 });
             else
-                $scope.supplier = $scope.oldValue;
+                $rootScope.supplier = $scope.oldValue;
         }
     });

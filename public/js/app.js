@@ -92,6 +92,13 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 element.bind("blur keyup change", function() {
                     scope.$apply(read);
                 });
+                element.bind("keyup", function(){
+                    var worksTable = angular.element(document.querySelector('#worksTable'));
+                    worksTable.css({left: element.prop('offsetLeft'), top: element.prop('offsetTop')});
+                    console.log(element.prop('offsetLeft'));
+                    console.log(element.prop('offsetTop'));
+                });
             }
         };
     });
+  
