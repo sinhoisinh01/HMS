@@ -21,6 +21,27 @@ angular.module('HMS')
                 $state.go('construction', {'construction_id': construction.id, name: construction.name});
             });
         };
+		$scope.remove = function (construction_id) {
+			var c = confirm("Are you sure to delete this Construction?");
+			if (c == true)
+			{
+				$http.delete(baseURL + 'construction/' + construction_id).then(function() {
+					for (var con in $scope.recentConstructions) {
+						if ($scope.recentConstructions[con].id === construction_id) {
+							$scope.recentConstructions.splice(con, 1);
+							break;
+						}
+					}
+					for (var con in $scope.constructions) {
+						if ($scope.constructions[con].id === construction_id) {
+							$scope.constructions.splice(con, 1);
+							break;
+						}
+					}
+				});
+				console.log($scope.constructions + '; con_id:' + construction_id);
+			}
+		};
         $scope.viewAll = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',

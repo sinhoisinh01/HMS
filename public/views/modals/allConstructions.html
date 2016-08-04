@@ -2,17 +2,25 @@
     <button class="close" ng-click="$dismiss()">&times;</button>
     <h2 class="modal-title">Tất cả công trình</h2>
 </div>
-<div class="modal-body">
-    <div ng-repeat="construction in constructions"
-         ui-sref="construction({id: construction.id})" class="construction_item">
-        <div class="construction_item_thumbnail"></div>
-        <div class="construction_item_meta">
-            <div class="construction_item_title">{{construction.name}}</div>
-            <div class="construction_item_row">
-                Mở vào: {{getDateFormat(construction.updated_at)|date:'dd-MM-yyyy'}}
-            </div>
-        </div>
-    </div>
+<div class="modal-body row">
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" ng-repeat="construction in constructions">
+		<div class="thumbnail">
+		  <img src="images/defaultPictureForConstructions.png" ui-sref="construction({construction_id: construction.id, name:construction.name})">
+		  <div class="caption row">
+			<p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left" ui-sref="construction({construction_id: construction.id, name:construction.name})">
+			  <b>{{construction.name}}</b></br>
+			  Opened: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+			</p>
+			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" uib-dropdown>
+				<span class="glyphicon glyphicon-option-vertical btn btn-link" id="btn-{{construction.id}}-options" type="button" uib-dropdown-toggle></span>
+				<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-{{construction.id}}-options">
+				  <li role="menuitem"><a><span class="glyphicon glyphicon-edit"> Edit</a></li>
+				  <li role="menuitem"><a ng-click="remove(construction.id)"><span class="glyphicon glyphicon-trash"> Remove</a></li>
+				</ul>
+			</div>
+		  </div>
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" ng-click="$dismiss()">Đóng</button>
