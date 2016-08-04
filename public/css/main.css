@@ -330,11 +330,10 @@ i{cursor:pointer;}
 	padding:5px;
 	height:25px;
 }
-#work_table{
-	display:none;
+#works_table{
 	position:absolute;
 	text-align:center;
-	z-index:1;
+	z-index:100;
     width: 500px;
 	height:200px;
 	overflow-y:auto;
@@ -343,36 +342,28 @@ i{cursor:pointer;}
 	outline: -webkit-focus-ring-color auto 5px;
 }
 
-#work_table table {	font-size:12px;}
-#work_table td{
-	padding:10px;
-	border:none;
+#works_table table {font-size:12px;}
+#works_table th{
+	background:#f5f5f5;
 }
-#work_table td:nth-child(2){text-align:left;padding-left:5px}
+#works_table td{
+	padding:10px;
+}
+#works_table td:nth-child(2){
+	text-align:left;
+	padding-left:5px
+}
 #show_more{
 	display:block;
 	margin:5px;
 }
-#estimate_table td{cursor:cell;}
-#estimate_table td:nth-child(1){
-	cursor:pointer;
-	text-decoration:none!important;
-	font-weight:100!important;
-	font:normal 14px arial,sans-serif!important;
-	text-align:center!important;
+#estimate_table td{
+	cursor:cell;
+	border-top:none
 }
-#estimate_table td{border-top:none}
 #estimate_table th, #estimate_table td{
 	overflow:hidden;
 	text-overflow:ellipsis;
-}
-#estimate_table tr td:nth-child(1){
-	background-color: #f5f5f5;
-    background-image: -webkit-linear-gradient(top,#f5f5f5,#eee);
-    background-image: -moz-linear-gradient(top,#f5f5f5,#eee);
-    background-image: -ms-linear-gradient(top,#f5f5f5,#eee);
-    background-image: -o-linear-gradient(top,#f5f5f5,#eee);
-    background-image: linear-gradient(top,#f5f5f5,#eee);
 }
 #estimate_table tr th{
 	cursor:pointer;
@@ -382,6 +373,24 @@ i{cursor:pointer;}
     background-image: -ms-linear-gradient(top,#f5f5f5,#eee);
     background-image: -o-linear-gradient(top,#f5f5f5,#eee);
     background-image: linear-gradient(top,#f5f5f5,#eee);
+}
+#estimate_table td:nth-child(1){
+	cursor:pointer;
+	text-decoration:none!important;
+	font-weight:100!important;
+	font:normal 14px arial,sans-serif!important;
+	text-align:center!important;
+}
+#estimate_table tr td:nth-child(1){
+	background-color: #f5f5f5;
+    background-image: -webkit-linear-gradient(top,#f5f5f5,#eee);
+    background-image: -moz-linear-gradient(top,#f5f5f5,#eee);
+    background-image: -ms-linear-gradient(top,#f5f5f5,#eee);
+    background-image: -o-linear-gradient(top,#f5f5f5,#eee);
+    background-image: linear-gradient(top,#f5f5f5,#eee);
+}
+#estimate_table tr td:nth-child(2){
+	position:relative;
 }
 #estimate_table tr td:nth-child(3){
 	text-align:left;

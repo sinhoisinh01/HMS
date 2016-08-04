@@ -93,10 +93,11 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                     scope.$apply(read);
                 });
                 element.bind("keyup", function(){
-                    var worksTable = angular.element(document.querySelector('#worksTable'));
-                    worksTable.css({left: element.prop('offsetLeft'), top: element.prop('offsetTop')});
-                    console.log(element.prop('offsetLeft'));
-                    console.log(element.prop('offsetTop'));
+                    var worksTable = angular.element(document.querySelector('#works_table'));
+                    var top = element.prop('offsetTop');
+                    var left = element.prop('offsetLeft')
+                    worksTable.css({left: left+90+'px' , top: top+18+'px'});
+                    // set the position of works table
                 });
             }
         };

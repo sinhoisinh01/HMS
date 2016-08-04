@@ -36,14 +36,15 @@
     </tr>
     </tbody>
 </table>
-<div ng-hide="searchNewWork == '' || searchNewWork == '<br>' || searchNewWork == null">
+<div id="works_table" ng-hide="searchNewWork == '' || searchNewWork == '<br>' || searchNewWork == null">
     <table>
         <thead>
         <tr>
-            <td>Code</td>
-            <td>Document</td>
-            <td>Name</td>
-            <td>Unit</td>
+            <th>Code</th>
+            <th>Document</th>
+            <th>Name</th>
+            <th>Unit</th>
+            <th>&nbsp;</th>
         </tr>
         </thead>
         <tbody>
@@ -52,6 +53,7 @@
             <td>{{work.document}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
+            <td>Choose button or link here</td>
         </tr>
         </tbody>
     </table>
