@@ -8,7 +8,7 @@ class ResourceSupplier extends Model
 {
     protected $table = 'resource_supplier';
 
-    protected $fillable = array('resource_id','supplier_id','price');
+    protected $fillable = array('resource_code','supplier_id','price');
 
 	public $timestamps = false;
 }

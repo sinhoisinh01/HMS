@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Resource extends Model
 {
-    protected $fillable = array('id','name','unit');
+    protected $fillable = array('code','name','unit');
 
     public $timestamps = false;
 
