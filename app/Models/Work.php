@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
 {
-    protected $fillable = array('code','document','name','unit');
+    protected $guarded = [];
 
     public $timestamps = false;
 

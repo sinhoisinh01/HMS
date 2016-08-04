@@ -8,7 +8,7 @@ class ConstructionResource extends Model
 {
     protected $table = 'construction_resource';
 
-    protected $fillable = array('construction_id','resource_code','price');
+    protected $guarded = [];
 
 	public $timestamps = false;
 }

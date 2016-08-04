@@ -8,7 +8,7 @@ class CategoryWork extends Model
 {
     protected $table = 'category_work';
 
-    protected $fillable = array('category_id','work_code','no','amount');
+    protected $guarded = [];
 
 	public $timestamps = false;
 }

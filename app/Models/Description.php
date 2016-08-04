@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Description extends Model
 {
-    protected $fillable = array('category_id', 'work_code',
-        'content', 'amount', 'width', 'length', 'height');
+    protected $guarded = [];
 
     public $timestamps = false;
 

@@ -8,7 +8,7 @@ class ResourceWork extends Model
 {
     protected $table = 'resource_work';
 
-    protected $fillable = array('resource_code','work_code','amount');
+    protected $guarded = [];
 
 	public $timestamps = false;
 

@@ -96,7 +96,7 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                     var worksTable = angular.element(document.querySelector('#works_table'));
                     var top = element.prop('offsetTop');
                     var left = element.prop('offsetLeft')
-                    worksTable.css({left: left+90+'px' , top: top+18+'px'});
+                    worksTable.css({left: left+'px' , top: top+18+'px'});
                     // set the position of works table
                 });
             }

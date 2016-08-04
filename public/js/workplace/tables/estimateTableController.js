@@ -42,6 +42,7 @@ angular.module('HMS')
             }
         ];
         $scope.inputChanged = function (value) {
+            $scope.searchWork = $scope.validateValue(value);
             if ($scope.index && $scope.field)
                 $scope.tests[$scope.index][$scope.field] = $scope.validateValue(value);
         };
@@ -52,7 +53,8 @@ angular.module('HMS')
         };
         $scope.cellChanged = function (value) {
             $scope.input = $scope.validateValue(value);
-        };
+            $scope.searchWork = $scope.input;
+    };
         $scope.validateValue = function (value) {
             return isNaN(value) ? value.replace('<br>', '') : parseFloat(value);
         };

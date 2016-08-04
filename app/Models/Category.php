@@ -8,7 +8,7 @@ class Category extends Model
 {
 	protected $table = 'categories';
 
-    protected $fillable = array('id','construction_id','name');
+    protected $guarded = [];
 
 	public $timestamps = false;
 
