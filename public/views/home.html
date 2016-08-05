@@ -19,23 +19,26 @@
     </div>
     <div id="recent_construction">
         <h2 ng-show="recentConstructions" id="recent_construction_title">Recent</h2>
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6" ng-repeat="construction in recentConstructions">
-			<div class="thumbnail">
-			  <img src="images/defaultPictureForConstructions.png"  ui-sref="construction({construction_id: construction.id, name:construction.name})">
-			  <div class="caption row">
-				<p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left" ui-sref="construction({construction_id: construction.id, name:construction.name})">
-				  <b>{{construction.name}}</b></br>
-				  Opened: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
-				</p>
-				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" uib-dropdown>
-					<span class="glyphicon glyphicon-option-vertical btn btn-link" id="btn-{{construction.id}}-options" type="button" uib-dropdown-toggle></span>
-					<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-{{construction.id}}-options">
-					  <li role="menuitem"><a><span class="glyphicon glyphicon-edit"> Edit</a></li>
-					  <li role="menuitem"><a ng-click="remove(construction.id)"><span class="glyphicon glyphicon-trash"> Remove</a></li>
-					</ul>
-				</div>
-			  </div>
-			</div>
-		</div>
+        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" ng-repeat="construction in recentConstructions">
+            <div class="thumbnail">
+                <img src="images/defaultPictureForConstructions.png"
+                     ui-sref="construction({construction_id: construction.id, name:construction.name})">
+                <div class="caption row">
+                    <p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left"
+                       ui-sref="construction({construction_id: construction.id, name:construction.name})">
+                        <b>{{construction.name}}</b><br>
+                        Opened: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                    </p>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" uib-dropdown>
+                        <span class="glyphicon glyphicon-option-vertical btn btn-link" uib-dropdown-toggle></span>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+                            <li role="menuitem"><a><span class="glyphicon glyphicon-edit"> Edit</span></a></li>
+                            <li role="menuitem"><a ng-click="remove(construction.id)"><span
+                                    class="glyphicon glyphicon-trash"> Remove</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
