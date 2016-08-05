@@ -19,9 +19,10 @@ angular.module('HMS')
                     $scope.stateName = response.data.name;
                 });
         $scope.deleteUser = function () {
-            $http.delete(baseURL + 'user').then(function () {
-                $scope.logOut();
-            });
+            if (confirm("All of your data will be lost. Are you sure to delete your account?"))
+				$http.delete(baseURL + 'user').then(function () {
+					$scope.logOut();
+				});
         };
         $scope.editConstruction = function () {
             if ($stateParams.construction_id) {

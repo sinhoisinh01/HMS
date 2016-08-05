@@ -38,7 +38,8 @@ angular.module('HMS')
         $scope.viewAll = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
-                scope: $scope
+                size: 'lg',
+				scope: $scope
             });
         };
     })
