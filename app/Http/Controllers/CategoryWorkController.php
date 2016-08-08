@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\CategoryWork;
@@ -10,7 +10,9 @@ class CategoryWorkController extends Controller
 {
     function getWorks($category_id)
     {
-        return response()->json(CategoryWork::where('category_id', $category_id)->get());
+        return response()->json(CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
+		->select('category_work.no', 'works.*', 'category_work.value')
+		->where('category_id', $category_id)->get());
     }
 
     function add($category_id, $work_id)

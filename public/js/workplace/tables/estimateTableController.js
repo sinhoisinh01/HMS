@@ -1,55 +1,20 @@
 angular.module('HMS')
-    .controller('estimateTableController', function ($cookies, baseURL, $http, $scope, $rootScope) {
-        $scope.tests = [
-            {
-                category_work: 1,
-                code: "AA.111000",
-                name: "Xây nhà đá cạnh ao cá",
-                amount: "5",
-                length: "3",
-                width: "4",
-                height: "20",
-                value: 0,
-                unit: "cái",
-                price: 500000,
-                total: 0
-            },
-            {
-                category_work: 1,
-                code: "AB.11310",
-                name: "Something",
-                amount: "5",
-                length: "3",
-                width: "4",
-                height: "20",
-                value: 0,
-                unit: "cái",
-                price: 500000,
-                total: 0
-            },
-            {
-                category_work: 1,
-                code: "AA.111000",
-                name: "Another things",
-                amount: "5",
-                length: "3",
-                width: "4",
-                height: "20",
-                value: 0,
-                unit: "cái",
-                price: 500000,
-                total: 0
-            }
-        ];
+    .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
+        $http.get(baseURL + 'categoryWorks/' + $stateParams.category_id)
+			.then(function(response) {
+				$scope.categoryWorks = response.data;
+				console.log($scope.categoryWorks);
+			});
         $scope.inputChanged = function (value) {
-            if ($scope.index && $scope.field)
-                $scope.searchWork = $scope.tests[$scope.index][$scope.field]
+            if ($scope.field) 
+                $scope.searchWork = $scope.categoryWorks[$scope.index][$scope.field]
                     = $scope.validateValue(value);
         };
         $scope.cellFocused = function (index, field, value) {
             $scope.index = index;
             $scope.field = field;
             $scope.input = $scope.validateValue(value);
+			//console.log('[' + $scope.index + '][' + $scope.field + ']');
         };
         $scope.cellChanged = function (value) {
             $scope.searchWork = $scope.input = $scope.validateValue(value);
