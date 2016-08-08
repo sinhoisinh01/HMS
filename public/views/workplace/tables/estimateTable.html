@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="work in tests track by $index">
+    <tr ng-repeat="work in tests track by $index" index="$index">
         <td ng-init="index = $index">{{$index+1}}</td>
         <td ng-repeat="field in ['code', 'name', 'amount', 'length', 'width', 'height', 'value']" contenteditable
             ng-model="work[field]" ng-click="cellFocused(index,field,work[field])"
@@ -31,7 +31,7 @@
     <tr>
         <td>{{tests.length+1}}</td>
         <td contenteditable ng-model="newLine" ng-change="cellChanged(newLine)"></td>
-        <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
+        <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]" index="$index"></td>
     </tr>
     </tbody>
 </table>
@@ -52,7 +52,7 @@
             <td>{{work.document}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
-            <td>Choose button or link here</td>
+            <td ng-click="addCategoryWork(work.code)">Choose</td>
         </tr>
         </tbody>
     </table>

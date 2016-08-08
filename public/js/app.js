@@ -56,7 +56,8 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                         templateUrl : 'views/workplace/tabs.html',
                         controller : 'TabsController'
                     }
-                }
+                },
+
             })
 			.state('construction.category.table', {
                 url: '/',
@@ -92,8 +93,9 @@ angular.module('HMS', ['ui.router','ui.bootstrap','ngCookies'])
                 element.bind("blur keyup change", function() {
                     scope.$apply(read);
                 });
-                element.bind("keyup", function(){
+                element.bind("keyup", function($index){
                     var worksTable = angular.element(document.querySelector('#works_table'));
+                    //console.log(scope.$index);
                     var top = element.prop('offsetTop');
                     var left = element.prop('offsetLeft')
                     worksTable.css({left: left+'px' , top: top+18+'px'});

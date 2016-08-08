@@ -40,10 +40,10 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->get('/works', 'WorkController@getAll');
 
         $app->get('/categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
-        $app->get('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@get');
-        $app->post('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@add');
-        $app->put('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@update');
-        $app->delete('/categoryWork/{category_id}/{work_id}', 'CategoryWorkController@remove');
+        $app->get('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@get');
+        $app->post('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@add');
+        $app->put('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update');
+        $app->delete('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
 
         $app->get('/suppliers', 'SupplierController@getAll');
         $app->get('/supplier/{id}', 'SupplierController@get');

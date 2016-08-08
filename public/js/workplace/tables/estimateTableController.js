@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('estimateTableController', function ($cookies, baseURL, $http, $scope, $rootScope) {
+    .controller('estimateTableController', function ($cookies, baseURL, $http, $scope, $stateParams, $rootScope) {
         $scope.tests = [
             {
                 category_work: 1,
@@ -58,6 +58,14 @@ angular.module('HMS')
             if (value)
                 return isNaN(value) ? value.replace('<br>', '') : parseFloat(value);
         };
+        $scope.addCategoryWork = function (workCode){
+            $http({
+                url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + workCode,
+                method: "POST"
+            }).then(function (response) {
+               alert(1);
+            });
+        }        
         if (!$rootScope.works)
             $http.get(baseURL + 'works').then(function (response) {
                 $rootScope.works = response.data;
