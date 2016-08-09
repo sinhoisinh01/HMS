@@ -56,7 +56,7 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                         templateUrl: 'views/workplace/tabs.html',
                         controller: 'TabsController'
                     }
-                },
+                }
 
             })
             .state('construction.category.table', {
@@ -87,20 +87,14 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 ngModel.$render = function () {
                     element.html(ngModel.$viewValue || '');
                 };
-                element.bind("focus keyup change", function () {
-                    $timeout(function () {
-                        scope.$apply(read);
-                        scope.searchWork.show = true;
-                        scope.searchWork.search = ngModel.$viewValue;
-                        scope.searchWork.left = element.prop('offsetLeft') + 'px';
-                        scope.searchWork.top = element.prop('offsetTop') + element.prop('offsetHeight') + 'px'
-                    });
+                element.bind("keyup change", function () {
+                    scope.$apply(read);
                 });
                 element.bind("blur", function () {
                     $timeout(function () {
                         scope.$apply(read);
-                        scope.searchWork.show = true;
-                        scope.searchWork.search = '';
+                        //scope.searchWork.show = false;
+                        scope.searchWork.search = {code: '', name: ''};
                     });
                 });
             }

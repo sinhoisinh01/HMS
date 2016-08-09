@@ -2,7 +2,7 @@
     <div class="input-group-addon"><span class="glyphicon glyphicon-pushpin"></span></div>
     <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div-->
-{{searchWork}}{{left}}{{top}}
+{{searchWork.search}}
 <table id="estimate_table">
     <thead>
     <tr>
@@ -20,25 +20,24 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="work in categoryWorks track by $index" context-menu="menuOptions">
-            <td ng-init="index = $index">{{$index + 1}}</td>
-            <td ng-repeat="field in ['code', 'name']" contenteditable
-                ng-model="work[field]" ng-click="cellFocused(index,field,work[field])"
-                ng-change="cellChanged(work[field])"></td>
-            <td>{{work.unit}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td contenteditable ng-model="work.value" ng-blur=""></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>{{categoryWorks.length+1}}</td>
-            <td contenteditable ng-model="newLine" ng-change="cellChanged(newLine)"></td>
-            <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]" index="$index"></td>
-        </tr>
+    <tr ng-repeat="work in categoryWorks track by $index" context-menu="menuOptions">
+        <td contenteditable ng-model="work.no"></td>
+        <td contenteditable ng-model="work.code" ng-click=cellFocused($event) ng-change="searchReplaceWork('code', work.code)"></td>
+        <td contenteditable ng-model="work.name" ng-click=cellFocused($event) ng-change="searchReplaceWork('name', work.name)"></td>
+        <td>{{work.unit}}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td contenteditable ng-model="work.value" ng-change="replaceValue(work.name)"></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>{{categoryWorks.length+1}}</td>
+        <td contenteditable ng-model="newLine" ng-click=cellFocused($event) ng-change="searchAddWork(newLine)"></td>
+        <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
+    </tr>
     </tbody>
 </table>
 <div id="works_table" ng-style="{top: searchWork.top, left: searchWork.left}" ng-show="searchWork.show">
@@ -56,7 +55,7 @@
             <td>{{work.code}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
-            <td><button ng-click="addWork(work.code)" class="btn btn-primary">Add</button></td>
+            <td><button ng-click="addWork(work)" class="btn btn-primary">Add</button></td>
         </tr>
         </tbody>
     </table>

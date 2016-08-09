@@ -9,46 +9,26 @@ angular.module('HMS')
             $uibModal.open({
                 templateUrl: 'views/modals/addCategory.html'
             }).result.then(function (name) {
-                $http({
-                    url: baseURL + 'category',
-                    method: "POST",
-                    params: {
-                        name: name,
-                        construction_id: $stateParams.construction_id
-                    }
-                }).then(function (response) {
-                    $scope.categories.push(response.data);
-                });
+                $http.post(baseURL + 'category', {name: name, construction_id: $stateParams.construction_id})
+                    .then(function (response) {
+                        $scope.categories.push(response.data);
+                    });
             });
         };
-        $scope.edit = function (id, name) {
-            $scope.name = name;
-            $scope.oldName = name;
+        $scope.edit = function (index, id, name) {
+            $scope.name = $scope.oldName = name;
             $uibModal.open({
                 templateUrl: 'views/modals/editCategory.html',
                 scope: $scope
             }).result.then(function (name) {
-                $http({
-                    url: baseURL + 'category/' + id,
-                    method: "PUT",
-                    params: {name: name}
+                $http.put(baseURL + 'category/' + id, {name: name}).then(function () {
+                    $scope.categories[index].name = name;
                 });
-                for (var c in $scope.categories) {
-                    if ($scope.categories[c].id === $scope.id) {
-                        $scope.categories[c].name = name;
-                        break;
-                    }
-                }
             });
         };
-        $scope.remove = function (category_id) {
+        $scope.remove = function (index, category_id) {
             $http.delete(baseURL + 'category/' + category_id).then(function () {
-                for (var c in $scope.categories) {
-                    if ($scope.categories[c].id === category_id) {
-                        $scope.categories.splice(c, 1);
-                        break;
-                    }
-                }
+                $scope.categories.splice(index, 1);
             });
         };
     });
