@@ -32,9 +32,9 @@ class CategoryWorkController extends Controller
             else $no++;
             // find the proper order number for work if it does not exist
         }
-        return response()->json(
-            CategoryWork::create(['category_id' => $category_id, 'work_code' => $work_code, 'no' => $no, 'value' => 0])
-        );
+        CategoryWork::create(['category_id' => $category_id, 'work_code' => $work_code, 'no' => $no, 'value' => 0]);
+		
+		return $this->getWorks($category_id);
     }
 
     function get($category_id, $work_code)
@@ -50,5 +50,6 @@ class CategoryWorkController extends Controller
     function remove($category_id, $work_code)
     {
         CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->delete();
+		return $this->getWorks($category_id);
     }
 }

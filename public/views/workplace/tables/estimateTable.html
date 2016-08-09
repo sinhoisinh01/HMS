@@ -20,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="work in categoryWorks track by $index">
+        <tr ng-repeat="work in categoryWorks track by $index" context-menu="menuOptions">
             <td ng-init="index = $index">{{$index + 1}}</td>
             <td ng-repeat="field in ['code', 'name']" contenteditable
                 ng-model="work[field]" ng-click="cellFocused(index,field,work[field])"

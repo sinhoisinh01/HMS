@@ -1,5 +1,5 @@
 // Demo App
-angular.module('app')
+angular.module('app', ['ui.bootstrap.contextMenu'])
 
 .controller('DemoController', [
     '$scope',

@@ -3,6 +3,7 @@ angular.module('HMS')
         $http.get(baseURL + 'categoryWorks/' + $stateParams.category_id)
             .then(function (response) {
                 $scope.categoryWorks = response.data;
+				console.log(response.data);
             });
         $scope.searchWork = {show : false, search : '', top : '', left : ''};
         /*$scope.inputChanged = function (value) {
@@ -23,10 +24,26 @@ angular.module('HMS')
             });
         $scope.addWork = function (code) {
             $http({
-                url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + workCode,
+                url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + code,
                 method: "POST"
             }).then(function (response) {
-               alert('success');
+                $scope.categoryWorks = response.data;
             });
         };
+		
+		/*Estimate Table Context Menu*/
+		$scope.menuOptions = [
+            ['Add New Row', function ($itemScope) {
+                alert("Add new row");
+            }],
+            null,
+            ['Delete Row', function ($itemScope) {
+                $http({
+					url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.work.code,
+					method: "DELETE"
+				}).then(function(response) {
+					$scope.categoryWorks = response.data;
+				});
+            }]
+        ];
     });
