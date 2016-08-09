@@ -20,13 +20,7 @@ class CategoryWorkController extends Controller
         $no = 1;
         $allCategoryWorks = CategoryWork::where('category_id', $category_id)->get();
         foreach($allCategoryWorks as $a)
-        {
-            if($a['work_code'] == $work_code)
-            {
-                CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->increment('value');
-                return 1;
-                // if work has already existed, increase the value by 1 then break;
-            }    
+        {  
             if($no != $a['no'])
                 break;
             else $no++;
@@ -45,6 +39,7 @@ class CategoryWorkController extends Controller
     function update(Request $request, $category_id, $work_code)
     {
         CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->update(['value' => $request->input('value')]);
+		return $this->getWorks($category_id);
     }
 
     function remove($category_id, $work_code)

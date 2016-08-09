@@ -23,7 +23,15 @@ angular.module('HMS')
                 $rootScope.works = response.data;
             });
         $scope.addWork = function (code) {
-            $http({
+            for (w in $scope.categoryWorks)
+			{
+				if ($scope.categoryWorks[w].code == code)
+				{
+					alert(code + " have already exist!!!");
+					return 0;
+				}
+			}
+			$http({
                 url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + code,
                 method: "POST"
             }).then(function (response) {
