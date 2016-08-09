@@ -15,7 +15,7 @@ class ResourceWork extends Migration
         Schema::create('resource_work', function (Blueprint $table) {
             $table->string('resource_code');
             $table->string('work_code');
-            $table->integer('amount');
+            $table->float('amount');
             $table->primary(['resource_code', 'work_code']);
             $table->foreign('resource_code')->references('code')->on('resources')->onDelete('cascade');
             $table->foreign('work_code')->references('code')->on('works')->onDelete('cascade');

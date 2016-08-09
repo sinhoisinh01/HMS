@@ -7,16 +7,16 @@
     <thead>
     <tr>
         <th>&nbsp</th>
-        <th>Mã công tác</th>
-        <th>Tên công tác/ Diễn giải</th>
-        <th>Đơn vị</th>
-        <th>Số lượng</th>
-        <th>Dài</th>
-        <th>Rộng</th>
-        <th>Cao</th>
-        <th>Khối lượng</th>
-        <th>Đơn giá</th>
-        <th>Thành tiền</th>
+        <th>Work code</th>
+        <th>Work name/ Description</th>
+        <th>Unit</th>
+        <th>Amount</th>
+        <th>Length</th>
+        <th>Width</th>
+        <th>Height</th>
+        <th>Value</th>
+        <th>Unit price</th>
+        <th>Total price</th>
     </tr>
     </thead>
     <tbody>
@@ -29,7 +29,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td contenteditable ng-model="work.value" ng-change="replaceValue(work.name)"></td>
+        <td contenteditable ng-model="work.value" ng-focus="oldValue = work.value" ng-blur="replaceValue($index, work.value, oldValue)"></td>
         <td></td>
         <td></td>
     </tr>

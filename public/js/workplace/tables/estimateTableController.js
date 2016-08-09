@@ -20,7 +20,17 @@ angular.module('HMS')
             $scope.searchAddWork = function (value) {
                 $scope.searchWork.search = value.replace('<br>', '').replace('&lt;', '<').replace('&gt;', '>');
             };
-            $scope.replaceValue = function () {
+            $scope.replaceValue = function (index, newValue, oldValue) {
+                if(isNaN(newValue))
+                    $scope.categoryWorks[index].value = oldValue;
+                else
+                    $http({
+                        url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.categoryWorks[index].code,
+                        method: 'PUT',
+                        params: {value:newValue}
+                    }).then(function () {
+                        
+                    });      
             };
             if (!$rootScope.works)
                 $http.get(baseURL + 'works').then(function (response) {
