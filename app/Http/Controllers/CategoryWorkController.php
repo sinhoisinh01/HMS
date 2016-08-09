@@ -10,7 +10,9 @@ class CategoryWorkController extends Controller
 {
     function getWorks($category_id)
     {
-        return response()->json(CategoryWork::where('category_id', $category_id)->get());
+        return response()->json(CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
+		->select('category_work.no', 'works.*', 'category_work.value')
+		->where('category_id', $category_id)->get());
     }
 
     function add($category_id, $work_code)
@@ -21,9 +23,9 @@ class CategoryWorkController extends Controller
         {
             if($a['work_code'] == $work_code)
             {
-                CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->increment('amount');
+                CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->increment('value');
                 return 1;
-                // if work has already existed, increase the amount by 1 then break;
+                // if work has already existed, increase the value by 1 then break;
             }    
             if($no != $a['no'])
                 break;
@@ -31,7 +33,7 @@ class CategoryWorkController extends Controller
             // find the proper order number for work if it does not exist
         }
         return response()->json(
-            CategoryWork::create(['category_id' => $category_id, 'work_code' => $work_code, 'no' => $no, 'amount' => 0])
+            CategoryWork::create(['category_id' => $category_id, 'work_code' => $work_code, 'no' => $no, 'value' => 0])
         );
     }
 

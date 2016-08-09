@@ -16,7 +16,7 @@ class CategoryWork extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('work_code');
             $table->integer('no');
-            $table->float('amount');
+            $table->float('value');
             $table->primary(['category_id', 'work_code']);
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('work_code')->references('code')->on('works')->onDelete('cascade');

@@ -8,6 +8,8 @@ class Work extends Model
 {
     protected $guarded = [];
 
+	protected $hidden = ['document'];
+
     public $timestamps = false;
 
     public function categories()
