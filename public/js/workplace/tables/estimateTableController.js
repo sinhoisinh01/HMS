@@ -5,6 +5,7 @@ angular.module('HMS')
                     $scope.categoryWorks = response.data;
                 });
             $scope.searchWork = {show: false, search: {code:'',name:''}, top: '', left: ''};
+			$scope.editWorkParams = {isEditing: true, workIndex: -1, oldWorkCode:''};
             /*$scope.inputChanged = function (value) {
              if ($scope.field)
              $scope.searchWork.search = $scope.categoryWorks[$scope.index][$scope.field] = value;
@@ -45,10 +46,35 @@ angular.module('HMS')
                 }
                 $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + work.code, {})
                     .then(function () {
-                        work.value = work.no = 0;
+                        work.value = 0;
+						work.no = $scope.categoryWorks.length+1;
                         $scope.categoryWorks.push(work);
                     });
             };
+			
+			$scope.focusToEdit = function(index)
+			{
+				$scope.editWorkParams.isEditing=true; 
+				$scope.editWorkParams.workIndex=index;
+				$scope.editWorkParams.oldWorkCode=$scope.categoryWorks[index].code;
+			}
+			
+			$scope.editWork = function (work) {
+                for (var i in $scope.categoryWorks) {
+                    if (i!=$scope.editWorkParams.workIndex && $scope.categoryWorks[i].code === work.code) {
+                        alert(work.code + " already exist!!!");
+                        return;
+                    }
+                }
+				console.log($scope.editWorkParams.workIndex+1);
+				$http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.editWorkParams.oldWorkCode + "/" + work.code, {no: $scope.editWorkParams.workIndex+1})
+					.then(function() {
+						$scope.categoryWorks[$scope.editWorkParams.workIndex] = work;
+						work.value = 0;
+						work.no = $scope.editWorkParams.workIndex+1;
+					});
+            };
+			
             /*Estimate Table Context Menu*/
             $scope.menuOptions = [
                 ['Add New Row', function ($itemScope) {
@@ -56,9 +82,14 @@ angular.module('HMS')
                 }],
                 null,
                 ['Delete Row', function ($itemScope) {
-                    $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.work.code)
+                    $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.work.code + "/" + $itemScope.work.no)
                         .then(function () {
-                            $scope.categoryWorks.splice($itemScope.$index, 1);
+							console.log($itemScope.$index);
+							for (i=$itemScope.$index; i<$scope.categoryWorks.length; i++)
+								$scope.categoryWorks[i].no--;
+							$scope.categoryWorks.splice($itemScope.$index, 1);
+							console.log($scope.categoryWorks);
+							console.log($scope.categoryWorks.length);
                         });
                 }]
             ];
