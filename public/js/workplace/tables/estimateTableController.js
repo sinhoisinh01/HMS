@@ -66,7 +66,6 @@ angular.module('HMS')
                         return;
                     }
                 }
-				console.log($scope.editWorkParams.workIndex+1);
 				$http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.editWorkParams.oldWorkCode + "/" + work.code, {no: $scope.editWorkParams.workIndex+1})
 					.then(function() {
 						$scope.categoryWorks[$scope.editWorkParams.workIndex] = work;
@@ -84,12 +83,9 @@ angular.module('HMS')
                 ['Delete Row', function ($itemScope) {
                     $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.work.code + "/" + $itemScope.work.no)
                         .then(function () {
-							console.log($itemScope.$index);
 							for (i=$itemScope.$index; i<$scope.categoryWorks.length; i++)
 								$scope.categoryWorks[i].no--;
 							$scope.categoryWorks.splice($itemScope.$index, 1);
-							console.log($scope.categoryWorks);
-							console.log($scope.categoryWorks.length);
                         });
                 }]
             ];
