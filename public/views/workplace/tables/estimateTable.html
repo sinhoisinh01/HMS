@@ -2,11 +2,11 @@
     <div class="input-group-addon"><span class="glyphicon glyphicon-pushpin"></span></div>
     <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div-->
-{{searchWork.search}}
+<p>{{worksWindow}}</p>
 <table id="estimate_table">
     <thead>
     <tr>
-        <th>&nbsp</th>
+        <th>#</th>
         <th>Work code</th>
         <th>Work name/ Description</th>
         <th>Unit</th>
@@ -20,27 +20,28 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="work in categoryWorks track by $index" context-menu="menuOptions">
-        <td>{{work.no}}</td>
-        <td contenteditable ng-model="work.code" ng-click=cellFocused($event) ng-change="searchReplaceWork('code', work.code)" ng-focus="focusToEdit($index)"></td>
-        <td contenteditable ng-model="work.name" ng-click=cellFocused($event) ng-change="searchReplaceWork('name', work.name)" ng-focus="focusToEdit($index)"></td>
-        <td>{{work.unit}}</td>
+    <tr ng-repeat="categoryWork in categoryWorks track by $index" context-menu="menuOptions">
+        <td>{{categoryWork.no}}</td>
+        <td contenteditable ng-model="categoryWork.code" ng-focus="cellFocused($event, categoryWork)" ng-change="searchWork('code', categoryWork.code)"></td>
+        <td contenteditable ng-model="categoryWork.name" ng-focus="cellFocused($event, categoryWork)" ng-change="searchWork('name', categoryWork.name)"></td>
+        <td>{{categoryWork.unit}}</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td contenteditable ng-model="work.value" ng-focus="oldValue = work.value" ng-blur="replaceValue($index, work.value, oldValue)"></td>
-        <td></td>
-        <td></td>
+        <td contenteditable ng-model="work.value" ng-focus="oldValue = categoryWork.value" ng-blur="replaceValue($index, categoryWork.value, oldValue)"></td>
+        <td>{{categoryWork.price}}</td>
+        <td>{{categoryWork.price*categoryWork.value}}</td>
     </tr>
     <tr>
         <td>{{categoryWorks.length+1}}</td>
-        <td contenteditable ng-model="newLine" ng-click=cellFocused($event) ng-change="searchAddWork(newLine)" ng-focus="editWorkParams.isEditing=false"></td>
+        <td contenteditable ng-model="newLine" ng-focus="cellFocused($event, null)" ng-change="searchWork('$',newLine)"></td>
         <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
     </tr>
     </tbody>
 </table>
-<div id="works_table" ng-style="{top: searchWork.top, left: searchWork.left}" ng-show="searchWork.show">
+<div id="sum_money">Tổng chi phí: {{}} VNĐ</div>
+<div id="works_table" ng-style="{top: worksWindow.top, left: worksWindow.left}" ng-show="worksWindow.show">
     <table>
         <thead>
         <tr>
@@ -51,16 +52,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="work in works | filter:searchWork.search">
+        <tr ng-repeat="work in works | filter:worksWindow.search">
             <td>{{work.code}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
-            <td>
-			  <button ng-hide="editWorkParams.isEditing" ng-click="addWork(work)" class="btn btn-primary">Add</button>
-			  <button ng-show="editWorkParams.isEditing" ng-click="editWork(work)" class="btn btn-primary">Edit</button>
-			</td>
+            <td><button ng-mousedown="addWork(work)" class="btn btn-primary">{{worksWindow.method}}</button></td>
         </tr>
         </tbody>
     </table>
 </div>
-<div id="sum_money">Tổng chi phí: 0 VNĐ</div>

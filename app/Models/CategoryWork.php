@@ -10,5 +10,7 @@ class CategoryWork extends Model
 
     protected $guarded = [];
 
+    protected $hidden = ['document', 'supplier_id', 'category_id'];
+
 	public $timestamps = false;
 }

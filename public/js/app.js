@@ -76,13 +76,13 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 }
             })
     })
-    .directive('contenteditable', function ($timeout) {
+    .directive('contenteditable', function () {
         return {
             restrict: "A",
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 function read() {
-                    ngModel.$setViewValue(element.html().replace('<br>', ''));
+                    ngModel.$setViewValue(element.html());
                 }
                 ngModel.$render = function () {
                     element.html(ngModel.$viewValue || '');
@@ -91,11 +91,9 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                     scope.$apply(read);
                 });
                 element.bind("blur", function () {
-                    $timeout(function () {
-                        scope.$apply(read);
-                        //scope.searchWork.show = false;
-                        scope.searchWork.search = {code: '', name: ''};
-                    });
+                    scope.$apply(read);
+                    scope.worksWindow.show = false;
+                    scope.worksWindow.search = {code: '', name: ''};
                 });
             }
         };
