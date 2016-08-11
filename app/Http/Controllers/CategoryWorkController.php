@@ -64,15 +64,15 @@ class CategoryWorkController extends Controller
 
     function remove($category_id, $work_code)
     {
-        $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->first();
-        CategoryWork::where('category_id', $category_id)->where('no', '>', $toDelete->no)->decrement('no');
+        $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $work_code);
+        CategoryWork::where('category_id', $category_id)->where('no', '>', $toDelete->first()->no)->decrement('no');
         $toDelete->delete();
     }
 
-    function replace($category_id, $work_code, $new_work_code)
+    function replace($category_id, $old_work_code, $new_work_code)
     {
-        $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $work_code)->first();
-        CategoryWork::create(['category_id' => $category_id, 'work_code' => $new_work_code, 'no' => $toDelete->no, 'value' => 0]);
+        $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $old_work_code);
+        CategoryWork::create(['category_id' => $category_id, 'work_code' => $new_work_code, 'no' => $toDelete->first()->no, 'value' => 0]);
         $toDelete->delete();
         return($this->get($category_id, $new_work_code));
     }

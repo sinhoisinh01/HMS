@@ -82,7 +82,8 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
             require: 'ngModel',
             link: function (scope, element, attrs, ngModel) {
                 function read() {
-                    ngModel.$setViewValue(element.html());
+                    ngModel.$setViewValue(element.html() ? element.html().replace('<br>', '')
+                        .replace('&lt;', '<').replace('&gt;', '>') : '');
                 }
                 ngModel.$render = function () {
                     element.html(ngModel.$viewValue || '');
@@ -91,9 +92,8 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                     scope.$apply(read);
                 });
                 element.bind("blur", function () {
-                    scope.$apply(read);
-                    scope.worksWindow.show = false;
-                    scope.worksWindow.search = {code: '', name: ''};
+                    scope.$evalAsync(read);
+                    scope.$evalAsync(scope.worksWindow.show = false);
                 });
             }
         };

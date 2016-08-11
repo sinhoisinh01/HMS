@@ -10,20 +10,31 @@ angular.module('HMS')
                 $http.get(baseURL + 'works').then(function (response) {
                     $rootScope.works = response.data;
                 });
-            $scope.worksWindow = {show: false, search: {code: '', name: ''}, top: '', left: '', method: '', categoryWorkEdited: {}};
+            $scope.worksWindow = {
+                show: false,
+                search: {code: '', name: ''},
+                top: '',
+                left: '',
+                method: '',
+                categoryWorkEdited: {}
+            };
             /*$scope.inputChanged = function (value) {
              if ($scope.field)
              $scope.worksWindow.search = $scope.categoryWorks[$scope.index][$scope.field] = value;
              };*/
             $scope.cellFocused = function ($event, categoryWorkEdited) {
-                $scope.worksWindow.categoryWorkEdited = categoryWorkEdited;
-                $scope.worksWindow.method = angular.element($event.target)[0].attributes['ng-model'].value === 'newLine' ? 'Add' : 'Edit';
-                $scope.worksWindow.left = angular.element($event.target).prop('offsetLeft') + 'px';
-                $scope.worksWindow.top = angular.element($event.target).prop('offsetTop') + angular.element($event.target).prop('offsetHeight') + 'px';
-                $scope.worksWindow.show = true;
+                var cell = angular.element($event.target);
+                $scope.worksWindow = {
+                    show: true,
+                    search: {code: '', name: ''},
+                    top: cell.prop('offsetTop') + cell.prop('offsetHeight') + 'px',
+                    left: cell.prop('offsetLeft') + 'px',
+                    method: cell[0].attributes['ng-model'].value === 'newLine' ? 'Add' : 'Edit',
+                    categoryWorkEdited: categoryWorkEdited
+                };
             };
             $scope.searchWork = function (propriety, value) {
-                $scope.worksWindow.search[propriety] = value.replace('<br>', '').replace('&lt;', '<').replace('&gt;', '>');
+                $scope.worksWindow.search[propriety] = value;
             };
             $scope.addWork = function (work) {
                 for (var i in $scope.categoryWorks) {
@@ -43,14 +54,14 @@ angular.module('HMS')
                             $scope.categoryWorks.push(response.data);
                         });
             };
-            $scope.replaceValue = function (index, newValue, oldValue) {
-                if (isNaN(newValue))
+            $scope.replaceValue = function (index, oldValue) {
+                if (isNaN($scope.categoryWorks[index].value))
                     $scope.categoryWorks[index].value = oldValue;
                 else
                     $http({
                         url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.categoryWorks[index].code,
                         method: 'PUT',
-                        params: {value: newValue, no:  $scope.categoryWorks[index].no}
+                        params: {value: $scope.categoryWorks[index].value, no: $scope.categoryWorks[index].no}
                     })
             };
             /*Estimate Table Context Menu*/
@@ -60,7 +71,7 @@ angular.module('HMS')
                 }],
                 null,
                 ['Delete Row', function ($itemScope) {
-                    $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.work.code + "/" + $itemScope.work.no)
+                    $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.categoryWork.code, {no: $itemScope.categoryWork.no})
                         .then(function () {
                             for (i = $itemScope.$index; i < $scope.categoryWorks.length; i++)
                                 $scope.categoryWorks[i].no--;

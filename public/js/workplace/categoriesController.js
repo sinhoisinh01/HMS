@@ -21,7 +21,11 @@ angular.module('HMS')
                 templateUrl: 'views/modals/editCategory.html',
                 scope: $scope
             }).result.then(function (name) {
-                $http.put(baseURL + 'category/' + id, {name: name}).then(function () {
+                $http({
+                    url: baseURL + 'category/' + id,
+                    method: "PUT",
+                    params: {name: name}
+                }).then(function () {
                     $scope.categories[index].name = name;
                 });
             });
