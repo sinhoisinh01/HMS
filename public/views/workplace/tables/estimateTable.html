@@ -22,21 +22,23 @@
     <tbody>
     <tr ng-repeat="categoryWork in categoryWorks" context-menu="menuOptions">
         <td>{{categoryWork.no}}</td>
-        <td contenteditable ng-model="categoryWork.code" ng-click="cellFocused($event, categoryWork)" ng-change="searchWork('code', categoryWork.code)"></td>
-        <td contenteditable ng-model="categoryWork.name" ng-click="cellFocused($event, categoryWork)" ng-change="searchWork('name', categoryWork.name)"></td>
+        <td contenteditable ng-model="categoryWork.code" ng-click="cellFocused($event, categoryWork)"
+            ng-change="searchWork('code', categoryWork.code)" ng-blur="cellBlured($index)"></td>
+        <td contenteditable ng-model="categoryWork.name" ng-click="cellFocused($event, categoryWork)"
+            ng-change="searchWork('name', categoryWork.name)" ng-blur="cellBlured($index)"></td>
         <td>{{categoryWork.unit}}</td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
-        <td contenteditable ng-model="categoryWork.value" ng-click="oldValue = categoryWork.value" ng-blur="replaceValue($index, oldValue)"></td>
+        <td contenteditable ng-model="categoryWork.value" ng-click="focusReplaceValue($index)" ng-blur="replaceValue($index)"></td>
         <td>{{categoryWork.price}}</td>
         <td>{{categoryWork.price*categoryWork.value}}</td>
-
     </tr>
     <tr>
         <td>{{categoryWorks.length+1}}</td>
-        <td contenteditable ng-model="newLine" ng-click="cellFocused($event, null)" ng-change="searchWork('$',newLine)"></td>
+        <td contenteditable ng-model="newLine" ng-click="cellFocused($event, null)"
+            ng-change="searchWork('$',newLine)" ng-blur="cellBlured(null)"></td>
         <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
     </tr>
     </tbody>

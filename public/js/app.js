@@ -88,12 +88,8 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 ngModel.$render = function () {
                     element.html(ngModel.$viewValue || '');
                 };
-                element.bind("keyup change", function () {
+                element.bind("keyup change blur", function () {
                     scope.$apply(read);
-                });
-                element.bind("blur", function () {
-                    scope.$evalAsync(read);
-                    scope.$evalAsync(scope.worksWindow.show = false);
                 });
             }
         };

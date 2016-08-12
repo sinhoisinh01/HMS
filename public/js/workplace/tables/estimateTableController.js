@@ -12,11 +12,13 @@ angular.module('HMS')
                 });
             $scope.worksWindow = {
                 show: false,
-                search: {code: '', name: ''},
+                search: {code: '', name: '', $: ''},
                 top: '',
                 left: '',
                 method: '',
-                categoryWorkEdited: {}
+                oldCode: '',
+                oldName: '',
+                newWork: {}
             };
             /*$scope.inputChanged = function (value) {
              if ($scope.field)
@@ -26,37 +28,54 @@ angular.module('HMS')
                 var cell = angular.element($event.target);
                 $scope.worksWindow = {
                     show: true,
-                    search: {code: '', name: ''},
+                    search: {code: '', name: '', $: ''},
                     top: cell.prop('offsetTop') + cell.prop('offsetHeight') + 'px',
                     left: cell.prop('offsetLeft') + 'px',
-                    method: cell[0].attributes['ng-model'].value === 'newLine' ? 'Add' : 'Edit',
-                    categoryWorkEdited: categoryWorkEdited
+                    method: categoryWorkEdited ? 'Edit' : 'Add',
+                    oldCode: categoryWorkEdited ? categoryWorkEdited.code : '',
+                    oldName: categoryWorkEdited ? categoryWorkEdited.name : '',
+                    newWork: null
                 };
             };
-            $scope.searchWork = function (propriety, value) {
-                $scope.worksWindow.search[propriety] = value;
+            $scope.searchWork = function (property, value) {
+                $scope.worksWindow.search[property] = value;
             };
             $scope.addWork = function (work) {
-                for (var i in $scope.categoryWorks) {
-                    if ($scope.categoryWorks[i].code === work.code) {
-                        alert(work.code + " already exist!!!");
-                        return;
-                    }
-                }
-                if ($scope.worksWindow.categoryWorkEdited)
-                    $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.worksWindow.categoryWorkEdited.code + "/" + work.code, {})
-                        .then(function (response) {
-                            $scope.categoryWorks[$scope.worksWindow.categoryWorkEdited.no - 1] = response.data;
-                        });
-                else
-                    $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + work.code, {})
-                        .then(function (response) {
-                            $scope.categoryWorks.push(response.data);
-                        });
+                $scope.worksWindow.newWork = work;
             };
-            $scope.replaceValue = function (index, oldValue) {
+            $scope.cellBlured = function (index) {
+                if ($scope.worksWindow.newWork) {
+                    for (var i in $scope.categoryWorks) {
+                        if ($scope.categoryWorks[i].code === $scope.worksWindow.newWork.code) {
+                            alert($scope.worksWindow.newWork.code + " already exist!!!");
+                            $scope.worksWindow.show = false;
+                            return;
+                        }
+                    }
+                    if ($scope.worksWindow.oldCode)
+                        $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/"
+                            + $scope.worksWindow.oldCode + "/" + $scope.worksWindow.newWork.code, {})
+                            .then(function (response) {
+                                $scope.categoryWorks[index] = response.data;
+                            });
+                    else
+                        $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.worksWindow.newWork.code, {})
+                            .then(function (response) {
+                                $scope.categoryWorks.push(response.data);
+                            });
+                } else if (index !== null) {
+                    $scope.categoryWorks[index].name = $scope.worksWindow.oldName;
+                    $scope.categoryWorks[index].code = $scope.worksWindow.oldCode;
+                    //console.log($scope.categoryWorks[index].name);
+                }
+                $scope.worksWindow.show = false;
+            };
+            $scope.focusReplaceValue = function (index) {
+                $scope.categoryWorks[index].oldValue = $scope.categoryWorks[index].value;
+            };
+            $scope.replaceValue = function (index) {
                 if (isNaN($scope.categoryWorks[index].value))
-                    $scope.categoryWorks[index].value = oldValue;
+                    $scope.categoryWorks[index].value = $scope.categoryWorks[index].oldValue;
                 else
                     $http({
                         url: baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $scope.categoryWorks[index].code,
