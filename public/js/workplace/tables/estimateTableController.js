@@ -29,8 +29,9 @@ angular.module('HMS')
                 $scope.worksWindow = {
                     show: true,
                     search: {code: '', name: '', $: ''},
-                    top: cell.prop('offsetTop') + cell.prop('offsetHeight') + 'px',
-                    left: cell.prop('offsetLeft') + 'px',
+                    top: (cell.prop('offsetParent').offsetTop
+					+ cell.prop('offsetParent').offsetHeight) + 'px',
+                    left: cell.prop('offsetParent').offsetLeft + 'px',
                     method: categoryWorkEdited ? 'Edit' : 'Add',
                     oldCode: categoryWorkEdited ? categoryWorkEdited.code : '',
                     oldName: categoryWorkEdited ? categoryWorkEdited.name : '',

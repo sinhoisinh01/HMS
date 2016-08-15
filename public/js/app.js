@@ -76,22 +76,4 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 }
             })
     })
-    .directive('contenteditable', function () {
-        return {
-            restrict: "A",
-            require: 'ngModel',
-            link: function (scope, element, attrs, ngModel) {
-                function read() {
-                    ngModel.$setViewValue(element.html() ? element.html().replace('<br>', '')
-                        .replace('&lt;', '<').replace('&gt;', '>') : '');
-                }
-                ngModel.$render = function () {
-                    element.html(ngModel.$viewValue || '');
-                };
-                element.bind("keyup change blur", function () {
-                    scope.$apply(read);
-                });
-            }
-        };
-    });
   
