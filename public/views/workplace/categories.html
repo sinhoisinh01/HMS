@@ -9,7 +9,7 @@
 			<input class="form-control input-sm" placeholder="Tìm hạng mục" id="input_search_category" type="text" ng-model="input_search_category">
 		</div>
 		<div id="category_content">
-			<img class="open_option_thumbnail" src="images/add_icon_sm.png" ng-click="add()">
+			<a ng-click="add()"><img src="images/add_icon_sm.png">New Category</a>
 			<div class="category_item" ng-repeat="category in categories | filter:{name : input_search_category}">
 				<i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
 				<div class="category_options">

@@ -358,7 +358,6 @@ i{cursor:pointer;}
 	margin:5px;
 }
 #estimate_table td{
-	cursor:cell;
 	border-top:none
 }
 #estimate_table th, #estimate_table td{
@@ -806,4 +805,11 @@ i{cursor:pointer;}
 @media screen and (max-width: 490px)
 {
 	#tai_khoan{width:60%}
+}
+
+.clickable {
+	cursor:pointer;
+}
+.non_editable {
+	cursor:default;
 }
