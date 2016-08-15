@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $rootScope, $uibModal) {
+    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $rootScope, $uibModal, $location) {
         $rootScope.isCollapsedCategories = false;
         $http.get(baseURL + 'categories/' + $stateParams.construction_id)
             .then(function (response) {
@@ -31,9 +31,14 @@ angular.module('HMS')
             });
         };
         $scope.remove = function (index, category_id) {
-            $http.delete(baseURL + 'category/' + category_id).then(function () {
-                $scope.categories.splice(index, 1);
-            });
+            if (confirm("Are you sure you want to delete this category?"))
+			{
+				$http.delete(baseURL + 'category/' + category_id).then(function () {
+					$scope.categories.splice(index, 1);
+					if ($location.path().indexOf('category/' + category_id) != -1)
+					  $location.path('/construction/' + $stateParams.construction_id);
+				});
+			}
         };
     });
 	
