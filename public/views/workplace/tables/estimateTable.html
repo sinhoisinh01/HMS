@@ -20,7 +20,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr ng-repeat="categoryWork in categoryWorks" context-menu="menuOptions">
+    <tr ng-repeat-start="categoryWork in categoryWorks" context-menu="menuOptions">
         <td>{{categoryWork.no}}</td>
         <td>
 		  <input class="input_in_cells" ng-model="categoryWork.code" ng-click="cellFocused($event, categoryWork)"
@@ -40,7 +40,23 @@
 		</td>
         <td>{{categoryWork.price}}</td>
         <td>{{categoryWork.price*categoryWork.value}}</td>
-    </tr>
+		
+		<tr ng-repeat="des in categoryWork.descriptions" ng-repeat-end>
+			<td></td>
+			<td></td>
+			<td>
+			  <input class="input_in_cells" ng-model="des.content">
+			</td>
+			<td></td>
+			<td><input class="input_in_cells" ng-model="des.amount"></td>
+			<td><input class="input_in_cells" ng-model="des.length"></td>
+			<td><input class="input_in_cells" ng-model="des.width"></td>
+			<td><input class="input_in_cells" ng-model="des.height"></td>
+			<td>{{des.amount*des.length*des.width*des.height}}</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</tr>
     <tr>
         <td>{{categoryWorks.length+1}}</td>
         <td>

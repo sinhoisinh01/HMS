@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CategoryWork;
 use Illuminate\Http\Request;
+use App\Models\Description;
 
 class CategoryWorkController extends Controller
 {
@@ -24,8 +25,12 @@ class CategoryWorkController extends Controller
                     return $resource->price = $resource->price * $resource->amount;
                 })->sum();
             })->toArray();
+		$descriptions = Description::where('category_id', $category_id)->get()->groupBy('work_code')->toArray();
 		foreach ($works as $work){
-			$work->price = $prices[$work->code];
+			if (array_key_exists($work->code,$prices))
+			    $work->price = $prices[$work->code];
+			if (array_key_exists($work->code,$descriptions))
+			    $work->descriptions = $descriptions[$work->code];
 		}
         return response()->json($works);
     }

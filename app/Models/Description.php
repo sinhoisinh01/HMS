@@ -9,6 +9,8 @@ class Description extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+	
+	protected $hidden = ['id', 'category_id'];
 
     public function category_work()
     {
