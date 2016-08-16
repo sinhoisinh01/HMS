@@ -82,7 +82,12 @@ i{cursor:pointer;}
     margin: 0 auto;
 	height:100%;
 }
-
+#homeContainer .fa-plus-circle, #homeContainer .fa-th {
+	color:#009ae1;
+}
+#category_content .fa-plus-circle {
+	color:#009ae1;
+}
 /* trang du toan */
 #main{
 	width:100%;
