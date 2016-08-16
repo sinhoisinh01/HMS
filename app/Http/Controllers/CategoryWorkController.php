@@ -23,12 +23,10 @@ class CategoryWorkController extends Controller
                 return $work->transform(function ($resource) {
                     return $resource->price = $resource->price * $resource->amount;
                 })->sum();
-            });
-        $works = $works->zip($prices)
-            ->transform(function ($work) {
-                $work[0]->price = $work[1];
-                return $work[0];
-            });
+            })->toArray();
+		foreach ($works as $work){
+			$work->price = $prices[$work->code];
+		}
         return response()->json($works);
     }
 

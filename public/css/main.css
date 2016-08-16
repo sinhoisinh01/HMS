@@ -815,6 +815,3 @@ i{cursor:pointer;}
 .clickable {
 	cursor:pointer;
 }
-.non_editable {
-	cursor:default;
-}
