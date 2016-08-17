@@ -5,7 +5,6 @@ angular.module('HMS')
                     $scope.categoryWorks = response.data.sort(function (a, b) {
                         return a.no - b.no
                     });
-					console.log($scope.categoryWorks);
                 });
             if (!$rootScope.works)
                 $http.get(baseURL + 'works').then(function (response) {

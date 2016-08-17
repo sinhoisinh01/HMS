@@ -37,10 +37,11 @@
 <div ui-view="menu"></div>
 <div ui-view="toolbar"></div>
 <div ui-view="categories"></div>
-<div ui-view="content"></div>
-<div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'">
+<div ui-view="content" class="container-full">
+    <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="mainTable">
     <div ui-view="tabs"></div>
-	<div ui-view="table"></div>
+    <div ui-view="table"></div>
+</div>
 </div>
 </body>
 </html>
