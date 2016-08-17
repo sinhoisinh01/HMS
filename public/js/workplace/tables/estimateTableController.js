@@ -5,7 +5,6 @@ angular.module('HMS')
                     $scope.categoryWorks = response.data.sort(function (a, b) {
                         return a.no - b.no
                     });
-					console.log($scope.categoryWorks);
                 });
             if (!$rootScope.works)
                 $http.get(baseURL + 'works').then(function (response) {
@@ -21,6 +20,7 @@ angular.module('HMS')
                 oldName: '',
                 newWork: {}
             };
+			$scope.newDes = {};
             /*$scope.inputChanged = function (value) {
              if ($scope.field)
              $scope.worksWindow.search = $scope.categoryWorks[$scope.index][$scope.field] = value;
@@ -85,19 +85,69 @@ angular.module('HMS')
                         params: {value: $scope.categoryWorks[index].value, no: $scope.categoryWorks[index].no}
                     })
             };
+			
+			$scope.calculateValue = function(index) {
+				/*if ($scope.categoryWorks[index].descriptions)
+				{
+					
+				}*/
+			};
+			
+			$scope.calculateDesValue = function() {
+			  var value = 1;
+			  if ($scope.newDes.amount && $scope.newDes.amount != 0) 
+				value *= $scope.newDes.amount;
+			  if ($scope.newDes.length && $scope.newDes.length != 0) 
+				value *= $scope.newDes.length;
+			  if ($scope.newDes.width && $scope.newDes.width != 0) 
+				value *= $scope.newDes.width;
+			  if ($scope.newDes.height && $scope.newDes.height != 0) 
+				value *= $scope.newDes.height;
+			  if (value==1) value = '';
+			  return value;
+			};
+			
+			$scope.addDescription = function(e, index) {
+				if (e.keyCode == 13)
+				{
+					var description = $scope.newDes;
+					description.category_id = $stateParams.category_id;
+					description.work_code = $scope.categoryWorks[index].work_code;
+					$http.post(baseURL + 'descriptions', {description:description})
+						.then(function () {
+						  $scope.categoryWorks[index].descriptions.push($scope.newDes);
+						  $scope.newDes = {};
+						});
+				}
+			};
+			
             /*Estimate Table Context Menu*/
             $scope.menuOptions = [
-                ['Add New Row', function ($itemScope) {
-                    alert("ToDo");
+				['Add Descriptions', function ($itemScope) {
+                    $itemScope.categoryWork.addDescriptions = true;
                 }],
                 null,
                 ['Delete Row', function ($itemScope) {
-                    $http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.categoryWork.code, {no: $itemScope.categoryWork.no})
-                        .then(function () {
-                            for (i = $itemScope.$index; i < $scope.categoryWorks.length; i++)
-                                $scope.categoryWorks[i].no--;
-                            $scope.categoryWorks.splice($itemScope.$index, 1);
-                        });
+                    if ($itemScope.des) {
+						$http.delete(baseURL + 'descriptions/' + $stateParams.category_id + '/' + $itemScope.des.work_code + '/' + $itemScope.des.content, {})
+						.then(function () {
+						  $itemScope.categoryWork.descriptions
+							.forEach(function(element, index) {
+								if (element.content === $itemScope.des.content)
+								{
+									$itemScope.categoryWork.descriptions.splice(index, 1);
+								}
+							});
+						});
+					}
+					else {
+						$http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.categoryWork.code, {no: $itemScope.categoryWork.no})
+							.then(function () {
+								for (i = $itemScope.$index; i < $scope.categoryWorks.length; i++)
+									$scope.categoryWorks[i].no--;
+								$scope.categoryWorks.splice($itemScope.$index, 1);
+							});
+					}
                 }]
             ];
         }

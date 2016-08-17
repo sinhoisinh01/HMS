@@ -45,6 +45,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->put('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update');
         $app->delete('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
         $app->post('/categoryWork/{category_id}/{old_work_code}/{new_work_code}', 'CategoryWorkController@replace');
+		
+		$app->post('/descriptions', 'DescriptionController@add');
+		$app->delete('/descriptions/{category_id}/{work_code}/{content}', 'DescriptionController@remove');
 
         $app->get('/suppliers', 'SupplierController@getAll');
         $app->get('/supplier/{id}', 'SupplierController@get');

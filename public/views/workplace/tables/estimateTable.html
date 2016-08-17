@@ -3,7 +3,7 @@
     <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div-->
 <p>{{worksWindow}}</p>
-<table id="estimate_table">
+<table id="estimateTable">
     <thead>
     <tr>
         <th>#</th>
@@ -41,7 +41,7 @@
         <td>{{categoryWork.price}}</td>
         <td>{{categoryWork.price*categoryWork.value}}</td>
 		
-		<tr ng-repeat="des in categoryWork.descriptions" ng-repeat-end>
+		<tr ng-repeat="des in categoryWork.descriptions" context-menu="menuOptions">
 			<td></td>
 			<td></td>
 			<td>
@@ -56,6 +56,21 @@
 			<td></td>
 			<td></td>
 		</tr>
+		<tr ng-show="categoryWork.addDescriptions" context-menu="menuOptions" ng-repeat-end>
+			<td></td>
+			<td></td>
+			<td>
+			  <input class="input_in_cells" ng-model="newDes.content">
+			</td>
+			<td></td>
+			<td><input class="input_in_cells" ng-model="newDes.amount"></td>
+			<td><input class="input_in_cells" ng-model="newDes.length"></td>
+			<td><input class="input_in_cells" ng-model="newDes.width"></td>
+			<td><input class="input_in_cells" ng-model="newDes.height" ng-keypress="addDescription($event, $index)"></td>
+			<td>{{calculateDesValue()}}</td>
+			<td></td>
+			<td></td>
+		</tr>
 	</tr>
     <tr>
         <td>{{categoryWorks.length+1}}</td>
@@ -67,8 +82,8 @@
     </tr>
     </tbody>
 </table>
-<div id="sum_money">Tổng chi phí: {{}} VNĐ</div>
-<div id="works_table" ng-style="{top: worksWindow.top, left: worksWindow.left}" ng-show="worksWindow.show">
+<div id="sumMoney">Tổng chi phí: {{}} VNĐ</div>
+<div id="worksTable" ng-style="{top: worksWindow.top, left: worksWindow.left}" ng-show="worksWindow.show">
     <table>
         <thead>
         <tr>
