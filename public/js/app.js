@@ -75,5 +75,5 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                     table: 'estimate'
                 }
             })
-    })
+    });
   

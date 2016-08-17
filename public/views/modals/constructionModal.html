@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <button type="button" ng-click="$dismiss()" class="close">&times;</button>
+    <h2 class="modal-title">Tạo công trình mới</h2>
+</div>
+<div class="modal-body">
+    <form name="constructionForm">
+        <h3>Thông tin chung</h3>
+        <div class="form-group"
+             ng-class="{ 'has-error' : constructionForm.constructionName.$error.required && constructionForm.constructionName.$dirty }">
+            <label>Tên công trình*</label>
+            <input name="constructionName" ng-model="construction.name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>Địa điểm</label>
+            <div class="form-inline">
+                <input ng-model="construction.address" size="58" class="form-control">
+                <select ng-model="construction.supplier" class="form-control"
+                        ng-options="supplier.name for supplier in suppliers track by supplier.id" required>
+                    <option value="" selected disabled>-Tỉnh/ thành-</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Chủ đầu tư</label>
+            <input ng-model="construction.investor" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Đơn vị thực hiện</label>
+            <input ng-model="construction.contractor" class="form-control">
+        </div>
+        <h3>Loại công trình</h3>
+        <div class="form-group">
+            <label>Loại công trình</label>
+            <select ng-model="construction.type" class="form-control"
+                    ng-options="x for x in ['Dân dụng', 'Công nghiệp', 'Giao thông', 'Thủy lợi', 'Hạ tầng kỹ thuật']">
+                <option value="" selected disabled>- Chọn loại công trình -</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Loại thiết kế</label>
+            <select ng-model="construction.design_type" class="form-control"
+                    ng-options="x for x in ['Thiết kế 1 bước', 'Thiết kế 2 bước', 'Thiết kế 3 bước']">
+                <option value="" selected disabled>- Chọn loại thiết kế -</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Cấp công trình</label>
+            <select ng-model="construction.level" class="form-control"
+                    ng-options="x for x in ['Cấp I', 'Cấp II', 'Cấp III', 'Cấp IV', 'Cấp đặc biệt']">
+                <option value="" selected disabled>- Chọn cấp công trình -</option>
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$dismiss()">Đóng</button>
+    <button type="submit" class="btn btn-primary" ng-click="$close(construction)"
+            ng-disabled="constructionForm.$invalid">Tạo mới
+    </button>
+</div>

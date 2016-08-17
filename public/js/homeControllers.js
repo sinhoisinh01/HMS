@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $rootScope) {
+    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout) {
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
@@ -10,83 +10,70 @@ angular.module('HMS')
             }).slice(0, 4);
         });
         $scope.add = function () {
+            $scope.construction = undefined;
             $http.get(baseURL + 'suppliers').then(function (response) {
                 $scope.suppliers = response.data;
             });
             $uibModal.open({
-                templateUrl: 'views/modals/addConstruction.html',
-                controller: 'AddConstructionController',
+                templateUrl: 'views/modals/constructionModal.html',
                 scope: $scope
             }).result.then(function (construction) {
-                $state.go('construction', {'construction_id': construction.id, name: construction.name});
+                construction.supplier_id = construction.supplier.id;
+                construction.supplier = undefined;
+                $http.post('construction', {construction: construction}).then(function (response) {
+                    $state.go('construction', {'construction_id': response.data.id, name: response.data.name});
+                });
             });
         };
-		$scope.edit = function (construction_id) {
-			$http.get(baseURL + 'construction/' + construction_id)
-				.then(function (response) {
-					$scope.name = response.data.name;
-					$scope.address = response.data.address;
-					$scope.supplier_id = response.data.supplier_id;
-					$scope.investor = response.data.investor;
-					$scope.contractor = response.data.contractor;
-					$scope.type = response.data.type;
-					$scope.design_type = response.data.design_type;
-					$scope.level = response.data.level;
-					$http.get(baseURL + 'supplier/' + $scope.supplier_id)
-						.then(function (response) {
-							$rootScope.supplier = response.data;
-						});
-				});
-			$http.get(baseURL + 'suppliers').then(function (response) {
-				$scope.suppliers = response.data;
-			});
-			$uibModal.open({
-				templateUrl: 'views/modals/editConstruction.html',
-				controller: 'EditConstructionController',
-				scope: $scope
-			}).result.then(function (name) {
-				$scope.stateName = name;
-			});
+        $scope.edit = function (construction) {
+            $scope.construction = angular.copy(construction);
+            $http.get(baseURL + 'suppliers').then(function (response) {
+                $scope.suppliers = response.data;
+                $scope.construction.supplier = $scope.suppliers.filter(function (supp) {
+                    return supp.id == construction.supplier_id;
+                })[0];
+            });
+            $uibModal.open({
+                templateUrl: 'views/modals/constructionModal.html',
+                scope: $scope
+            }).result.then(function (construction) {
+                construction.supplier_id = construction.supplier.id;
+                construction.supplier = undefined;
+                $http({
+                    url: baseURL + 'construction/' + construction.id,
+                    method: "PUT",
+                    params: {construction: construction}
+                }).then(function () {
+                    $scope.constructions.forEach(function (con, i) {
+                        if (con.id == construction.id) {
+                            construction.updated_at = new Date();
+                            $scope.constructions[i] = construction;
+                            $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                                return new Date(b.updated_at) - new Date(a.updated_at);
+                            }).slice(0, 4);
+                        }
+                    });
+                });
+            });
         };
         $scope.remove = function (construction_id) {
-            if (confirm("Are you sure to delete this construction?"))
-                $http.delete(baseURL + 'construction/' + construction_id).then(function () {
-                    for (var con in $scope.constructions) {
-                        if ($scope.constructions[con].id === construction_id) {
-                            $scope.constructions.splice(con, 1);
-                            break;
-                        }
-                    }
-                    $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
-                        return new Date(b.updated_at) - new Date(a.updated_at);
-                    }).slice(0, 4);
-                });
+            $timeout(function () { //confirm occur some problems on firefox
+                if (confirm("Are you sure to delete this construction?"))
+                    $http.delete(baseURL + 'construction/' + construction_id).then(function () {
+                        $scope.constructions = $scope.constructions.filter(function (con) {
+                            return con.id !== construction_id;
+                        });
+                        $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                            return new Date(b.updated_at) - new Date(a.updated_at);
+                        }).slice(0, 4);
+                    });
+            });
         };
         $scope.viewAll = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
                 size: 'lg',
-				scope: $scope
-            });
-        };
-    })
-    .controller('AddConstructionController', function ($http, $state, baseURL, $scope, $uibModalInstance) {
-        $scope.create = function () {
-            $http({
-                url: baseURL + 'construction',
-                method: "POST",
-                params: {
-                    name: $scope.name,
-                    supplier_id: $scope.supplier.id,
-                    address: $scope.address,
-                    investor: $scope.investor,
-                    contractor: $scope.contractor,
-                    type: $scope.type,
-                    design_type: $scope.design_type,
-                    level: $scope.level
-                }
-            }).then(function (response) {
-                $uibModalInstance.close(response.data);
+                scope: $scope
             });
         };
     });

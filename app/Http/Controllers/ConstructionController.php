@@ -15,17 +15,9 @@ class ConstructionController extends Controller
 
     function add(Request $request)
     {
-        return response()->json(Construction::create([
-            'user_id' => Auth::user()->id,
-            'name' => $request->input('name'),
-            'supplier_id' => $request->input('supplier_id'),
-            'address' => $request->input('address'),
-            'investor' => $request->input('investor'),
-            'contractor' => $request->input('contractor'),
-            'type' => $request->input('type'),
-            'design_type' => $request->input('design_type'),
-            'level' => $request->input('level')
-        ]));
+        $construction = $request->input('construction');
+        $construction['user_id'] = Auth::user()->id;
+        return response()->json(Construction::create($construction));
     }
 
     function get($id)
@@ -35,16 +27,7 @@ class ConstructionController extends Controller
 
     function update(Request $request, $id)
     {
-        return response()->json(Construction::find($id)->update([
-            'name' => $request->input('name'),
-            'supplier_id' => $request->input('supplier_id'),
-            'address' => $request->input('address'),
-            'investor' => $request->input('investor'),
-            'contractor' => $request->input('contractor'),
-            'type' => $request->input('type'),
-            'design_type' => $request->input('design_type'),
-            'level' => $request->input('level')
-        ]));
+        Construction::find($id)->fill(json_decode($request->input('construction'), true))->save();
     }
 
     function remove($id)

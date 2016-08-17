@@ -11,13 +11,6 @@
 			  <b class="clickable" ui-sref="construction({construction_id: construction.id, name:construction.name})">{{construction.name}}</b></br>
 			  Opened: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
 			</p>
-			<!--div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" uib-dropdown>
-				<span class="glyphicon glyphicon-option-vertical btn btn-link" id="btn-{{construction.id}}-options" type="button" uib-dropdown-toggle></span>
-				<ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-{{construction.id}}-options">
-				  <li role="menuitem"><a><span class="glyphicon glyphicon-edit"> Edit</a></li>
-				  <li role="menuitem"><a ng-click="remove(construction.id)"><span class="glyphicon glyphicon-trash"> Remove</a></li>
-				</ul>
-			</div-->
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
 				<span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"> </span>
 				<span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction.id)"></span>
