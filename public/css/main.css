@@ -85,13 +85,8 @@ i{cursor:pointer;}
     margin: 0 auto;
 	height:100%;
 }
-<<<<<<< HEAD
-/* trang du toan */
-#main{
-=======
 /* navbar */
 #navigationBar{
->>>>>>> 42c252a5e9bfd1de9fb25e883d5a86cdc14fd695
 	width:100%;
 	margin:0;
 	height:70px;
@@ -296,19 +291,4 @@ i{cursor:pointer;}
 		display:block;
 		margin:10px auto;
 	}
-<<<<<<< HEAD
-}
-@media screen and (max-width: 490px)
-{
-	#tai_khoan{width:60%}
-}
-
-.clickable {
-	cursor:pointer;
-}
-
-.fa-plus-circle, .fa-th {
-	color:#009ae1;
-=======
->>>>>>> 42c252a5e9bfd1de9fb25e883d5a86cdc14fd695
 }
