@@ -2,61 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\CategoryWork;
-use Illuminate\Http\Request;
 use App\Models\Description;
+use Illuminate\Http\Request;
 
 class CategoryWorkController extends Controller
 {
     function getWorks($category_id)
     {
         $works = CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
-            ->where('category_id', $category_id)
-            ->orderBy('work_code')->get();
-        $prices = CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
-            ->join('resource_work', 'resource_work.work_code', '=', 'category_work.work_code')
-            ->join('resource_supplier', 'resource_supplier.resource_code', '=', 'resource_work.resource_code')
-            ->where('supplier_id', Category::find($category_id)->construction->supplier_id)
-            ->where('category_id', $category_id)->get()
-            ->groupBy('work_code')
-            ->transform(function ($work) {
-                return $work->transform(function ($resource) {
-                    return $resource->price = $resource->price * $resource->amount;
-                })->sum();
-            })->toArray();
-		$descriptions = Description::where('category_id', $category_id)->get()->groupBy('work_code')->toArray();
-		foreach ($works as $work){
-			if (array_key_exists($work->code,$prices))
-			    $work->price = $prices[$work->code];
-			if (array_key_exists($work->code,$descriptions))
-			    $work->descriptions = $descriptions[$work->code];
-		}
+            ->where('category_id', $category_id)->get();
+        $descriptions = Description::where('category_id', $category_id)->get()
+            ->groupBy('work_code')->toArray();
+        foreach ($works as $work) {
+            if (array_key_exists($work->code, $descriptions))
+                $work->descriptions = $descriptions[$work->code];
+        }
         return response()->json($works);
     }
 
-    function add($category_id, $work_code)
+    function add(Request $request)
     {
-        CategoryWork::create(['category_id' => $category_id, 'work_code' => $work_code,
-            'no' => CategoryWork::where('category_id', $category_id)->count() + 1, 'value' => 0]);
-        return($this->get($category_id, $work_code));
-    }
-
-    function get($category_id, $work_code)
-    {
-        $categoryWork = CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
-            ->where('category_id', $category_id)->where('work_code', $work_code)->first();
-        $price = CategoryWork::join('works', 'category_work.work_code', '=', 'works.code')
-            ->join('resource_work', 'resource_work.work_code', '=', 'category_work.work_code')
-            ->join('resource_supplier', 'resource_supplier.resource_code', '=', 'resource_work.resource_code')
-            ->where('supplier_id', Category::find($category_id)->construction->supplier_id)
-            ->where('category_id', $category_id)
-            ->where('category_work.work_code', $work_code)->get()
-            ->transform(function ($resource) {
-                return $resource->price = $resource->price * $resource->amount;
-            })->sum();
-        $categoryWork->price = $price;
-        return response()->json($categoryWork);
+        if ($request->has('work_code')) //create
+            CategoryWork::create(['category_id' => $request->input('category_id'),
+                'work_code' => $request->input('work_code'),
+                'no' => CategoryWork::where('category_id', $request->input('category_id'))->count() + 1,
+                'value' => 0]);
+        else { //replacement
+            $toDelete = CategoryWork::where('category_id', $request->input('category_id'))
+                ->where('work_code', $request->input('old_work_code'));
+            CategoryWork::create(['category_id' => $request->input('category_id'),
+                'work_code' => $request->input('new_work_code'),
+                'no' => $toDelete->first()->no,
+                'value' => 0]);
+            $toDelete->delete();
+        }
     }
 
     function update(Request $request, $category_id, $work_code)
@@ -70,13 +50,5 @@ class CategoryWorkController extends Controller
         $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $work_code);
         CategoryWork::where('category_id', $category_id)->where('no', '>', $toDelete->first()->no)->decrement('no');
         $toDelete->delete();
-    }
-
-    function replace($category_id, $old_work_code, $new_work_code)
-    {
-        $toDelete = CategoryWork::where('category_id', $category_id)->where('work_code', $old_work_code);
-        CategoryWork::create(['category_id' => $category_id, 'work_code' => $new_work_code, 'no' => $toDelete->first()->no, 'value' => 0]);
-        $toDelete->delete();
-        return($this->get($category_id, $new_work_code));
     }
 }

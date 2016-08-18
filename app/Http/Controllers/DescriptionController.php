@@ -2,29 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Description;
+use Illuminate\Http\Request;
 
 class DescriptionController extends Controller
 {
     function add(Request $request)
     {
-		return Description::create($request->input('description'));
+        return Description::create(['category_id' => $request->input('category_id'),
+            'work_code' => $request->input('work_code')]);
     }
 
-    function update(Request $request, $category_id, $work_code)
+    function update($id, Request $request)
     {
-		
+        Description::find($id)->update($request->input('description'));
     }
 
-    function remove($category_id, $work_code, $content)
+    function remove($id)
     {
-        return Description::where('category_id', $category_id)->where('work_code', $work_code)
-			->where('content', $content)->delete();
-    }
-
-    function replace($category_id, $old_work_code, $new_work_code)
-    {
-        
+        Description::destroy($id);
     }
 }

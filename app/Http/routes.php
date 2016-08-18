@@ -1,14 +1,7 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
+ Lumen doesn't support JSON data via put request, we need to use post
 */
 
 $app->get('/', function () {
@@ -20,35 +13,29 @@ $app->get('/loginCallBack', 'LoginController@callBack');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
-        $app->get('/refreshToken', 'LoginController@refreshToken');
+        $app->get('user', 'UserController@get');
+        $app->delete('user', 'UserController@remove');
 
-        $app->get('/user', 'UserController@get');
-        $app->delete('/user', 'UserController@remove');
+        $app->get('constructions', 'ConstructionController@getUserConstructions');
+        $app->post('construction', 'ConstructionController@add'); //require: construction
+        $app->post('construction/{id}', 'ConstructionController@update'); //require: construction
+        $app->delete('construction/{id}', 'ConstructionController@remove');
 
-        $app->get('/constructions', 'ConstructionController@getUserConstructions');
-        $app->post('/construction', 'ConstructionController@add');
-        $app->get('/construction/{id}', 'ConstructionController@get');
-        $app->put('/construction/{id}', 'ConstructionController@update');
-        $app->delete('/construction/{id}', 'ConstructionController@remove');
+        $app->get('categories/{construction_id}', 'CategoryController@getConstructionCategories');
+        $app->post('category', 'CategoryController@add'); //require: construction_id, name
+        $app->post('category/{id}', 'CategoryController@update'); //require: name
+        $app->delete('category/{id}', 'CategoryController@remove');
 
-        $app->get('/categories/{construction_id}', 'CategoryController@getConstructionCategories');
-        $app->post('/category', 'CategoryController@add');
-        $app->get('/category/{id}', 'CategoryController@get');
-        $app->put('/category/{id}', 'CategoryController@update');
-        $app->delete('/category/{id}', 'CategoryController@remove');
+        $app->get('works', 'WorkController@getAll'); //require: supplier_id
 
-        $app->get('/works', 'WorkController@getAll');
+        $app->get('suppliers', 'SupplierController@getAll');
 
-        $app->get('/categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
-        $app->post('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@add');
-        $app->get('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@get');
-        $app->put('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update');
-        $app->delete('/categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
-        $app->post('/categoryWork/{category_id}/{old_work_code}/{new_work_code}', 'CategoryWorkController@replace');
-		
-		$app->post('/descriptions', 'DescriptionController@add');
-		$app->delete('/descriptions/{category_id}/{work_code}/{content}', 'DescriptionController@remove');
+        $app->get('categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
+        $app->post('categoryWork', 'CategoryWorkController@add'); //require: category_id, work_code || category_id, new_work_code, old_work_code
+        $app->post('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update'); //require: value, no
+        $app->delete('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
 
-        $app->get('/suppliers', 'SupplierController@getAll');
-        $app->get('/supplier/{id}', 'SupplierController@get');
+        $app->post('description', 'DescriptionController@add'); //require: category_id, work_code
+        $app->post('description/{id}', 'DescriptionController@update'); //require: description
+        $app->delete('description/{id}', 'DescriptionController@remove');
     });

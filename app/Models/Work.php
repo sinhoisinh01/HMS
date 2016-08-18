@@ -6,11 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Work extends Model
 {
-    protected $guarded = [];
-
-	protected $hidden = ['document'];
-
     public $timestamps = false;
+    protected $guarded = [];
+    protected $visible = ['code', 'name', 'unit', 'price'];
 
     public function categories()
     {
