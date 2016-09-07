@@ -17,8 +17,8 @@ class Category extends Model
         return $this->belongsTo('App\Models\Construction');
     }
 
-    public function works()
+    public function sub-categories()
     {
-        return $this->belongsToMany('App\Models\Work');
+        return $this->belongsToMany('App\Models\SubCategory');
     }
 }

@@ -10,14 +10,14 @@ class WorkController extends Controller
     function getAll(Request $request)
     {
         return response()->json(
-            Work::join('resource_work', 'resource_work.work_code', '=', 'works.code')
+            Work::join('resource_work', 'resource_work.work_id', '=', 'works.id')
                 ->join('resource_supplier', 'resource_supplier.resource_code', '=', 'resource_work.resource_code')
                 ->where('supplier_id', $request->input('supplier_id'))->get()
-                ->groupBy('code')
+                ->groupBy('id')
                 ->transform(function ($work) {
                     $price = 0;
                     foreach ($work as $resource) {
-                        $price += $resource->price * $resource->amount;
+                        $price += $resource->price * $resource->value;
                     }
                     $work[0]->price = $price;
                     return $work[0];

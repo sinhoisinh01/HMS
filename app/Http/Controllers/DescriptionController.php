@@ -9,8 +9,8 @@ class DescriptionController extends Controller
 {
     function add(Request $request)
     {
-        return Description::create(['category_id' => $request->input('category_id'),
-            'work_code' => $request->input('work_code')]);
+        return Description::create(['sub-category_id' => $request->input('sub-category_id'),
+            'work_id' => $request->input('work_id')]);
     }
 
     function update($id, Request $request)

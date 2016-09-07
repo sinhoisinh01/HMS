@@ -14,7 +14,7 @@ class Suppliers extends Migration
     {
         Schema::create('suppliers', function(Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('address')->nullable();
 			$table->string('user_id')->nullable();
         });

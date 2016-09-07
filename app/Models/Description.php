@@ -10,7 +10,7 @@ class Description extends Model
 
     public $timestamps = false;
 	
-	protected $hidden = ['id', 'category_id'];
+	protected $hidden = ['id', 'sub-category_id'];
 
     public function category_work()
     {

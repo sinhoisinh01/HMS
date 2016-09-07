@@ -21,10 +21,15 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('construction/{id}', 'ConstructionController@update'); //require: construction
         $app->delete('construction/{id}', 'ConstructionController@remove');
 
-        $app->get('categories/{construction_id}', 'CategoryController@getConstructionCategories');
+        $app->get('categories/{construction_id}', 'CategoryController@getCategoriesByConstruction');
         $app->post('category', 'CategoryController@add'); //require: construction_id, name
         $app->post('category/{id}', 'CategoryController@update'); //require: name
         $app->delete('category/{id}', 'CategoryController@remove');
+		
+		$app->get('sub-categories/{category_id}', 'SubCategoryController@getSubCategoriesByCategory');
+		$app->post('sub-categories', 'SubCategoryController@add');
+		$app->post('sub-categories/{id}', 'SubCategoryController@update');
+		$app->delete('sub-categories/{id}', 'SubCategoryController@remove');
 
         $app->get('works', 'WorkController@getAll'); //require: supplier_id
 

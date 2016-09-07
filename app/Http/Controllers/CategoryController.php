@@ -8,20 +8,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    function getConstructionCategories($construction_id)
+    function getCategoriesByConstruction($construction_id)
     {
         return response()->json(Construction::find($construction_id)->categories);
     }
 
     function add(Request $request)
     {
-        return response()->json(Category::create(['construction_id' => $request->input('construction_id'),
-            'name' => $request->input('name')]));
-    }
-
-    function get($id)
-    {
-        return response()->json(Category::find($id));
+        return response()->json(Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]));
     }
 
     function update(Request $request, $id)

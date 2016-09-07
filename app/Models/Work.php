@@ -8,11 +8,11 @@ class Work extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
-    protected $visible = ['code', 'name', 'unit', 'price'];
+    protected $visible = ['code', 'name', 'unit'];
 
-    public function categories()
+    public function sub-categories()
     {
-        return $this->belongsToMany('App\Models\Category');
+        return $this->belongsToMany('App\Models\SubCategory');
     }
 
     public function resources()

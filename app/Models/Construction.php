@@ -22,9 +22,4 @@ class Construction extends Model
     {
         return $this->hasMany('App\Models\Category');
     }
-
-    public function resources()
-    {
-        return $this->belongsToMany('App\Models\Resource');
-    }
 }

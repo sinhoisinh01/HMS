@@ -13,6 +13,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     use Authenticatable, Authorizable;
 
     protected $guarded = [];
+	
+	protected $hidden = ['id','google_id','refresh_token'];
 
     public $timestamps = false;
 
