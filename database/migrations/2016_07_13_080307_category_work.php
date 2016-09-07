@@ -13,12 +13,12 @@ class CategoryWork extends Migration
     public function up()
     {
         Schema::create('category_work', function (Blueprint $table) {
-            $table->integer('sub-category_id')->unsigned();
+            $table->integer('subcategory_id')->unsigned();
             $table->integer('work_id')->unsigned();
             $table->integer('no');
             $table->float('value');
-            $table->primary(['sub-category_id', 'work_id']);
-            $table->foreign('sub-category_id')->references('id')->on('sub-categories')->onDelete('cascade');
+            $table->primary(['subcategory_id', 'work_id']);
+            $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
             $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');
         });
     }

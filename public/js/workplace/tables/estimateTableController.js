@@ -7,7 +7,7 @@ angular.module('HMS')
                     });
                 });
             if (!$rootScope.works)
-                $http.get(baseURL + 'works').then(function (response) {
+                $http.get(baseURL + 'works', {construction_id: $stateParams.construction_id}).then(function (response) {
                     $rootScope.works = response.data;
                 });
             $scope.worksWindow = {

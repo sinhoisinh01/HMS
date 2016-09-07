@@ -14,7 +14,7 @@ class Descriptions extends Migration
     {
         Schema::create('descriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('sub-category_id')->unsigned();
+            $table->integer('subcategory_id')->unsigned();
             $table->integer('work_id')->unsigned();
             $table->string('content');
             $table->float('amount')->unsigned();
@@ -22,8 +22,8 @@ class Descriptions extends Migration
             $table->float('width')->unsigned();
             $table->float('height')->unsigned();
 			$table->float('value')->unsigned();
-            $table->foreign(['sub-category_id', 'work_id'])
-                ->references(['sub-category_id', 'work_id'])->on('category_work')
+            $table->foreign(['subcategory_id', 'work_id'])
+                ->references(['subcategory_id', 'work_id'])->on('category_work')
                 ->onDelete('cascade');
         });
     }

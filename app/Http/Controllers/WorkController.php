@@ -12,7 +12,10 @@ class WorkController extends Controller
         return response()->json(
             Work::join('resource_work', 'resource_work.work_id', '=', 'works.id')
                 ->join('resource_supplier', 'resource_supplier.resource_code', '=', 'resource_work.resource_code')
-                ->where('supplier_id', $request->input('supplier_id'))->get()
+				->where('construction_id', $request->input('construction_id'))
+				->orWhereNull('construction_id')
+                ->where('supplier_id', $request->input('supplier_id'))
+				->get()
                 ->groupBy('id')
                 ->transform(function ($work) {
                     $price = 0;
