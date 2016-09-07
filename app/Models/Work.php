@@ -8,7 +8,7 @@ class Work extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
-    protected $visible = ['code', 'name', 'unit'];
+    protected $visible = ['id', 'code', 'name', 'unit', 'price'];
 
     public function sub-categories()
     {

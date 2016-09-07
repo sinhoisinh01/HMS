@@ -31,6 +31,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 		$app->post('sub-categories/{id}', 'SubCategoryController@update');
 		$app->delete('sub-categories/{id}', 'SubCategoryController@remove');
 
+
         $app->get('works', 'WorkController@getAll'); //require: supplier_id
 
         $app->get('suppliers', 'SupplierController@getAll');
