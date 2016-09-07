@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\SubCategory;
-use App\Models\Work;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class SubcategoryController extends Controller
 {
     function getSubCategoriesByCategory($category_id)
     {
-        return response()->json(Category::find($category_id)->sub-categories);
+        return response()->json(Category::find($category_id)->subcategories);
     }
 
     function add(Request $request)

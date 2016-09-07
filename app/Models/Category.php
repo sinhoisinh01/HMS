@@ -6,19 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    public $timestamps = false;
 	protected $table = 'categories';
-
     protected $guarded = [];
-
-	public $timestamps = false;
 
     public function construction()
     {
         return $this->belongsTo('App\Models\Construction');
     }
 
-    public function sub-categories()
+    public function subcategories()
     {
-        return $this->belongsToMany('App\Models\SubCategory');
+        return $this->belongsToMany('App\Models\Subcategory');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class SubCategories extends Migration
+class Subcategories extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class SubCategories extends Migration
      */
     public function up()
     {
-        Schema::create('sub-categories', function(Blueprint $table) {
+        Schema::create('subcategories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->string('name');
@@ -27,6 +27,6 @@ class SubCategories extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('subcategories');
     }
 }

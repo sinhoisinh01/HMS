@@ -4,13 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SubCategory extends Model
+class Subcategory extends Model
 {
-	protected $table = 'sub-categories';
-
-    protected $guarded = [];
-
 	public $timestamps = false;
+    protected $table = 'subcategories';
+    protected $guarded = [];
 
     public function category()
     {
