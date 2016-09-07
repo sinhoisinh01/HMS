@@ -20,14 +20,9 @@ class ConstructionController extends Controller
         return response()->json(Construction::create($construction));
     }
 
-    function get($id)
-    {
-        return response()->json(Construction::find($id));
-    }
-
     function update(Request $request, $id)
     {
-        Construction::find($id)->fill(json_decode($request->input('construction'), true))->save();
+        Construction::find($id)->update($request->input('construction'));
     }
 
     function remove($id)

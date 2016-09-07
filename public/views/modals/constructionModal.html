@@ -6,7 +6,7 @@
     <form name="constructionForm">
         <h3>Thông tin chung</h3>
         <div class="form-group"
-             ng-class="{ 'has-error' : constructionForm.constructionName.$error.required && constructionForm.constructionName.$dirty }">
+             ng-class="{ 'has-error' : (names.indexOf(construction.name) !== -1) && constructionForm.constructionName.$dirty }">
             <label>Tên công trình*</label>
             <input name="constructionName" ng-model="construction.name" class="form-control" required>
         </div>
@@ -55,6 +55,6 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="$dismiss()">Đóng</button>
     <button type="submit" class="btn btn-primary" ng-click="$close(construction)"
-            ng-disabled="constructionForm.$invalid">Tạo mới
+            ng-disabled="constructionForm.$invalid || names.indexOf(construction.name) !== -1">Tạo mới
     </button>
 </div>

@@ -10,9 +10,4 @@ class SupplierController extends Controller
     {
         return response()->json(Supplier::all());
     }
-
-    function get($id)
-    {
-        return response()->json(Supplier::find($id));
-    }
 }

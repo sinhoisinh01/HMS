@@ -15,7 +15,7 @@ class Works extends Migration
          Schema::create('works', function(Blueprint $table) {
             $table->increments('id');
 			$table->string('code');
-            $table->string('document');
+            $table->string('document')->nullable();
             $table->string('name');
             $table->string('unit');
 			$table->integer('construction_id')->nullable();

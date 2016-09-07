@@ -15,7 +15,8 @@ class CategoryController extends Controller
 
     function add(Request $request)
     {
-        return response()->json(Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]));
+        return response()->json(Category::create(['construction_id' => $request->input('construction_id'),
+            'name' => $request->input('name')]));
     }
 
     function get($id)
