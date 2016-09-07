@@ -26,10 +26,10 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('category/{id}', 'CategoryController@update'); //require: name
         $app->delete('category/{id}', 'CategoryController@remove');
 		
-		$app->get('sub-categories/{category_id}', 'SubCategoryController@getSubCategoriesByCategory');
-		$app->post('sub-categories', 'SubCategoryController@add');
-		$app->post('sub-categories/{id}', 'SubCategoryController@update');
-		$app->delete('sub-categories/{id}', 'SubCategoryController@remove');
+		$app->get('subcategories/{category_id}', 'SubCategoryController@getSubCategoriesByCategory');
+		$app->post('subcategories', 'SubCategoryController@add');
+		$app->post('subcategories/{id}', 'SubCategoryController@update');
+		$app->delete('subcategories/{id}', 'SubCategoryController@remove');
 
 
         $app->get('works', 'WorkController@getAll'); //require: supplier_id

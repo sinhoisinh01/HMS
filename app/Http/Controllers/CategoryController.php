@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subcategory;
 use App\Models\Construction;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class CategoryController extends Controller
 
     function add(Request $request)
     {
-        return response()->json(Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]));
+        $category = Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]);
+		Subcategory::create(['category_id' => $category->id, 'name' => '']);
+		return response()->json($category);
     }
 
     function update(Request $request, $id)
@@ -25,6 +28,6 @@ class CategoryController extends Controller
 
     function remove($id)
     {
-        Category::destroy($id);
+		Category::destroy($id);
     }
 }
