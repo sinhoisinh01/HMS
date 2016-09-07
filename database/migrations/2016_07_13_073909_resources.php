@@ -16,6 +16,7 @@ class Resources extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('unit');
+			$table->integer('user_id')->nullable();
             $table->primary('code');
         });
     }

@@ -16,6 +16,7 @@ class Suppliers extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('address')->nullable();
+			$table->string('user_id')->nullable();
         });
     }
 

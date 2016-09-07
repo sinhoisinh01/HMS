@@ -13,11 +13,12 @@ class Works extends Migration
     public function up()
     {
          Schema::create('works', function(Blueprint $table) {
-            $table->string('code');
+            $table->increments('id');
+			$table->string('code');
             $table->string('document');
             $table->string('name');
             $table->string('unit');
-            $table->primary('code');
+			$table->integer('construction_id')->nullable();
         });
     }
 

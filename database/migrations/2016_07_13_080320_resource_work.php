@@ -14,11 +14,11 @@ class ResourceWork extends Migration
     {
         Schema::create('resource_work', function (Blueprint $table) {
             $table->string('resource_code');
-            $table->string('work_code');
-            $table->float('amount');
-            $table->primary(['resource_code', 'work_code']);
+            $table->integer('work_id');
+            $table->float('value');
+            $table->primary(['resource_code', 'work_id']);
             $table->foreign('resource_code')->references('code')->on('resources')->onDelete('cascade');
-            $table->foreign('work_code')->references('code')->on('works')->onDelete('cascade');
+            $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');
         });
     }
 
