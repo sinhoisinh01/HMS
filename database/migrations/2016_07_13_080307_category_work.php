@@ -14,7 +14,7 @@ class CategoryWork extends Migration
     {
         Schema::create('category_work', function (Blueprint $table) {
             $table->integer('sub-category_id')->unsigned();
-            $table->integer('work_id');
+            $table->integer('work_id')->unsigned();
             $table->integer('no');
             $table->float('value');
             $table->primary(['sub-category_id', 'work_id']);
