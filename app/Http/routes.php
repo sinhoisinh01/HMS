@@ -36,8 +36,8 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 
         $app->get('suppliers', 'SupplierController@getAll');
 
-        $app->get('categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
-        $app->post('categoryWork', 'CategoryWorkController@add'); //require: category_id, work_code || category_id, new_work_code, old_work_code
+        $app->get('categoryWorks/{subcategory_id}', 'CategoryWorkController@getWorks');
+        $app->post('categoryWork', 'CategoryWorkController@add'); //require: subcategory_id, work_id || category_id, new_work_code, old_work_code
         $app->post('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update'); //require: value, no
         $app->delete('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
 

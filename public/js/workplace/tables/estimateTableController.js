@@ -16,7 +16,7 @@ angular.module('HMS')
                 top: '',
                 left: '',
                 method: '',
-                oldCode: '',
+                oldId: '',
                 oldName: '',
                 newWork: {}
             };
@@ -34,7 +34,7 @@ angular.module('HMS')
 					+ cell.prop('offsetParent').offsetHeight) + 'px',
                     left: cell.prop('offsetParent').offsetLeft + 'px',
                     method: categoryWorkEdited ? 'Edit' : 'Add',
-                    oldCode: categoryWorkEdited ? categoryWorkEdited.code : '',
+                    oldId: categoryWorkEdited ? categoryWorkEdited.code : '',
                     oldName: categoryWorkEdited ? categoryWorkEdited.name : '',
                     newWork: null
                 };
@@ -48,15 +48,15 @@ angular.module('HMS')
             $scope.cellBlured = function (index) {
                 if ($scope.worksWindow.newWork) {
                     for (var i in $scope.categoryWorks) {
-                        if ($scope.categoryWorks[i].code === $scope.worksWindow.newWork.code) {
+                        if ($scope.categoryWorks[i].id === $scope.worksWindow.newWork.id) {
                             alert($scope.worksWindow.newWork.code + " already exist!!!");
                             $scope.worksWindow.show = false;
                             return;
                         }
                     }
-                    if ($scope.worksWindow.oldCode)
+                    if ($scope.worksWindow.oldId)
                         $http.post(baseURL + 'categoryWork/' + $stateParams.category_id + "/"
-                            + $scope.worksWindow.oldCode + "/" + $scope.worksWindow.newWork.code, {})
+                            + $scope.worksWindow.oldId + "/" + $scope.worksWindow.newWork.code, {})
                             .then(function (response) {
                                 $scope.categoryWorks[index] = response.data;
                             });
@@ -67,7 +67,7 @@ angular.module('HMS')
                             });
                 } else if (index !== null) {
                     $scope.categoryWorks[index].name = $scope.worksWindow.oldName;
-                    $scope.categoryWorks[index].code = $scope.worksWindow.oldCode;
+                    $scope.categoryWorks[index].code = $scope.worksWindow.oldId;
                     //console.log($scope.categoryWorks[index].name);
                 }
                 $scope.worksWindow.show = false;
