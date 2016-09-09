@@ -25,23 +25,22 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('category', 'CategoryController@add'); //require: construction_id, name
         $app->post('category/{id}', 'CategoryController@update'); //require: name
         $app->delete('category/{id}', 'CategoryController@remove');
-		
-		$app->get('subcategories/{category_id}', 'SubCategoryController@getSubCategoriesByCategory');
-		$app->post('subcategories', 'SubCategoryController@add');
-		$app->post('subcategories/{id}', 'SubCategoryController@update');
-		$app->delete('subcategories/{id}', 'SubCategoryController@remove');
 
+        $app->get('subcategories/{category_id}', 'SubCategoryController@getSubcategoriesByCategory');
+        $app->post('subcategory', 'SubCategoryController@add'); //require: category_id, name
+        $app->post('subcategory/{id}', 'SubCategoryController@update'); //require: name
+        $app->delete('subcategory/{id}', 'SubCategoryController@remove');
 
-        $app->get('works', 'WorkController@getAll'); //require: supplier_id
+        $app->get('works', 'WorkController@getAll'); //require: construction_id
 
         $app->get('suppliers', 'SupplierController@getAll');
 
-        $app->get('categoryWorks/{subcategory_id}', 'CategoryWorkController@getWorks');
-        $app->post('categoryWork', 'CategoryWorkController@add'); //require: subcategory_id, work_id || category_id, new_work_code, old_work_code
-        $app->post('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@update'); //require: value, no
-        $app->delete('categoryWork/{category_id}/{work_code}', 'CategoryWorkController@remove');
+        $app->get('categoryWorks/{category_id}', 'CategoryWorkController@getWorks');
+        $app->post('subcategoryWork', 'SubcategoryWorkController@add'); //require: subcategory_id, work_id || subcategory_id, new_work_code, old_work_code
+        $app->post('subcategoryWork/{subcategory_id}/{work_code}', 'SubcategoryWorkController@update'); //require: value, no
+        $app->delete('subcategoryWork/{subcategory_id}/{work_code}', 'SubcategoryWorkController@remove');
 
-        $app->post('description', 'DescriptionController@add'); //require: category_id, work_code
+        $app->post('description', 'DescriptionController@add'); //require: subcategory_id, work_code
         $app->post('description/{id}', 'DescriptionController@update'); //require: description
         $app->delete('description/{id}', 'DescriptionController@remove');
     });

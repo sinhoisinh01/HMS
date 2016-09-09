@@ -12,7 +12,7 @@ class Work extends Model
 
     public function subcategories()
     {
-        return $this->belongsToMany('App\Models\SubCategory');
+        return $this->belongsToMany('App\Models\Subcategory');
     }
 
     public function resources()

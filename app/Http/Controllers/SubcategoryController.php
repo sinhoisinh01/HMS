@@ -3,29 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\SubCategory;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
 
 class SubcategoryController extends Controller
 {
-    function getSubCategoriesByCategory($category_id)
+    function getSubcategoriesByCategory($category_id)
     {
         return response()->json(Category::find($category_id)->subcategories);
     }
 
     function add(Request $request)
     {
-        return response()->json(SubCategory::create(['category_id' => $request->input('category_id'),
+        return response()->json(Subcategory::create(['category_id' => $request->input('category_id'),
             'name' => $request->input('name')]));
     }
 
     function update(Request $request, $id)
     {
-        SubCategory::find($id)->update(['name' => $request->input('name')]);
+        Subcategory::find($id)->update(['name' => $request->input('name')]);
     }
 
     function remove($id)
     {
-        SubCategory::destroy($id);
+        Subcategory::destroy($id);
     }
 }

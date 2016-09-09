@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
-class CategoryWork extends Migration
+class SubcategoryWork extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CategoryWork extends Migration
      */
     public function up()
     {
-        Schema::create('category_work', function (Blueprint $table) {
+        Schema::create('subcategory_work', function (Blueprint $table) {
             $table->integer('subcategory_id')->unsigned();
             $table->integer('work_id')->unsigned();
             $table->integer('no');
@@ -30,6 +30,6 @@ class CategoryWork extends Migration
      */
     public function down()
     {
-        Schema::drop('category_work');
+        Schema::drop('subcategory_work');
     }
 }
