@@ -23,7 +23,7 @@ class Descriptions extends Migration
             $table->float('height')->unsigned();
 			$table->float('value')->unsigned();
             $table->foreign(['subcategory_id', 'work_id'])
-                ->references(['subcategory_id', 'work_id'])->on('category_work')
+                ->references(['subcategory_id', 'work_id'])->on('subcategory_work')
                 ->onDelete('cascade');
         });
     }
