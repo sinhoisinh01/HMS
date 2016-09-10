@@ -32,14 +32,6 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                         templateUrl: 'views/nav.html',
                         controller: 'NavController'
                     },
-                    'menu': {
-                        templateUrl: 'views/workplace/menu.html',
-                        controller: 'MenuController'
-                    },
-                    'toolbar': {
-                        templateUrl: 'views/workplace/toolbar.html',
-                        controller: 'ToolbarController'
-                    },
                     'categories': {
                         templateUrl: 'views/workplace/categories.html',
                         controller: 'CategoriesController'

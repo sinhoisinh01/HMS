@@ -17,6 +17,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->delete('user', 'UserController@remove');
 
         $app->get('constructions', 'ConstructionController@getUserConstructions');
+        $app->get('construction/{id}','ConstructionController@get');
         $app->post('construction', 'ConstructionController@add'); //require: construction
         $app->post('construction/{id}', 'ConstructionController@update'); //require: construction
         $app->delete('construction/{id}', 'ConstructionController@remove');

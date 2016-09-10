@@ -14,9 +14,6 @@ angular.module('HMS')
             $scope.names = $scope.constructions.map(function (con) {
                 return con.name;
             });
-            $scope.names = $scope.constructions.map(function (con) {
-                return con.name;
-            });
             $http.get(baseURL + 'suppliers').then(function (response) {
                 $scope.suppliers = response.data;
             });
@@ -25,7 +22,6 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
-                construction.supplier = undefined;
                 $http.post('construction', {construction: construction}).then(function (response) {
                     $state.go('construction', {'construction_id': response.data.id, name: response.data.name});
                 });
@@ -37,7 +33,6 @@ angular.module('HMS')
                 if (con.id !== construction.id)
                     return con.name;
             });
-            console.log($scope.names);
             $http.get(baseURL + 'suppliers').then(function (response) {
                 $scope.suppliers = response.data;
                 $scope.construction.supplier = $scope.suppliers.filter(function (supp) {
@@ -49,7 +44,6 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
-                construction.supplier = undefined;
                 $http.post(baseURL + 'construction/' + construction.id,
                     {construction: construction}).then(function () {
                     $scope.constructions.forEach(function (con, i) {

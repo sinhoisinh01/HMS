@@ -28,19 +28,38 @@ angular.module('HMS')
             if ($stateParams.construction_id) {
                 $http.get(baseURL + 'construction/' + $stateParams.construction_id).then(function (response) {
                     $scope.construction = response.data;
+
+                    $http.get(baseURL + 'suppliers').then(function (response) {
+                        $scope.suppliers = response.data;
+                        $scope.construction.supplier = $scope.suppliers.filter(function (supp) {
+                            return supp.id == $scope.construction.supplier_id;
+                        })[0];
+                    });
+
+                    $http.get(baseURL + 'constructions').then(function (response) {
+                        $scope.names = response.data.map(function (con) {
+                        if (con.id !== $scope.construction.id)
+                            return con.name;
+                        });
+                    });
                 });
-                $http.get(baseURL + 'suppliers').then(function (response) {
-                    $scope.suppliers = response.data;
-                });
+
                 $uibModal.open({
-                    templateUrl: 'views/modals/editConstruction.html',
+                    templateUrl: 'views/modals/constructionModal.html',
                     scope: $scope
                 }).result.then(function (construction) {
                     $scope.stateName = construction.name;
-                    $http({
-                        url: baseURL + 'construction/' + construction.id,
-                        method: "PUT",
-                        params: {construction: construction}
+                    $http.post(baseURL + 'construction/' + construction.id,
+                        {construction: construction}).then(function () {
+                        $scope.constructions.forEach(function (con, i) {
+                            if (con.id == construction.id) {
+                                construction.updated_at = new Date();
+                                $scope.constructions[i] = construction;
+                                $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                                    return new Date(b.updated_at) - new Date(a.updated_at);
+                                }).slice(0, 4);
+                            }
+                        });
                     });
                 });
             }
