@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class Resources extends Migration
 {
@@ -12,12 +12,13 @@ class Resources extends Migration
      */
     public function up()
     {
-       Schema::create('resources', function(Blueprint $table) {
+        Schema::create('resources', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('code');
             $table->string('name');
             $table->string('unit');
-			$table->integer('user_id')->nullable();
-            $table->primary('code');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -28,6 +29,6 @@ class Resources extends Migration
      */
     public function down()
     {
-         Schema::drop('resources');
+        Schema::drop('resources');
     }
 }

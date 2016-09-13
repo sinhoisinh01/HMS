@@ -9,6 +9,7 @@ class Category extends Model
     public $timestamps = false;
 	protected $table = 'categories';
     protected $guarded = [];
+    protected $visible = ['id', 'name'];
 
     public function construction()
     {
@@ -17,6 +18,11 @@ class Category extends Model
 
     public function subcategories()
     {
-        return $this->belongsToMany('App\Models\Subcategory');
+        return $this->hasMany('App\Models\Subcategory');
+    }
+
+    public function subcategoryWorks()
+    {
+        return $this->hasManyThrough('App\Models\SubcategoryWork', 'App\Models\Subcategory');
     }
 }

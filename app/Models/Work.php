@@ -10,9 +10,9 @@ class Work extends Model
     protected $guarded = [];
     protected $visible = ['id', 'code', 'name', 'unit', 'price'];
 
-    public function subcategories()
+    public function construction()
     {
-        return $this->belongsToMany('App\Models\Subcategory');
+        return $this->belongsTo('App\Models\Construction');
     }
 
     public function resources()

@@ -9,5 +9,11 @@ class SubcategoryWork extends Model
 	public $timestamps = false;
     protected $table = 'subcategory_work';
     protected $guarded = [];
-	protected $hidden = ['id','name', 'document', 'subcategory_id', 'category_id', 'construction_id'];
+    protected $visible = ['id', 'name', 'works', 'no', 'code', 'unit', 'value', 'price',
+        'descriptions', 'amount', 'length', 'width', 'height'];
+
+    public function descriptions()
+    {
+        return $this->hasMany('App\Models\Description');
+    }
 }

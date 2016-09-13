@@ -16,7 +16,7 @@ class SubcategoryWork extends Migration
             $table->integer('subcategory_id')->unsigned();
             $table->integer('work_id')->unsigned();
             $table->integer('no');
-            $table->float('value');
+            $table->double('value');
             $table->primary(['subcategory_id', 'work_id']);
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
             $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');

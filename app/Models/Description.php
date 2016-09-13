@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Description extends Model
 {
-    protected $guarded = [];
-
     public $timestamps = false;
-	
-	protected $hidden = ['id', 'sub-category_id'];
+    protected $guarded = [];
+    protected $hidden = [];
 
-    public function category_work()
+    public function subcategoryWork()
     {
-        return $this->belongsTo('App\Models\CategoryWork');
+        return $this->belongsTo('App\Models\SubcategoryWork');
     }
 }

@@ -6,22 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Resource extends Model
 {
-    protected $guarded = [];
-
     public $timestamps = false;
+    protected $guarded = [];
+    protected $visible = ['id', 'code', 'name', 'unit', 'price'];
 
-    public function constructions()
+    public function user()
     {
-        return $this->belongsToMany('App\Models\Construction');
-    }
-
-    public function suppliers()
-    {
-        return $this->belongsToMany('App\Models\Supplier');
-    }
-
-    public function works()
-    {
-        return $this->belongsToMany('App\Models\Work');
+        return $this->belongsTo('App\Models\User');
     }
 }

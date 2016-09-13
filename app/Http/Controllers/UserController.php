@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Google_Client;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Lumen\Routing\Controller;
 
 class UserController extends Controller
 {

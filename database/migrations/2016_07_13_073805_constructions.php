@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class Constructions extends Migration
 {
@@ -12,18 +12,15 @@ class Constructions extends Migration
             $table->integer('user_id')->unsigned();
             $table->string('name');
             $table->integer('supplier_id')->unsigned();
-            $table->string('address')->nullable();
-            $table->string('investor')->nullable();
-            $table->string('contractor')->nullable();
-            $table->string('type')->nullable();
-            $table->string('design_type')->nullable();
-            $table->string('level')->nullable();
+            $table->string('address');
+            $table->string('investor');
+            $table->string('contractor');
+            $table->string('type');
+            $table->string('design_type');
+            $table->string('level');
             $table->timestamps();
-            $table->foreign('user_id')
-                ->references('id')->on('users')
-                ->onDelete('cascade');
-            $table->foreign('supplier_id')
-                ->references('id')->on('suppliers');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
         });
     }
 

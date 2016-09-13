@@ -5,17 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Construction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Lumen\Routing\Controller;
 
 class ConstructionController extends Controller
 {
-    function getUserConstructions()
+    function get()
     {
         return response()->json(Auth::user()->constructions);
     }
-    function get($id)
-    {
-        return response()->json(Construction::find($id));
-    }
+
     function add(Request $request)
     {
         $construction = $request->input('construction');

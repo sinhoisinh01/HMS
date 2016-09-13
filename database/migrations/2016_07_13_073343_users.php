@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class Users extends Migration
 {
@@ -15,11 +15,11 @@ class Users extends Migration
         Schema::create('users', function(Blueprint $table) {
             $table->increments('id');
             $table->string('google_id');
-            $table->string('refresh_token');
+            $table->string('refresh_token')->nullable();
             $table->string('token');
             $table->string('email');
             $table->string('name')->nullable();
-            $table->string('picture')->nullable();
+            $table->string('pictureURL')->nullable();
         });
     }
 

@@ -1,7 +1,10 @@
 <?php
 
 /*
- Lumen doesn't support JSON data via put request, we need to use post
+ Lumen doesn't support JSON data via angular put request, we need to use post
+ A post request require the whole object without id and user_id (except for add subcategoryWork)
+ Add post return the whole object (without user_id) if there an id, void if not
+ Update post and delete return void
 */
 
 $app->get('/', function () {
@@ -13,35 +16,74 @@ $app->get('/loginCallBack', 'LoginController@callBack');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
+        //return: {name,email,pictureURL}
         $app->get('user', 'UserController@get');
         $app->delete('user', 'UserController@remove');
 
-        $app->get('constructions', 'ConstructionController@getUserConstructions');
-        $app->get('construction/{id}','ConstructionController@get');
-        $app->post('construction', 'ConstructionController@add'); //require: construction
-        $app->post('construction/{id}', 'ConstructionController@update'); //require: construction
+        //return: [{id,name,address}]
+        $app->get('suppliers', 'SupplierController@get');
+        $app->post('supplier', 'WorkController@add');
+        $app->post('supplier/{id}', 'WorkController@update');
+        $app->delete('supplier/{id}', 'WorkController@remove');
+
+        //return: [{...constructionWithoutUserId,created_at,updated_at}]
+        $app->get('constructions', 'ConstructionController@get');
+        $app->post('construction', 'ConstructionController@add');
+        $app->post('construction/{id}', 'ConstructionController@update');
         $app->delete('construction/{id}', 'ConstructionController@remove');
 
-        $app->get('categories/{construction_id}', 'CategoryController@getCategoriesByConstruction');
-        $app->post('category', 'CategoryController@add'); //require: construction_id, name
-        $app->post('category/{id}', 'CategoryController@update'); //require: name
+        //require: construction_id
+        //return: [{id,name}]
+        $app->get('categories', 'CategoryController@get');
+        $app->post('category', 'CategoryController@add');
+        $app->post('category/{id}', 'CategoryController@update');
         $app->delete('category/{id}', 'CategoryController@remove');
 
-        $app->get('subcategories/{category_id}', 'SubCategoryController@getSubcategoriesByCategory');
-        $app->post('subcategory', 'SubCategoryController@add'); //require: category_id, name
-        $app->post('subcategory/{id}', 'SubCategoryController@update'); //require: name
+        $app->post('subcategory', 'SubCategoryController@add');
+        $app->post('subcategory/{id}', 'SubCategoryController@update');
         $app->delete('subcategory/{id}', 'SubCategoryController@remove');
 
-        $app->get('works', 'WorkController@getAll'); //require: construction_id
+        //require: construction_id
+        //return: [{id,code,name,unit,price}]
+        $app->get('works', 'WorkController@get');
+        $app->post('work', 'WorkController@add');
+        $app->post('work/{id}', 'WorkController@update');
+        $app->delete('work/{id}', 'WorkController@remove');
 
-        $app->get('suppliers', 'SupplierController@getAll');
+        //require: category_id
+        //return: [{id,name,works=[{id,no,code,name,unit,value,price,descriptions=[{id,name,amount,length,width,height,value}]]]
+        $app->get('categoryWorks', 'SubcategoryWorkController@get');
+        //require: subcategory_id,work_id || subcategory_id,new_work_id,old_work_id
+        $app->post('subcategoryWork', 'SubcategoryWorkController@add');
+        $app->post('subcategoryWork/{subcategory_id}/{work_id}', 'SubcategoryWorkController@update');
+        $app->delete('subcategoryWork/{subcategory_id}/{work_id}', 'SubcategoryWorkController@remove');
 
-        $app->get('categoryWorks/{category_id}', 'SubcategoryWorkController@getWorks');
-        $app->post('subcategoryWork', 'SubcategoryWorkController@add'); //require: subcategory_id, work_id || subcategory_id, new_work_code, old_work_code
-        $app->post('subcategoryWork/{subcategory_id}/{work_code}', 'SubcategoryWorkController@update'); //require: value, no
-        $app->delete('subcategoryWork/{subcategory_id}/{work_code}', 'SubcategoryWorkController@remove');
-
-        $app->post('description', 'DescriptionController@add'); //require: subcategory_id, work_code
-        $app->post('description/{id}', 'DescriptionController@update'); //require: description
+        $app->post('description', 'DescriptionController@add');
+        $app->post('description/{id}', 'DescriptionController@update');
         $app->delete('description/{id}', 'DescriptionController@remove');
+
+        //require: construction_id
+        //return: [{id,code,name,unit,price}]
+        $app->get('resources', 'ResourceController@get');
+        $app->post('resource', 'ResourceController@add');
+        $app->post('resource/{id}', 'ResourceController@update');
+        $app->delete('resource/{id}', 'ResourceController@remove');
+
+        //require: category_id
+        //return: [{resource_id,work_id,price}]
+        $app->get('resourcesWorks', 'ResourceWorkController@get');
+        $app->post('resourceWork', 'ResourceWorkController@add');
+        $app->post('resourceWork/{resource_id}/{work_id}', 'ResourceWorkController@update');
+        $app->delete('resourceWork/{resource_id}/{work_id}', 'ResourceWorkController@remove');
+
+        //require: supplier_id
+        //return: [{resource_id,price}]
+        $app->get('resourcesSupplier', 'ResourceSupplierController@get');
+        $app->post('resourceSupplier', 'ResourceSupplierController@add');
+        $app->post('resourceSupplier/{resource_id}/{supplier_id}', 'ResourceSupplierController@update');
+        $app->delete('resourceSupplier/{resource_id}/{supplier_id}', 'ResourceSupplierController@remove');
+
+        $app->post('constructionResource', 'ConstructionResourceController@add');
+        $app->post('constructionResource/{construction_id}/{resource_id}', 'ConstructionResourceController@update');
+        $app->delete('constructionResource/{construction_id}/{resource_id}', 'ConstructionResourceController@remove');
     });

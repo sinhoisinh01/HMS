@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Construction;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -11,7 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        User::create(['name' => 'government']);
         $this->call('SupplierTableSeeder');
+        Construction::create(['user_id' => 1, 'name' => 'government', 'supplier_id' => 1]);
         $this->call('WorkTableSeeder');
         $this->call('ResourceTableSeeder');
         $this->call('ResourceSupplierTableSeeder');

@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subcategory;
-use App\Models\SubcategoryWork;
-use App\Models\Work;
+use App\Models\Category;
 use App\Models\Description;
+use App\Models\SubcategoryWork;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller;
 
 class SubcategoryWorkController extends Controller
 {
-    function getWorks($category_id)
+    function get(Request $request)
     {
-        $subcategories = Subcategory::where('category_id', $category_id)->get();
-		$works = SubcategoryWork::join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
-			->join('works', 'subcategory_work.work_id', '=', 'works.id')
-			->where('subcategories.category_id', $category_id)->get();
-		$descriptions = SubcategoryWork::join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
-			->join('works', 'subcategory_work.work_id', '=', 'works.id')
-			->join('descriptions', function($join) {
-				$join->on('descriptions.work_id', '=', 'subcategory_work.work_id');
-				$join->on('descriptions.subcategory_id', '=', 'subcategory_work.subcategory_id');
-			})
-			->where('subcategories.category_id', $category_id)->get();
-		
-		$subcategories->transform(function ($subcategory) use ($works, $descriptions) {
-			$subcategory->works = $works->where('subcategory_id', $subcategory->id);
+        $subcategories = Category::find($request->input('category_id'))->subcategories;
+        $subcategoryWorks = Category::find($request->input('category_id'))->subcategoryWorks;
+        /*SubcategoryWork::join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
+        ->join('works', 'subcategory_work.work_id', '=', 'works.id')
+        ->where('category_id', $request->input('category_id'))->get();*/
+        $descriptions = Description::join('subcategories', 'descriptions.subcategory_id', '=', 'subcategories.id')
+            ->where('category_id', $request->input('category_id'))->get();
+        $subcategories->transform(function ($subcategory) use ($subcategoryWorks, $descriptions) {
+            $subcategory->works = $subcategoryWorks->where('subcategory_id', $subcategory->id);
 			$subcategory->works->transform(function ($work) use ($subcategory, $descriptions) {
 				$work->descriptions = $descriptions->where('work_id', $work->id)
 					->where('subcategory_id', $subcategory->id);

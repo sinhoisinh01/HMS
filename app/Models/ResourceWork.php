@@ -6,14 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ResourceWork extends Model
 {
+    public $timestamps = false;
     protected $table = 'resource_work';
-
     protected $guarded = [];
-
-	public $timestamps = false;
-
-    public function descriptions()
-    {
-        return $this->hasMany('App\Models\Description');
-    }
 }

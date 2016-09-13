@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class Works extends Migration
 {
@@ -12,13 +12,14 @@ class Works extends Migration
      */
     public function up()
     {
-         Schema::create('works', function(Blueprint $table) {
+        Schema::create('works', function (Blueprint $table) {
             $table->increments('id');
-			$table->string('code');
-            $table->string('document')->nullable();
+            $table->string('code');
+            $table->string('document');
             $table->string('name');
             $table->string('unit');
-			$table->integer('construction_id')->nullable();
+            $table->integer('construction_id')->unsigned();
+            $table->foreign('construction_id')->references('id')->on('constructions')->onDelete('cascade');
         });
     }
 

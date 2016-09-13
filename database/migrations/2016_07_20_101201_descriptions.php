@@ -16,15 +16,14 @@ class Descriptions extends Migration
             $table->increments('id');
             $table->integer('subcategory_id')->unsigned();
             $table->integer('work_id')->unsigned();
-            $table->string('content');
-            $table->float('amount')->unsigned();
-            $table->float('length')->unsigned();
-            $table->float('width')->unsigned();
-            $table->float('height')->unsigned();
-			$table->float('value')->unsigned();
-            $table->foreign(['subcategory_id', 'work_id'])
-                ->references(['subcategory_id', 'work_id'])->on('subcategory_work')
-                ->onDelete('cascade');
+            $table->string('name');
+            $table->double('amount')->unsigned();
+            $table->double('length')->unsigned();
+            $table->double('width')->unsigned();
+            $table->double('height')->unsigned();
+            $table->double('value')->unsigned();
+            $table->foreign(['subcategory_id', 'work_id'])->references(['subcategory_id', 'work_id'])
+                ->on('subcategory_work')->onDelete('cascade');
         });
     }
 

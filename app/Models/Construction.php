@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Construction extends Model
 {
     protected $guarded = [];
+    protected $hidden = ['user_id'];
 
     public function supplier()
     {
@@ -21,5 +22,15 @@ class Construction extends Model
     public function categories()
     {
         return $this->hasMany('App\Models\Category');
+    }
+
+    public function works()
+    {
+        return $this->hasMany('App\Models\Work');
+    }
+
+    public function resources()
+    {
+        return $this->belongsToMany('App\Models\Resource');
     }
 }

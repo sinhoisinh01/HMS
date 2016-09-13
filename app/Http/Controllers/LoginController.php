@@ -6,6 +6,7 @@ use App\Models\User;
 use Google_Client;
 use Google_Service_Oauth2;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Lumen\Routing\Controller;
 
 class LoginController extends Controller
 {
@@ -37,7 +38,7 @@ class LoginController extends Controller
                 'token' => $token,
                 'email' => $userInfo->email,
                 'name' => $userInfo->name,
-                'picture' => $userInfo->picture]);
+                'pictureURL' => $userInfo->picture]);
         else
             $user->update(['token' => $token]);
         return redirect('http://localhost/HMS/public/HMS.html#/login/' . substr($token,0,255));

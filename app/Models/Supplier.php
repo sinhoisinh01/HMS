@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-    protected $guarded = [];
-
     public $timestamps = false;
+    protected $guarded = [];
+    protected $hidden = ['user_id'];
 
-    public function constructions()
+    public function user()
     {
-        return $this->hasMany('App\Models\Construction');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function resources()

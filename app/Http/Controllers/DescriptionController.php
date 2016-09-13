@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Description;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller;
 
 class DescriptionController extends Controller
 {
     function add(Request $request)
     {
-        return Description::create(['sub-category_id' => $request->input('sub-category_id'),
-            'work_id' => $request->input('work_id')]);
+        return Description::create($request->input('description'));
     }
 
     function update($id, Request $request)

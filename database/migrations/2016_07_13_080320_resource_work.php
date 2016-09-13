@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class ResourceWork extends Migration
 {
@@ -13,11 +13,11 @@ class ResourceWork extends Migration
     public function up()
     {
         Schema::create('resource_work', function (Blueprint $table) {
-            $table->string('resource_code');
+            $table->integer('resource_id')->unsigned();
             $table->integer('work_id')->unsigned();
-            $table->float('value');
-            $table->primary(['resource_code', 'work_id']);
-            $table->foreign('resource_code')->references('code')->on('resources')->onDelete('cascade');
+            $table->double('value');
+            $table->primary(['resource_id', 'work_id']);
+            $table->foreign('resource_id')->references('id')->on('resources')->onDelete('cascade');
             $table->foreign('work_id')->references('id')->on('works')->onDelete('cascade');
         });
     }

@@ -3,21 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Subcategory;
 use App\Models\Construction;
 use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller;
 
 class CategoryController extends Controller
 {
-    function getCategoriesByConstruction($construction_id)
+    function get(Request $request)
     {
-        return response()->json(Construction::find($construction_id)->categories);
+        return response()->json(Construction::find($request->input('construction_id'))->categories);
     }
 
     function add(Request $request)
     {
         $category = Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]);
-		Subcategory::create(['category_id' => $category->id, 'name' => '']);
+        /* Subcategory::create(['category_id' => $category->id, 'name' => '']);
+         * This request need to be send from the frond end
+         * I know here it's more slow because you need to wait 2 round way but it's
+         * more important to keep a RESTful style
+        */
 		return response()->json($category);
     }
 
