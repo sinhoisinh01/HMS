@@ -16,6 +16,7 @@ class Subcategories extends Migration
             $table->increments('id');
             $table->integer('category_id')->unsigned();
             $table->string('name');
+            $table->integer('no');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }

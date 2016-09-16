@@ -24,14 +24,16 @@ class WorkController extends Controller
                         $price += $resource->price * $resource->value;
                     }
                     $work[0]->price = $price;
+                    unset($work[0]->document, $work[0]->construction_id, $work[0]->resource_id,
+                        $work[0]->work_id, $work[0]->supplier_id, $work[0]->value);
                     return $work[0];
                 })->values());
     }
-	
-	function add(Request $request)
-	{
-		return Work::create($request->input('work'));
-	}
+
+    public function add(Request $request)
+    {
+        return Work::create($request->input('work'));
+    }
 	
 	function update($id, Request $request)
 	{

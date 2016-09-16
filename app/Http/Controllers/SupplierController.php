@@ -13,22 +13,20 @@ class SupplierController extends Controller
     {
         return response()->json(Supplier::whereIn('user_id', [1, Auth::user()->id])->get());
     }
-	
+
 	function add(Request $request)
 	{
 		$supplier = $request->input('supplier');
 		$supplier['user_id'] = Auth::user()->id;
 		return Supplier::create($supplier);
 	}
-	
-	function update($id, Request $request)
+
+    function update($id, Request $request)
 	{
-		$supplier = $request->input('supplier');
-		$supplier['user_id'] = Auth::user()->id;
-		Supplier::find($id)->update($supplier);
+        Supplier::find($id)->update($request->input('supplier'));
 	}
-	
-	function remove($id)
+
+    function remove($id)
 	{
 		Supplier::destroy($id);
 	}

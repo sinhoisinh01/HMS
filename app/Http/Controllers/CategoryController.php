@@ -11,23 +11,21 @@ class CategoryController extends Controller
 {
     function get(Request $request)
     {
-        return response()->json(Construction::find($request->input('construction_id'))->categories);
+        $categories = Construction::find($request->input('construction_id'))->categories;
+        foreach ($categories as $category) {
+            unset($category->construction_id);
+        }
+        return response()->json($categories);
     }
 
     function add(Request $request)
     {
-        $category = Category::create(['construction_id' => $request->input('construction_id'), 'name' => $request->input('name')]);
-        /* Subcategory::create(['category_id' => $category->id, 'name' => '']);
-         * This request need to be send from the frond end
-         * I know here it's more slow because you need to wait 2 round way but it's
-         * more important to keep a RESTful style
-        */
-		return response()->json($category);
+        return response()->json(Category::create($request->input('category')));
     }
 
     function update(Request $request, $id)
     {
-        Category::find($id)->update(['name' => $request->input('name')]);
+        Category::find($id)->update($request->input('category'));
     }
 
     function remove($id)

@@ -11,16 +11,23 @@ use App\Models\Work;
 
 class SimpleModalsTest extends TestCase
 {
+    public function testSupplier()
+    {
+        $user = factory('App\Models\User')->create();
+        $suppliers = factory('App\Models\Supplier', 2)->make()->toArray();
+        $this->factoriseTest($user, $suppliers[0], $suppliers[1], Supplier::class, 'supplier',
+            'suppliers', true, ['id', 'name', 'address']);
+    }
+	
     public function factoriseTest($user, $component, $componentUpdate, $class, $componentName,
-                                  $tableName, $testGet, $keysExpected = [])
+                                  $tableName, $testGet, $keysExpected = [], $paramName = '', $paramValue = 0)
     {
         $this->actingAs($user)->post('/' . $componentName, [$componentName => $component])
             ->seeInDatabase('' . $tableName, $component)
             ->assertObjectHasAttribute('id', json_decode($this->response->content()));
         $component_id = $class::all()->last()->id;
         if ($testGet)
-            $this->actingAs($user)->get('/' . $tableName)
-                ->seeJson(['id' => $component_id])
+            $this->actingAs($user)->get('/' . $tableName . '?' . $paramName . '=' . $paramValue)
                 ->assertEquals($keysExpected, array_keys((array)json_decode($this->response->content())[0]));
         $this->actingAs($user)->post('/' . $componentName . '/' . $component_id, [$componentName => $componentUpdate])
             ->seeInDatabase('' . $tableName, array_merge(['id' => $component_id], $componentUpdate));
@@ -28,22 +35,14 @@ class SimpleModalsTest extends TestCase
             ->notSeeInDatabase('' . $tableName, ['id' => $component_id]);
         $user->delete();
     }
-	
-	public function testSupplier()
-    {
-        $user = factory('App\Models\User')->create();
-        $suppliers = factory('App\Models\Supplier', 2)->make()->toArray();
-        $this->factoriseTest($user, $suppliers[0], $suppliers[1], Supplier::class, 'supplier',
-            'suppliers', true, ['id', 'name', 'address']);
-    }
-
 
     public function testResource()
     {
         $user = factory('App\Models\User')->create();
+        $user->constructions()->save(factory('App\Models\Construction')->make());
         $resources = factory('App\Models\Resource', 2)->make()->toArray();
         $this->factoriseTest($user, $resources[0], $resources[1], Resource::class, 'resource',
-            'resources', true, ['id', 'code', 'name', 'unit', 'price']);
+            'resources', true, ['id', 'code', 'name', 'unit', 'price'], 'construction_id', Construction::all()->last()->id);
     }
 
     public function testConstruction()
@@ -61,7 +60,7 @@ class SimpleModalsTest extends TestCase
         $user->constructions()->save(factory('App\Models\Construction')->make());
         $works = factory('App\Models\Work', 2)->make(['construction_id' => Construction::all()->last()->id])->toArray();
         $this->factoriseTest($user, $works[0], $works[1], Work::class, 'work',
-            'works', true, ['id', 'code', 'name', 'unit', 'price']);
+            'works', true, ['id', 'code', 'name', 'unit', 'price'], 'construction_id', Construction::all()->last()->id);
     }
 
     public function testCategory()
@@ -70,7 +69,7 @@ class SimpleModalsTest extends TestCase
         $user->constructions()->save(factory('App\Models\Construction')->make());
         $categories = factory('App\Models\Category', 2)->make(['construction_id' => Construction::all()->last()->id])->toArray();
         $this->factoriseTest($user, $categories[0], $categories[1], Category::class, 'category',
-            'categories', true, ['id', 'name']);
+            'categories', true, ['id', 'name'], 'construction_id', Construction::all()->last()->id);
     }
 
     public function testSubcategory()
@@ -78,9 +77,23 @@ class SimpleModalsTest extends TestCase
         $user = factory('App\Models\User')->create();
         $user->constructions()->save(factory('App\Models\Construction')->make());
         Construction::all()->last()->categories()->save(factory('App\Models\Category')->make());
-        $subcategories = factory('App\Models\Subcategory', 2)->make(['category_id' => Category::all()->last()->id])->toArray();
+        $subcategories = factory('App\Models\Subcategory', 2)->make(
+            ['category_id' => Category::all()->last()->id])->toArray();
         $this->factoriseTest($user, $subcategories[0], $subcategories[1], Subcategory::class, 'subcategory',
             'subcategories', false);
+    }
+
+    public function testSubcategoryWork()
+    {
+        $user = factory('App\Models\User')->create();
+        $user->constructions()->save(factory('App\Models\Construction')->make());
+        Construction::all()->last()->categories()->save(factory('App\Models\Category')->make());
+        Category::all()->last()->subcategories()->save(factory('App\Models\Subcategory')->make());
+        $subcategoryWorks = factory('App\Models\SubcategoryWork', 2)->make(['subcategory_id' =>
+            Subcategory::all()->last()->id])->toArray();
+        $this->factoriseTest($user, $subcategoryWorks[0], $subcategoryWorks[1], Subcategory::class, 'subcategoryWork',
+            'subcategory_work', true, ['id', 'name', 'works', 'no', 'code', 'unit', 'value', 'price',
+                'descriptions', 'amount', 'length', 'width', 'height'], 'category_id', Category::all()->last()->id);
     }
 
     public function testDescription()
@@ -89,10 +102,9 @@ class SimpleModalsTest extends TestCase
         $user->constructions()->save(factory('App\Models\Construction')->make());
         Construction::all()->last()->categories()->save(factory('App\Models\Category')->make());
         Category::all()->last()->subcategories()->save(factory('App\Models\Subcategory')->make());
-        Subcategory::all()->last()->works()->save(Work::find(random_int(1, 1111)));
-        $descriptions = factory('App\Models\Description', 2)->make(
-            ['subcategory_id' => SubcategoryWork::all()->last()->subcategory_id,
-                'work_id' => SubcategoryWork::all()->last()->work_id])->toArray();
+        factory('App\Models\SubcategoryWork')->create(['subcategory_id' => Subcategory::all()->last()->id]);
+        $descriptions = factory('App\Models\Description', 2)->make(['subcategoryWork_id' =>
+            SubcategoryWork::all()->last()->id])->toArray();
         $this->factoriseTest($user, $descriptions[0], $descriptions[1], Description::class, 'description',
             'descriptions', false);
     }

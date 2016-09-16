@@ -39,22 +39,23 @@ $factory->define(App\Models\Category::class, function ($faker) {
 
 $factory->define(App\Models\Subcategory::class, function ($faker) {
     return [
-        'name' => $faker->name
+        'name' => $faker->name,
+        'no' => 0
     ];
 });
 
-$factory->define(App\Models\SubcategoryWork::class, function ($faker, $category_id) {
+$factory->define(App\Models\SubcategoryWork::class, function ($faker) {
     return [
-        'category_id' => $category_id,
-        'work_id' => $faker->unique($reset = true)->numberBetween($min = 1, $max = 1111),
-        'value' => $faker->randomFloat($min = 0)
-        //no
+        'work_id' => $faker->unique($reset = true)->numberBetween(1, 1111),
+        'value' => $faker->randomFloat($min = 0),
+        'no' => 0
     ];
 });
 
 $factory->define(App\Models\Description::class, function ($faker) {
     return [
         'name' => $faker->name,
+        'no' => 0,
         'amount' => $faker->randomFloat($min = 0),
         'length' => $faker->randomFloat($min = 0),
         'width' => $faker->randomFloat($min = 0),
@@ -89,19 +90,22 @@ $factory->define(App\Models\Resource::class, function ($faker) {
 
 $factory->define(App\Models\ResourceSupplier::class, function ($faker) {
     return [
-        'price' => $faker->numberBetween($min = 0, $max = 1000000000)
+        'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
+        'price' => $faker->numberBetween(0, 1000000000)
     ];
 });
 
 $factory->define(App\Models\ResourceWork::class, function ($faker) {
     return [
+        'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
         'value' => $faker->randomFloat($min = 0)
     ];
 });
 
 $factory->define(App\Models\ConstructionResource::class, function ($faker) {
     return [
-        'price' => $faker->numberBetween($min = 0, $max = 1000000000)
+        'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
+        'price' => $faker->numberBetween(0, 1000000000)
     ];
 });
 

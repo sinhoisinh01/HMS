@@ -13,10 +13,12 @@ class SubcategoryWorkController extends Controller
     function get(Request $request)
     {
         $subcategories = Category::find($request->input('category_id'))->subcategories;
-        $subcategoryWorks = Category::find($request->input('category_id'))->subcategoryWorks;
-        /*SubcategoryWork::join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
+        /* Not work, may be not the good relationship in Category Model
+         * $subcategoryWorks = Category::find($request->input('category_id'))->subcategoryWorks;
+        var_dump($subcategoryWorks);*/
+        $subcategoryWorks = SubcategoryWork::join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
         ->join('works', 'subcategory_work.work_id', '=', 'works.id')
-        ->where('category_id', $request->input('category_id'))->get();*/
+            ->where('category_id', $request->input('category_id'))->get();
         $descriptions = Description::join('subcategories', 'descriptions.subcategory_id', '=', 'subcategories.id')
             ->where('category_id', $request->input('category_id'))->get();
         $subcategories->transform(function ($subcategory) use ($subcategoryWorks, $descriptions) {
@@ -33,20 +35,12 @@ class SubcategoryWorkController extends Controller
 
     function add(Request $request)
     {
-        if ($request->has('work_id')) //create
-            SubcategoryWork::create(['subcategory_id' => $request->input('subcategory_id'),
-                'work_id' => $request->input('work_id'),
-                'no' => SubcategoryWork::where('subcategory_id', $request->input('subcategory_id'))->count() + 1,
-                'value' => 0]);
-        else { //replacement
-            $toDelete = SubcategoryWork::where('subcategory_id', $request->input('subcategory_id'))
-                ->where('work_id', $request->input('old_work_id'));
-            SubcategoryWork::create(['subcategory_id' => $request->input('subcategory_id'),
-                'work_id' => $request->input('new_work_id'),
-                'no' => $toDelete->first()->no,
-                'value' => 0]);
-            $toDelete->delete();
-        }
+        $subcategoryWork = $request->input('subcategoryWork');
+        /*Doesn't work, don't know why
+         * SubcategoryWork::where('subcategory_id', $subcategoryWork->subcategory_id)
+            ->where('no', '>=', $subcategoryWork->no)
+            ->increment('no');*/
+        return response()->json(SubcategoryWork::create($subcategoryWork));
     }
 
     function update(Request $request, $category_id, $work_code)

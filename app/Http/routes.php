@@ -53,10 +53,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         //require: category_id
         //return: [{id,name,works=[{id,no,code,name,unit,value,price,descriptions=[{id,name,amount,length,width,height,value}]]]
         $app->get('categoryWorks', 'SubcategoryWorkController@get');
-        //require: subcategory_id,work_id || subcategory_id,new_work_id,old_work_id
         $app->post('subcategoryWork', 'SubcategoryWorkController@add');
-        $app->post('subcategoryWork/{subcategory_id}/{work_id}', 'SubcategoryWorkController@update');
-        $app->delete('subcategoryWork/{subcategory_id}/{work_id}', 'SubcategoryWorkController@remove');
+        $app->post('subcategoryWork/{id}', 'SubcategoryWorkController@update');
+        $app->delete('subcategoryWork/{id}', 'SubcategoryWorkController@remove');
 
         $app->post('description', 'DescriptionController@add');
         $app->post('description/{id}', 'DescriptionController@update');
@@ -69,8 +68,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('resource/{id}', 'ResourceController@update');
         $app->delete('resource/{id}', 'ResourceController@remove');
 
-        //require: category_id
-        //return: [{resource_id,work_id,price}]
+        //return: [{resource_id,work_id,value}]
         $app->get('resourcesWorks', 'ResourceWorkController@get');
         $app->post('resourceWork', 'ResourceWorkController@add');
         $app->post('resourceWork/{resource_id}/{work_id}', 'ResourceWorkController@update');
