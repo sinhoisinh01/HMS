@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     {
         User::create(['name' => 'government']);
         $this->call('SupplierTableSeeder');
-        Construction::create(['user_id' => 1, 'name' => 'government', 'supplier_id' => 1]);
+        Construction::create(['user_id' => 1, 'name' => 'government', 'supplier_id' => 31]);
         $this->call('WorkTableSeeder');
         $this->call('ResourceTableSeeder');
         $this->call('ResourceSupplierTableSeeder');

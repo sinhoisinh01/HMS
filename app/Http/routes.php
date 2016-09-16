@@ -2,7 +2,7 @@
 
 /*
  Lumen doesn't support JSON data via angular put request, we need to use post
- A post request require the whole object without id and user_id (except for add subcategoryWork)
+ A add request require the whole object without id and user_id (except for add subcategoryWork)
  Add post return the whole object (without user_id) if there an id, void if not
  Update post and delete return void
 */
@@ -22,9 +22,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 
         //return: [{id,name,address}]
         $app->get('suppliers', 'SupplierController@get');
-        $app->post('supplier', 'WorkController@add');
-        $app->post('supplier/{id}', 'WorkController@update');
-        $app->delete('supplier/{id}', 'WorkController@remove');
+        $app->post('supplier', 'SupplierController@add');
+        $app->post('supplier/{id}', 'SupplierController@update');
+        $app->delete('supplier/{id}', 'SupplierController@remove');
 
         //return: [{...constructionWithoutUserId,created_at,updated_at}]
         $app->get('constructions', 'ConstructionController@get');

@@ -11,14 +11,6 @@ use App\Models\Work;
 
 class SimpleModalsTest extends TestCase
 {
-    public function testSupplier()
-    {
-        $user = factory('App\Models\User')->create();
-        $suppliers = factory('App\Models\Supplier', 2)->make()->toArray();
-        $this->factoriseTest($user, $suppliers[0], $suppliers[1], Supplier::class, 'supplier',
-            'suppliers', true, ['id', 'name', 'address']);
-    }
-
     public function factoriseTest($user, $component, $componentUpdate, $class, $componentName,
                                   $tableName, $testGet, $keysExpected = [])
     {
@@ -36,6 +28,15 @@ class SimpleModalsTest extends TestCase
             ->notSeeInDatabase('' . $tableName, ['id' => $component_id]);
         $user->delete();
     }
+	
+	public function testSupplier()
+    {
+        $user = factory('App\Models\User')->create();
+        $suppliers = factory('App\Models\Supplier', 2)->make()->toArray();
+        $this->factoriseTest($user, $suppliers[0], $suppliers[1], Supplier::class, 'supplier',
+            'suppliers', true, ['id', 'name', 'address']);
+    }
+
 
     public function testResource()
     {

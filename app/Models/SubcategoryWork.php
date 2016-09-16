@@ -9,8 +9,8 @@ class SubcategoryWork extends Model
 	public $timestamps = false;
     protected $table = 'subcategory_work';
     protected $guarded = [];
-    protected $visible = ['id', 'name', 'works', 'no', 'code', 'unit', 'value', 'price',
-        'descriptions', 'amount', 'length', 'width', 'height'];
+    //protected $visible = ['id', 'name', 'works', 'no', 'code', 'unit', 'value', 'price',
+        //'descriptions', 'amount', 'length', 'width', 'height'];
 
     public function descriptions()
     {

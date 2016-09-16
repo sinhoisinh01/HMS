@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller;
 
@@ -12,4 +13,23 @@ class SupplierController extends Controller
     {
         return response()->json(Supplier::whereIn('user_id', [1, Auth::user()->id])->get());
     }
+	
+	function add(Request $request)
+	{
+		$supplier = $request->input('supplier');
+		$supplier['user_id'] = Auth::user()->id;
+		return Supplier::create($supplier);
+	}
+	
+	function update($id, Request $request)
+	{
+		$supplier = $request->input('supplier');
+		$supplier['user_id'] = Auth::user()->id;
+		Supplier::find($id)->update($supplier);
+	}
+	
+	function remove($id)
+	{
+		Supplier::destroy($id);
+	}
 }

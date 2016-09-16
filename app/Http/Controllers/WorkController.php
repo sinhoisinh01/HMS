@@ -14,8 +14,8 @@ class WorkController extends Controller
         return response()->json(
             Work::join('resource_work', 'resource_work.work_id', '=', 'works.id')
                 ->join('resource_supplier', 'resource_supplier.resource_id', '=', 'resource_work.resource_id')
-                ->whereIn('construction_id', [1, $request->input('construction_id')])
                 ->where('supplier_id', Construction::find($request->input('construction_id'))->supplier_id)
+				->whereIn('construction_id', [1, $request->input('construction_id')])
 				->get()
                 ->groupBy('id')
                 ->transform(function ($work) {
@@ -27,4 +27,19 @@ class WorkController extends Controller
                     return $work[0];
                 })->values());
     }
+	
+	function add(Request $request)
+	{
+		return Work::create($request->input('work'));
+	}
+	
+	function update($id, Request $request)
+	{
+		Work::find($id)->update($request->input('work'));
+	}
+	
+	function remove($id)
+	{
+		Work::destroy($id);
+	}
 }

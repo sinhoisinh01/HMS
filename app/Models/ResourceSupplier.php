@@ -9,5 +9,5 @@ class ResourceSupplier extends Model
     public $timestamps = false;
     protected $table = 'resource_supplier';
     protected $guarded = [];
-    protected $visible = ['resource_id', 'price'];
+    //protected $visible = ['resource_id', 'price'];
 }

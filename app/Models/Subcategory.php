@@ -9,7 +9,7 @@ class Subcategory extends Model
 	public $timestamps = false;
     protected $table = 'subcategories';
     protected $guarded = [];
-    protected $visible = ['id', 'name'];
+    //protected $visible = ['id', 'name'];
 
     public function category()
     {

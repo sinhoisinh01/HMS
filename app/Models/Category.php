@@ -9,7 +9,7 @@ class Category extends Model
     public $timestamps = false;
 	protected $table = 'categories';
     protected $guarded = [];
-    protected $visible = ['id', 'name'];
+    //protected $visible = ['id', 'name'];
 
     public function construction()
     {

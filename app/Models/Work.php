@@ -8,7 +8,7 @@ class Work extends Model
 {
     public $timestamps = false;
     protected $guarded = [];
-    protected $visible = ['id', 'code', 'name', 'unit', 'price'];
+    //protected $visible = ['id', 'code', 'name', 'unit', 'price'];
 
     public function construction()
     {
