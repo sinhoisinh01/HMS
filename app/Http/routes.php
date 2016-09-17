@@ -51,7 +51,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->delete('work/{id}', 'WorkController@remove');
 
         //require: category_id
-        //return: [{id,name,works=[{id,no,code,name,unit,value,price,descriptions=[{id,name,amount,length,width,height,value}]]]
+        //return: [{id,name,no,subcategory_works=[{id,work_id,no,unit,value,descriptions=[{id,name,no,amount,length,width,height,value}]]]
         $app->get('categoryWorks', 'SubcategoryWorkController@get');
         $app->post('subcategoryWork', 'SubcategoryWorkController@add');
         $app->post('subcategoryWork/{id}', 'SubcategoryWorkController@update');

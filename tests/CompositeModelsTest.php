@@ -13,17 +13,17 @@ class CompositeModelsTest extends TestCase
         $resourceSupplierUpdate = factory('App\Models\ResourceSupplier')->make(['supplier_id' =>
             $resourceSupplier->supplier_id, 'resource_id' => $resourceSupplier->resource_id])->toArray();
         $this->factoriseTest($user, $resourceSupplier->toArray(), $resourceSupplierUpdate, 'resourceSupplier',
-            'resource_supplier', ['resource_id', 'supplier_id'], true, ['resource_id', 'price'],
+            'resource_supplier', ['resource_id', 'supplier_id'], true, 'resourcesSupplier', ['resource_id', 'price'],
             'supplier_id', Supplier::all()->last()->id);
     }
 
     public function factoriseTest($user, $component, $componentUpdate, $componentName, $tableName,
-                                  $keys, $testGet, $keysExpected = [], $paramName = '', $paramValue = 0)
+                                  $keys, $testGet, $getName = '', $keysExpected = [], $paramName = '', $paramValue = 0)
     {
         $this->actingAs($user)->post('/' . $componentName, [$componentName => $component])
             ->seeInDatabase('' . $tableName, $component);
         if ($testGet)
-            $this->actingAs($user)->get('/' . $tableName . '?' . $paramName . '=' . $paramValue)
+            $this->actingAs($user)->get('/' . $getName . '?' . $paramName . '=' . $paramValue)
                 ->assertEquals($keysExpected, array_keys((array)json_decode($this->response->content())[0]));
         $this->actingAs($user)->post('/' . $componentName . '/' . $keys[0] . '/' . $keys[1],
             [$componentName => $componentUpdate])
@@ -42,7 +42,7 @@ class CompositeModelsTest extends TestCase
         $resourcesWorkUpdate = factory('App\Models\ResourceWork')->make(['work_id' => $resourcesWork->work_id,
             'resource_id' => $resourcesWork->resource_id])->toArray();
         $this->factoriseTest($user, $resourcesWork->toArray(), $resourcesWorkUpdate, 'resourceWork',
-            'resource_work', ['resource_id', 'work_id'], true, ['resource_id', 'work_id', 'value']);
+            'resource_work', ['resource_id', 'work_id'], true, 'resourcesWorks', ['resource_id', 'work_id', 'value']);
     }
 
     public function testConstructionResource()

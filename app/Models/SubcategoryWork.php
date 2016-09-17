@@ -14,6 +14,6 @@ class SubcategoryWork extends Model
 
     public function descriptions()
     {
-        return $this->hasMany('App\Models\Description');
+        return $this->hasMany('App\Models\Description', 'subcategoryWork_id');
     }
 }
