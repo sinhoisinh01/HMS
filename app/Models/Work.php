@@ -19,4 +19,9 @@ class Work extends Model
     {
         return $this->belongsToMany('App\Models\Resource');
     }
+	
+	public function resource_work()
+    {
+        return $this->hasMany('App\Models\ResourceWork');
+    }
 }

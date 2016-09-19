@@ -91,7 +91,7 @@ $factory->define(App\Models\Resource::class, function ($faker) {
 $factory->define(App\Models\ResourceSupplier::class, function ($faker) {
     return [
         'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
-        'price' => $faker->numberBetween(0, 1000000000)
+        'price' => $faker->numberBetween(0, 100000000)
     ];
 });
 
@@ -105,7 +105,7 @@ $factory->define(App\Models\ResourceWork::class, function ($faker) {
 $factory->define(App\Models\ConstructionResource::class, function ($faker) {
     return [
         'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
-        'price' => $faker->numberBetween(0, 1000000000)
+        'price' => $faker->numberBetween(0, 100000000)
     ];
 });
 

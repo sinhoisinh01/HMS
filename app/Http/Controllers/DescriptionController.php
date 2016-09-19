@@ -10,7 +10,9 @@ class DescriptionController extends Controller
 {
     function add(Request $request)
     {
-        return Description::create($request->input('description'));
+        Description::where('subcategoryWork_id', $request->input('description')['subcategoryWork_id'])
+		->where('no', '>=', $request->input('description')['no'])->increment('no');
+		return Description::create($request->input('description'));
     }
 
     function update($id, Request $request)
@@ -20,6 +22,9 @@ class DescriptionController extends Controller
 
     function remove($id)
     {
-        Description::destroy($id);
+        $toDelete = Description::find($id);
+		Description::where('subcategoryWork_id', $toDelete->subcategoryWork_id)
+		->where('no', '>', $toDelete->no)->decrement('no');
+		Description::destroy($id);
     }
 }

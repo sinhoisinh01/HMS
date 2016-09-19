@@ -10,17 +10,22 @@ class SubcategoryController extends Controller
 {
     function add(Request $request)
     {
-        return response()->json(Subcategory::create(['category_id' => $request->input('category_id'),
-            'name' => $request->input('name')]));
+        Subcategory::where('category_id', $request->input('subcategory')['category_id'])
+		->where('no', '>=', $request->input('subcategory')['no'])
+		->increment('no');
+		return response()->json(Subcategory::create($request->input('subcategory')));
     }
 
     function update(Request $request, $id)
     {
-        Subcategory::find($id)->update(['name' => $request->input('name')]);
+        Subcategory::find($id)->update($request->input('subcategory'));
     }
 
     function remove($id)
     {
-        Subcategory::destroy($id);
+		$toDelete = Subcategory::find($id);
+		Subcategory::where('category_id', $toDelete->category_id)
+		->where('no', '>', $toDelete->no)->decrement('no');
+		Subcategory::destroy($id);
     }
 }

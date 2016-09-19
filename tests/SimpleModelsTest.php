@@ -9,7 +9,7 @@ use App\Models\SubcategoryWork;
 use App\Models\Supplier;
 use App\Models\Work;
 
-class SimpleModalsTest extends TestCase
+class SimpleModelsTest extends TestCase
 {
     public function testSupplier()
     {
@@ -22,16 +22,23 @@ class SimpleModalsTest extends TestCase
     public function factoriseTest($user, $component, $componentUpdate, $class, $componentName,
                                   $tableName, $testGet, $getName = '', $keysExpected = [], $paramName = '', $paramValue = 0)
     {
-        $this->actingAs($user)->post('/' . $componentName, [$componentName => $component])
+        // Test Insert
+		$this->actingAs($user)->post('/' . $componentName, [$componentName => $component])
             ->seeInDatabase('' . $tableName, $component)
             ->assertObjectHasAttribute('id', json_decode($this->response->content()));
         $component_id = $class::all()->last()->id;
-        if ($testGet)
+        
+		// Test Get
+		if ($testGet)
             $this->actingAs($user)->get('/' . $getName . '?' . $paramName . '=' . $paramValue)
                 ->assertEquals($keysExpected, array_keys((array)json_decode($this->response->content())[0]));
-        $this->actingAs($user)->post('/' . $componentName . '/' . $component_id, [$componentName => $componentUpdate])
+        
+		// Test Update
+		$this->actingAs($user)->post('/' . $componentName . '/' . $component_id, [$componentName => $componentUpdate])
             ->seeInDatabase('' . $tableName, array_merge(['id' => $component_id], $componentUpdate));
-        $this->actingAs($user)->delete('/' . $componentName . '/' . $component_id)
+        
+		// Test delete
+		$this->actingAs($user)->delete('/' . $componentName . '/' . $component_id)
             ->notSeeInDatabase('' . $tableName, ['id' => $component_id]);
         $user->delete();
     }
@@ -91,7 +98,7 @@ class SimpleModalsTest extends TestCase
         Category::all()->last()->subcategories()->save(factory('App\Models\Subcategory')->make());
         $subcategoryWorks = factory('App\Models\SubcategoryWork', 2)->make(['subcategory_id' =>
             Subcategory::all()->last()->id])->toArray();
-        $this->factoriseTest($user, $subcategoryWorks[0], $subcategoryWorks[1], Subcategory::class, 'subcategoryWork',
+        $this->factoriseTest($user, $subcategoryWorks[0], $subcategoryWorks[1], SubcategoryWork::class, 'subcategoryWork',
             'subcategory_work', true, 'categoryWorks', ['id', 'name', 'no', 'subcategory_works'], 'category_id', Category::all()->last()->id);
     }
 
