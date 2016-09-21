@@ -47,7 +47,7 @@ $factory->define(App\Models\Subcategory::class, function ($faker) {
 $factory->define(App\Models\SubcategoryWork::class, function ($faker) {
     return [
         'work_id' => $faker->unique($reset = true)->numberBetween(1, 1111),
-        'value' => $faker->randomFloat($min = 0),
+        'value' => $faker->randomFloat(1, 0),
         'no' => 0
     ];
 });
@@ -56,11 +56,11 @@ $factory->define(App\Models\Description::class, function ($faker) {
     return [
         'name' => $faker->name,
         'no' => 0,
-        'amount' => $faker->randomFloat($min = 0),
-        'length' => $faker->randomFloat($min = 0),
-        'width' => $faker->randomFloat($min = 0),
-        'height' => $faker->randomFloat($min = 0),
-        'value' => $faker->randomFloat($min = 0)
+        'amount' => $faker->randomFloat(1, 0),
+        'length' => $faker->randomFloat(1, 0),
+        'width' => $faker->randomFloat(1, 0),
+        'height' => $faker->randomFloat(1, 0),
+        'value' => $faker->randomFloat(1, 0)
     ];
 });
 
@@ -98,7 +98,7 @@ $factory->define(App\Models\ResourceSupplier::class, function ($faker) {
 $factory->define(App\Models\ResourceWork::class, function ($faker) {
     return [
         'resource_id' => $faker->unique($reset = true)->numberBetween(1, 3363),
-        'value' => $faker->randomFloat($min = 0)
+        'value' => $faker->randomFloat(1, 0)
     ];
 });
 
