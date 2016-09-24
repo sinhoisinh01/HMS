@@ -22,7 +22,10 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
-                $http.post('construction', {construction: construction}).then(function (response) {
+                delete construction.supplier;
+                // table 'constructions' doesn't have supplier column
+                // just supplier_id
+                $http.post(baseURL + 'construction', {construction: construction}).then(function (response) {
                     $state.go('construction', {'construction_id': response.data.id, name: response.data.name});
                 });
             });

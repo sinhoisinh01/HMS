@@ -1,7 +1,7 @@
 angular.module('HMS')
     .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $rootScope, $location) {
         $rootScope.isCollapsedCategories = false;
-        $http.get(baseURL + 'categories/' + $stateParams.construction_id)
+        $http.get(baseURL + 'categories', {params: {construction_id: $stateParams.construction_id}})
             .then(function (response) {
                 $scope.categories = response.data;
             });
@@ -13,8 +13,10 @@ angular.module('HMS')
                 templateUrl: 'views/modals/categoryModal.html',
                 scope: $scope
             }).result.then(function (name) {
-                $http.post(baseURL + 'category', {name: name, construction_id: $stateParams.construction_id})
+                var category ={construction_id:$stateParams.construction_id,name:name};
+                $http.post(baseURL + 'category', {category:category})
                     .then(function (response) {
+                        $scope.name = "";
                         $scope.categories.push(response.data);
                     });
             });
@@ -28,8 +30,9 @@ angular.module('HMS')
                 templateUrl: 'views/modals/categoryModal.html',
                 scope: $scope
             }).result.then(function (name) {
+                var category = {construction_id:$stateParams.construction_id,name:name};
                 $http.post(baseURL + 'category/' + $scope.categories[index].id,
-                    {name: name}).then(function () {
+                    {category: category}).then(function () {
                     $scope.categories[index].name = name;
                 });
             });
