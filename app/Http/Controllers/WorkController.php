@@ -18,6 +18,7 @@ class WorkController extends Controller
 				->whereIn('construction_id', [1, $request->input('construction_id')])
 				->get()
                 ->groupBy('id')
+                //laravel group by, not sql group by
                 ->transform(function ($work) {
                     $price = 0;
                     foreach ($work as $resource) {
