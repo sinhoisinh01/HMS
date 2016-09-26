@@ -3,14 +3,12 @@ angular.module('HMS')
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
-
-		constructionFactory.getConstructions().then(function(cache) {
+        constructionFactory.get().then(function (cache) {
 			$scope.constructions = cache;
-			$scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+            $scope.recentConstructions = cache.sort(function (a, b) {
 				return new Date(b.updated_at) - new Date(a.updated_at);
 			}).slice(0, 4);
 		});
-
         $scope.add = function () {
             $scope.construction = undefined;
             $scope.names = $scope.constructions.map(function (con) {
@@ -23,12 +21,11 @@ angular.module('HMS')
                 templateUrl: 'views/modals/constructionModal.html',
                 scope: $scope
             }).result.then(function (construction) {
+                // table 'constructions' doesn't have supplier column (just supplier_id)
                 construction.supplier_id = construction.supplier.id;
                 delete construction.supplier;
-                // table 'constructions' doesn't have supplier column
-                // just supplier_id
-                $http.post(baseURL + 'construction', {construction: construction}).then(function (response) {
-                    $state.go('construction', {'construction_id': response.data.id, name: response.data.name});
+                constructionFactory.post(construction).then(function (construction) {
+                    $state.go('construction', {construction_id: construction.id, name: construction.name});
                 });
             });
         };

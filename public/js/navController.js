@@ -6,8 +6,8 @@ angular.module('HMS')
             $cookies.remove('googleToken');
             $state.go('login');
         };
-        userFactory.getUser().then(function(response) {
-            $scope.user = response.data;
+        userFactory.getUser().then(function (cache) {
+            $scope.user = cache;
         });
         if ($state.current.name === 'home')
             $scope.stateName = 'home';
