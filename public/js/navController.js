@@ -1,12 +1,12 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, userFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
             $cookies.remove('googleToken');
             $state.go('login');
         };
-        $http.get(baseURL + 'user').then(function (response) {
+        userFactory.getUser().then(function(response) {
             $scope.user = response.data;
         });
         if ($state.current.name === 'home')
@@ -20,9 +20,11 @@ angular.module('HMS')
                 });
         $scope.deleteUser = function () {
             if (confirm("All of your data will be lost. Are you sure to delete your account?"))
-				$http.delete(baseURL + 'user').then(function () {
+			{	
+				userFactory.deleteUser().then(function(response) {
 					$scope.logOut();
 				});
+			}
         };
         $scope.editConstruction = function () {
             if ($stateParams.construction_id) {

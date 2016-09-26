@@ -9,7 +9,7 @@
         </div>
         <div class="col-sm-6 text-right" id="account">
             <a popover-placement="bottom" uib-popover-template="'popover'">
-                <img ng-src="{{user.picture}}" alt="picture" class="img-circle clickable" 
+                <img ng-src="{{user.pictureURL}}" alt="picture" class="img-circle clickable" 
                 width="24" height="24">
             </a>
         </div>
@@ -73,7 +73,7 @@
     <div>
         <div class="row">
             <div class="col-xs-4">
-                <img ng-src="{{user.picture}}" class="img-circle" alt="picture" width="70" height="70"
+                <img ng-src="{{user.pictureURL}}" class="img-circle" alt="picture" width="70" height="70"
                      style="margin-bottom : 10px">
             </div>
             <div class="col-xs-8"><b>{{user.name}}</b><p>{{user.email}}</p></div>

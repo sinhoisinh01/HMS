@@ -1,14 +1,16 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout) {
+    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout, constructionFactory) {
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
-        $http.get(baseURL + 'constructions').then(function (response) {
-            $scope.constructions = response.data;
-            $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
-                return new Date(b.updated_at) - new Date(a.updated_at);
-            }).slice(0, 4);
-        });
+
+		constructionFactory.getConstructions().then(function(cache) {
+			$scope.constructions = cache;
+			$scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+				return new Date(b.updated_at) - new Date(a.updated_at);
+			}).slice(0, 4);
+		});
+
         $scope.add = function () {
             $scope.construction = undefined;
             $scope.names = $scope.constructions.map(function (con) {
@@ -22,6 +24,7 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
+				delete construction.supplier;
                 $http.post('construction', {construction: construction}).then(function (response) {
                     $state.go('construction', {'construction_id': response.data.id, name: response.data.name});
                 });
@@ -44,6 +47,7 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
+				delete construction.supplier;
                 $http.post(baseURL + 'construction/' + construction.id,
                     {construction: construction}).then(function () {
                     $scope.constructions.forEach(function (con, i) {
