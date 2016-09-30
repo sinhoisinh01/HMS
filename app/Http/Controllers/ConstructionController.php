@@ -23,7 +23,11 @@ class ConstructionController extends Controller
 
     function update(Request $request, $id)
     {
-        Construction::find($id)->update($request->input('construction'));
+        $construction = $request->input('construction');
+		unset($construction['supplier']);
+		unset($construction['updated_at']);
+		unset($construction['created_at']);
+		Construction::find($id)->update($construction);
     }
 
     function remove($id)

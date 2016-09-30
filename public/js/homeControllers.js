@@ -1,6 +1,8 @@
 angular.module('HMS')
     .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout, constructionFactory) {
-        $scope.getDateFormat = function (timestamp) {
+        $scope.showConstructions = false;
+		
+		$scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
         constructionFactory.get().then(function (cache) {
@@ -8,6 +10,7 @@ angular.module('HMS')
             $scope.recentConstructions = cache.sort(function (a, b) {
 				return new Date(b.updated_at) - new Date(a.updated_at);
 			}).slice(0, 4);
+			$scope.showConstructions = true;
 		});
         $scope.add = function () {
             $scope.construction = undefined;
@@ -46,32 +49,36 @@ angular.module('HMS')
                 scope: $scope
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
-				delete construction.supplier;
-                $http.post(baseURL + 'construction/' + construction.id,
-                    {construction: construction}).then(function () {
-                    $scope.constructions.forEach(function (con, i) {
-                        if (con.id == construction.id) {
-                            construction.updated_at = new Date();
-                            $scope.constructions[i] = construction;
-                            $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
-                                return new Date(b.updated_at) - new Date(a.updated_at);
-                            }).slice(0, 4);
-                        }
-                    });
-                });
+				$scope.showConstructions = false;
+                constructionFactory.put(construction.id, construction).then(function () {
+					$scope.showConstructions = true;
+				});
+				$scope.constructions.forEach(function (con, i) {
+					if (con.id == construction.id) {
+						construction.updated_at = new Date();
+						$scope.constructions[i] = construction;
+					}
+				});
+				$scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+					return new Date(b.updated_at) - new Date(a.updated_at);
+				}).slice(0, 4);
             });
         };
         $scope.remove = function (construction_id) {
             $timeout(function () { //confirm occur some problems on firefox
                 if (confirm("Are you sure to delete this construction?"))
-                    $http.delete(baseURL + 'construction/' + construction_id).then(function () {
-                        $scope.constructions = $scope.constructions.filter(function (con) {
-                            return con.id !== construction_id;
-                        });
-                        $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
-                            return new Date(b.updated_at) - new Date(a.updated_at);
-                        }).slice(0, 4);
-                    });
+                {
+					$scope.showConstructions = false;
+					constructionFactory.delete(construction_id).then(function () {
+						$scope.showConstructions = true;
+					});
+					$scope.constructions = $scope.constructions.filter(function (con) {
+						return con.id !== construction_id;
+					});
+					$scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+						return new Date(b.updated_at) - new Date(a.updated_at);
+					}).slice(0, 4);
+				}
             });
         };
         $scope.viewAll = function () {
