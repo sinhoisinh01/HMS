@@ -14,9 +14,9 @@ angular.module('HMS')
         else if ($stateParams.name)
             $scope.stateName = $stateParams.name;
         else
-            constructionFactory.get($stateParams.construction_id)
-                .then(function (response) {
-                    $scope.stateName = response.name;
+			constructionFactory.get($stateParams.construction_id)
+                .then(function (constructions) {
+                    $scope.stateName = constructions[0].name;
                 });
         $scope.deleteUser = function () {
             if (confirm("All of your data will be lost. Are you sure to delete your account?"))

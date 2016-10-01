@@ -4,41 +4,33 @@ angular.module('HMS')
         return {
             get: function (id) {
                 var deferred = $q.defer();
-                if (id) {
-					if (cache) {
-						cache.forEach(function (construction,i){
-							if (construction.id = id) {
-								deferred.resolve(construction);
-							}
+                if (cache) {
+					if (id) {
+						cache = cache.filter(function (construction) {
+							return construction.id == id;
 						});
 					}
-					else $http.get(baseURL + 'constructions/' + id).then(
-							function (response) {
-								deferred.resolve(response.data);
-								$rootScope.hasInternetError = false;
-							},
-							function (reason) {
-								$rootScope.hasInternetError = true;
-								deferred.reject(reason);
-							}
-						);
+					deferred.resolve(cache);
+					$rootScope.hasInternetError = false;
 				}
 				else {
-					if (cache)
-						deferred.resolve(cache);
-					else {
-						$http.get(baseURL + 'constructions').then(
-							function (response) {
-								cache = response.data;
-								deferred.resolve(cache);
-								$rootScope.hasInternetError = false;
-							},
-							function (reason) {
-								$rootScope.hasInternetError = true;
-								deferred.reject(reason);
+					// return constructions array. If there is an id, the array length will be 1
+					$http.get(baseURL + 'constructions').then(
+						function (response) {
+							cache = response.data;
+							if (id) {
+								cache = cache.filter(function (construction) {
+										return construction.id == id;
+								});
 							}
-						);
-					}
+							deferred.resolve(cache);
+							$rootScope.hasInternetError = false;
+						},
+						function (reason) {		
+							deferred.reject(reason);
+							$rootScope.hasInternetError = true;
+						}
+					);
 				}
                 return deferred.promise;
             },

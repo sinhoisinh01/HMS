@@ -13,11 +13,6 @@ class ConstructionController extends Controller
     {
         return response()->json(Auth::user()->constructions);
     }
-	
-	function getById($id)
-    {
-        return response()->json(Construction::find($id));
-    }
 
     function add(Request $request)
     {

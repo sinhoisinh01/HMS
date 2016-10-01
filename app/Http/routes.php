@@ -28,7 +28,6 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 
         //return: [{...constructionWithoutUserId,created_at,updated_at}]
         $app->get('constructions', 'ConstructionController@get');
-		$app->get('constructions/{id}', 'ConstructionController@getById');
         $app->post('construction', 'ConstructionController@add');
         $app->post('construction/{id}', 'ConstructionController@update');
         $app->delete('construction/{id}', 'ConstructionController@remove');
