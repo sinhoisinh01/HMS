@@ -2,23 +2,44 @@ angular.module('HMS')
     .factory('constructionFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
         var cache;
         return {
-            get: function () {
+            get: function (id) {
                 var deferred = $q.defer();
-                if (cache)
-                    deferred.resolve(cache);
-                else {
-                    $http.get(baseURL + 'constructions').then(
-                        function (response) {
-                            cache = response.data;
-                            deferred.resolve(cache);
-							$rootScope.hasInternetError = false;
-                        },
-                        function (reason) {
-							$rootScope.hasInternetError = true;
-							deferred.reject(reason);
-                        }
-                    );
-                }
+                if (id) {
+					if (cache) {
+						cache.forEach(function (construction,i){
+							if (construction.id = id) {
+								deferred.resolve(construction);
+							}
+						});
+					}
+					else $http.get(baseURL + 'constructions/' + id).then(
+							function (response) {
+								deferred.resolve(response.data);
+								$rootScope.hasInternetError = false;
+							},
+							function (reason) {
+								$rootScope.hasInternetError = true;
+								deferred.reject(reason);
+							}
+						);
+				}
+				else {
+					if (cache)
+						deferred.resolve(cache);
+					else {
+						$http.get(baseURL + 'constructions').then(
+							function (response) {
+								cache = response.data;
+								deferred.resolve(cache);
+								$rootScope.hasInternetError = false;
+							},
+							function (reason) {
+								$rootScope.hasInternetError = true;
+								deferred.reject(reason);
+							}
+						);
+					}
+				}
                 return deferred.promise;
             },
             post: function (construction) {

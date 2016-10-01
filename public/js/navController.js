@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, userFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, userFactory, constructionFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -14,9 +14,9 @@ angular.module('HMS')
         else if ($stateParams.name)
             $scope.stateName = $stateParams.name;
         else
-            $http.get(baseURL + 'construction/' + $stateParams.construction_id)
+            constructionFactory.get($stateParams.construction_id)
                 .then(function (response) {
-                    $scope.stateName = response.data.name;
+                    $scope.stateName = response.name;
                 });
         $scope.deleteUser = function () {
             if (confirm("All of your data will be lost. Are you sure to delete your account?"))
