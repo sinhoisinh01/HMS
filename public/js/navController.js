@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, userFactory, constructionFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, userFactory, constructionFactory, supplierFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -9,8 +9,14 @@ angular.module('HMS')
         userFactory.getUser().then(function (cache) {
             $scope.user = cache;
         });
+		constructionFactory.get().then(function (cache) {
+			$scope.constructions = cache;
+		});
+		supplierFactory.get().then(function (cache) {
+			$scope.suppliers = cache;
+		});
         if ($state.current.name === 'home')
-            $scope.stateName = 'home';
+            $scope.stateName = 'Home';
         else if ($stateParams.name)
             $scope.stateName = $stateParams.name;
         else
@@ -27,25 +33,23 @@ angular.module('HMS')
 			}
         };
         $scope.editConstruction = function () {
-            if ($stateParams.construction_id) {
-                $http.get(baseURL + 'construction/' + $stateParams.construction_id).then(function (response) {
-                    $scope.construction = response.data;
-
-                    $http.get(baseURL + 'suppliers').then(function (response) {
-                        $scope.suppliers = response.data;
-                        $scope.construction.supplier = $scope.suppliers.filter(function (supp) {
-                            return supp.id == $scope.construction.supplier_id;
-                        })[0];
-                    });
-
-                    $http.get(baseURL + 'constructions').then(function (response) {
-                        $scope.names = response.data.map(function (con) {
+			if ($stateParams.construction_id) {
+                $scope.construction = $scope.constructions.filter(function (con) {
+					return con.id == $stateParams.construction_id;
+				})[0];
+				constructionFactory.get().then(function (cache) {
+					$scope.names = cache.map(function (con) {
                         if (con.id !== $scope.construction.id)
                             return con.name;
-                        });
-                    });
-                });
-
+					});
+				});
+				supplierFactory.get().then(function (cache) {
+					$scope.suppliers = cache;
+					$scope.construction.supplier = $scope.suppliers.filter(function (supp) {
+						return supp.id == $scope.construction.supplier_id;
+					})[0];
+				});
+				console.log($scope.construction);
                 $uibModal.open({
                     templateUrl: 'views/modals/constructionModal.html',
                     scope: $scope
