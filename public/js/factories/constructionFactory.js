@@ -2,28 +2,16 @@ angular.module('HMS')
     .factory('constructionFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
         var cache;
         return {
-            get: function (id) {
+            get: function () {
                 var deferred = $q.defer();
                 if (cache) {
-					if (id) {
-						deferred.resolve(cache.filter(function (construction) {
-							return construction.id == id;
-						}));
-					}
-					else deferred.resolve(cache);
+					deferred.resolve(cache);
 					$rootScope.hasInternetError = false;
 				}
-				else {
-					// return constructions array. If there is an id, the array length will be 1
-					$http.get(baseURL + 'constructions').then(
+				else $http.get(baseURL + 'constructions').then(
 						function (response) {
 							cache = response.data;
-							if (id) {
-								deferred.resolve(cache.filter(function (construction) {
-										return construction.id == id;
-								}));
-							}
-							else deferred.resolve(cache);
+							deferred.resolve(cache);
 							$rootScope.hasInternetError = false;
 						},
 						function (reason) {		
@@ -31,9 +19,30 @@ angular.module('HMS')
 							$rootScope.hasInternetError = true;
 						}
 					);
-				}
                 return deferred.promise;
             },
+			getById: function (id) {
+				// return an array with one construction which have the same id
+				var deferred = $q.defer();
+				if (cache)
+					deferred.resolve(cache.filter(function (construction) {
+						return construction.id == id;
+					}));
+				else $http.get(baseURL + 'constructions').then(
+					function (response) {
+						cache = response.data;
+						deferred.resolve(cache.filter(function (construction) {
+							return construction.id == id;
+						}));
+						$rootScope.hasInternetError = false;
+					},
+					function (reason) {		
+						deferred.reject(reason);
+						$rootScope.hasInternetError = true;
+					}
+				);
+				return deferred.promise;
+			},
             post: function (construction) {
                 var deferred = $q.defer();
                 $http.post(baseURL + 'construction', {construction: construction}).then(

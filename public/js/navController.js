@@ -20,7 +20,7 @@ angular.module('HMS')
         else if ($stateParams.name)
             $scope.stateName = $stateParams.name;
         else
-			constructionFactory.get($stateParams.construction_id)
+			constructionFactory.getById($stateParams.construction_id)
                 .then(function (constructions) {
                     $scope.stateName = constructions[0].name;
                 });
@@ -49,7 +49,6 @@ angular.module('HMS')
 						return supp.id == $scope.construction.supplier_id;
 					})[0];
 				});
-				console.log($scope.construction);
                 $uibModal.open({
                     templateUrl: 'views/modals/constructionModal.html',
                     scope: $scope

@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .factory('supplierFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
+    .factory('resourceFactory', ['$rootScope', '$http', '$q', 'baseURL', '$stateParams', function ($rootScope, $http, $stateParams, $q, baseURL) {
         var cache;
         return {
             get: function () {
@@ -8,7 +8,7 @@ angular.module('HMS')
 					deferred.resolve(cache);
 					$rootScope.hasInternetError = false;
 				}
-				else $http.get(baseURL + 'suppliers').then(
+				else $http.get(baseURL + 'resources').then(
 						function (response) {
 							cache = response.data;
 							deferred.resolve(cache);
@@ -22,17 +22,17 @@ angular.module('HMS')
                 return deferred.promise;
             },
 			getById: function (id) {
-				// return an array with one Supplier which have the same id
+				// return an array with one resource which have the same id
 				var deferred = $q.defer();
 				if (cache)
-					deferred.resolve(cache.filter(function (supplier) {
-						return supplier.id == id;
+					deferred.resolve(cache.filter(function (resource) {
+						return resource.id == id;
 					}));
-				else $http.get(baseURL + 'suppliers').then(
+				else $http.get(baseURL + 'resources').then(
 					function (response) {
 						cache = response.data;
-						deferred.resolve(cache.filter(function (supplier) {
-							return supplier.id == id;
+						deferred.resolve(cache.filter(function (resource) {
+							return resource.id == id;
 						}));
 						$rootScope.hasInternetError = false;
 					},
@@ -43,9 +43,9 @@ angular.module('HMS')
 				);
 				return deferred.promise;
 			},
-            post: function (supplier) {
+            post: function (resource) {
                 var deferred = $q.defer();
-                $http.post(baseURL + 'supplier', {supplier: supplier}).then(
+                $http.post(baseURL + 'resource', {resource: resource}).then(
                     function (response) {
                         cache.push(response.data);
                         deferred.resolve(response.data);
@@ -58,13 +58,13 @@ angular.module('HMS')
                 );
                 return deferred.promise;
             },
-			put: function (id, supplier) {
+			put: function (id, resource) {
 				var deferred = $q.defer();
-				$http.post(baseURL + 'supplier/' + id, {supplier:supplier}).then(
+				$http.post(baseURL + 'resource/' + id, {resource:resource}).then(
 					function () {
-						cache.forEach(function (sup, i) {
-                        if (sup.id == supplier.id)
-                            cache[i] = supplier;
+						cache.forEach(function (res, i) {
+                        if (res.id == resource.id)
+                            cache[i] = resource;
 						});
 						deferred.resolve();
 						$rootScope.hasInternetError = false;
@@ -78,10 +78,10 @@ angular.module('HMS')
 			},
 			delete: function (id) {
 				var deferred = $q.defer();
-				$http.delete(baseURL + 'supplier/' + id).then(
+				$http.delete(baseURL + 'resource/' + id).then(
 					function () {
-						cache = cache.filter(function (supplier) {
-                            return supplier.id !== id;
+						cache = cache.filter(function (resource) {
+                            return resource.id !== id;
                         });
 						deferred.resolve();
 						$rootScope.hasInternetError = false;

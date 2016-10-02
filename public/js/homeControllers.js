@@ -41,7 +41,7 @@ angular.module('HMS')
                 if (con.id !== construction.id)
                     return con.name;
             });
-			supplierFactory.get(construction.supplier_id).then(function (cache) {
+			supplierFactory.getById(construction.supplier_id).then(function (cache) {
                 $scope.construction.supplier = cache[0];
             });
             $uibModal.open({
