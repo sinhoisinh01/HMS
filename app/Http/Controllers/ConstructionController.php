@@ -21,12 +21,15 @@ class ConstructionController extends Controller
         return response()->json(Construction::create($construction));
     }
 
-    function update(Request $request, $id)
+    function update($id, Request $request)
     {
         $construction = $request->input('construction');
-		unset($construction['supplier']);
-		unset($construction['updated_at']);
-		unset($construction['created_at']);
+		if(isset($construction['supplier']))
+			unset($construction['supplier']);
+		if(isset($construction['updated_at']))
+			unset($construction['updated_at']);
+		if(isset($construction['created_at']))
+			unset($construction['created_at']);
 		Construction::find($id)->update($construction);
     }
 

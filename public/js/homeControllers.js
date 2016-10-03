@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout, constructionFactory) {
+    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout, constructionFactory, supplierFactory) {
         $scope.showConstructions = false;
 		
 		$scope.getDateFormat = function (timestamp) {
@@ -11,6 +11,9 @@ angular.module('HMS')
 				return new Date(b.updated_at) - new Date(a.updated_at);
 			}).slice(0, 4);
 			$scope.showConstructions = true;
+		});
+		supplierFactory.get().then(function (cache) {
+			$scope.suppliers = cache;
 		});
         $scope.add = function () {
             $scope.construction = undefined;
@@ -38,11 +41,8 @@ angular.module('HMS')
                 if (con.id !== construction.id)
                     return con.name;
             });
-            $http.get(baseURL + 'suppliers').then(function (response) {
-                $scope.suppliers = response.data;
-                $scope.construction.supplier = $scope.suppliers.filter(function (supp) {
-                    return supp.id == construction.supplier_id;
-                })[0];
+			supplierFactory.getById(construction.supplier_id).then(function (cache) {
+                $scope.construction.supplier = cache[0];
             });
             $uibModal.open({
                 templateUrl: 'views/modals/constructionModal.html',
@@ -50,7 +50,7 @@ angular.module('HMS')
             }).result.then(function (construction) {
                 construction.supplier_id = construction.supplier.id;
 				$scope.showConstructions = false;
-                constructionFactory.put(construction.id, construction).then(function () {
+                constructionFactory.put(construction).then(function () {
 					$scope.showConstructions = true;
 				});
 				$scope.constructions.forEach(function (con, i) {

@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .factory('constructionFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
+    .factory('resourceFactory', ['$rootScope', '$http', '$q', 'baseURL', '$stateParams', function ($rootScope, $http, $stateParams, $q, baseURL) {
         var cache;
         return {
             get: function () {
@@ -8,7 +8,7 @@ angular.module('HMS')
 					deferred.resolve(cache);
 					$rootScope.hasInternetError = false;
 				}
-				else $http.get(baseURL + 'constructions').then(
+				else $http.get(baseURL + 'resources').then(
 						function (response) {
 							cache = response.data;
 							deferred.resolve(cache);
@@ -22,17 +22,17 @@ angular.module('HMS')
                 return deferred.promise;
             },
 			getById: function (id) {
-				// return an array with one construction which have the same id
+				// return an array with one resource which have the same id
 				var deferred = $q.defer();
 				if (cache)
-					deferred.resolve(cache.filter(function (construction) {
-						return construction.id == id;
+					deferred.resolve(cache.filter(function (resource) {
+						return resource.id == id;
 					}));
-				else $http.get(baseURL + 'constructions').then(
+				else $http.get(baseURL + 'resources').then(
 					function (response) {
 						cache = response.data;
-						deferred.resolve(cache.filter(function (construction) {
-							return construction.id == id;
+						deferred.resolve(cache.filter(function (resource) {
+							return resource.id == id;
 						}));
 						$rootScope.hasInternetError = false;
 					},
@@ -43,9 +43,9 @@ angular.module('HMS')
 				);
 				return deferred.promise;
 			},
-            post: function (construction) {
+            post: function (resource) {
                 var deferred = $q.defer();
-                $http.post(baseURL + 'construction', {construction: construction}).then(
+                $http.post(baseURL + 'resource', {resource: resource}).then(
                     function (response) {
                         cache.push(response.data);
                         deferred.resolve(response.data);
@@ -58,16 +58,16 @@ angular.module('HMS')
                 );
                 return deferred.promise;
             },
-			put: function (construction) {
+			put: function (id, resource) {
 				var deferred = $q.defer();
-				$http.post(baseURL + 'construction/' + construction.id, {construction:construction}).then(
+				$http.post(baseURL + 'resource/' + id, {resource:resource}).then(
 					function () {
-						cache.forEach(function (con, i) {
-							if (con.id == construction.id)
-								cache[i] = construction;
+						cache.forEach(function (res, i) {
+                        if (res.id == resource.id)
+                            cache[i] = resource;
 						});
-						$rootScope.hasInternetError = false;
 						deferred.resolve();
+						$rootScope.hasInternetError = false;
 					},
 					function () {
 						deferred.reject();
@@ -78,17 +78,17 @@ angular.module('HMS')
 			},
 			delete: function (id) {
 				var deferred = $q.defer();
-				$http.delete(baseURL + 'construction/' + id).then(
+				$http.delete(baseURL + 'resource/' + id).then(
 					function () {
-						cache = cache.filter(function (con) {
-                            return con.id !== id;
+						cache = cache.filter(function (resource) {
+                            return resource.id !== id;
                         });
 						deferred.resolve();
 						$rootScope.hasInternetError = false;
 					},
 					function () {
 						deferred.reject();
-						$rootScope.hasInternetError = true;
+						$rootScope.hasInternetError = true;						
 					}
 				);
 				return deferred.promise;
