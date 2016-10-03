@@ -1,15 +1,47 @@
 angular.module('HMS')
     .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
-            $http.get(baseURL + 'categoryWorks/' + $stateParams.category_id)
-                .then(function (response) {
-                    $scope.categoryWorks = response.data.sort(function (a, b) {
-                        return a.no - b.no
-                    });
-                });
+            $scope.subCategoryStyle = {
+                "background-color" : "#C5EFF7",
+                "font-size" : "16px",
+                "font-weight" : "bold"
+            };
             if (!$rootScope.works)
-                $http.get(baseURL + 'works', {construction_id: $stateParams.construction_id}).then(function (response) {
+                $http.get(baseURL + 'works', {params:{construction_id: $stateParams.construction_id}}).then(function (response)
+                {
                     $rootScope.works = response.data;
-                });
+
+                    $http.get(baseURL + 'categoryWorks',{params:{category_id:$stateParams.category_id}})
+                    .then(function (response) {
+                        
+                        $scope.subCategories = response.data.sort(function(a,b){
+                            return a.no - b.no;
+                        });
+
+                        angular.forEach($scope.subCategories, function(value, key)
+                        {
+                            value.subcategory_works.sort(function(a,b){
+                                return a.no - b.no;
+                            });
+                            angular.forEach(value.subcategory_works, function(value, key)
+                            {
+                                var subcategoryWork = value;
+                                value.descriptions.sort(function(a,b){
+                                    return a.no - b.no;
+                                });
+                                angular.forEach($rootScope.works, function(value, key)
+                                {
+                                    if(subcategoryWork.work_id == value.id)
+                                    {
+                                        subcategoryWork.code = value.code;
+                                        subcategoryWork.name = value.name;
+                                        subcategoryWork.unit = value.unit;
+                                    }
+                                });
+                            });
+                        },$scope.subCategories);
+                    });
+            });
+            
             $scope.worksWindow = {
                 show: false,
                 search: {code: '', name: '', $: ''},
@@ -45,7 +77,7 @@ angular.module('HMS')
             $scope.addWork = function (work) {
                 $scope.worksWindow.newWork = work;
             };
-            $scope.cellBlured = function (index) {
+            /*$scope.cellBlured = function (index) {
                 if ($scope.worksWindow.newWork) {
                     for (var i in $scope.categoryWorks) {
                         if ($scope.categoryWorks[i].id === $scope.worksWindow.newWork.id) {
@@ -72,6 +104,7 @@ angular.module('HMS')
                 }
                 $scope.worksWindow.show = false;
             };
+            */
             $scope.focusReplaceValue = function (index) {
                 $scope.categoryWorks[index].oldValue = $scope.categoryWorks[index].value;
             };

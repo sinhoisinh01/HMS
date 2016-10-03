@@ -13,7 +13,6 @@ class SubcategoryWorkController extends Controller
     {
         $categoryWorks = Subcategory::where('category_id', $request->input('category_id'))
             ->with(['subcategoryWorks', 'subcategoryWorks.descriptions'])
-            ->select(['id', 'name', 'no'])
             ->get();
         return response()->json($categoryWorks);
     }
