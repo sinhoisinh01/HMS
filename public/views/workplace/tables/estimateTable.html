@@ -20,7 +20,13 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat-start="subCategory in subCategories" ng-style="subCategoryStyle" context-menu="menuOptions">
+        <tr ng-if="!showCategoryWorks && !hasInternetError">
+            <td colspan="11" align="center">
+                <h3><span class="glyphicon glyphicon-refresh gly-spin"></span>
+                Loading...</h3>
+            </td>
+        </tr>
+        <tr ng-repeat-start="subCategory in subCategories" context-menu="menuOptions" class="subCategory">
             <td></td>
             <td>*</td>
             <td>{{subCategory.name}}</td>
@@ -65,7 +71,7 @@
             </tr>
         </tr>
         <tr ng-repeat-end ng-hide="true"></tr>   
-        <tr>
+        <tr ng-if="showCategoryWorks">
             <td></td>
             <td>
     		  <input class="input_in_cells" ng-model="newLine" ng-click="cellFocused($event, null)"

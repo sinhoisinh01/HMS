@@ -1,35 +1,35 @@
 #mainTable{
-	margin-top:1%;
+	margin-top: 1%;
 }
 #worksTable{
-	position:absolute;
-	text-align:center;
-	z-index:100;
-    width: 500px;
+	position: absolute;
+	text-align: center;
+	z-index: 100;
+    width:  500px;
 	height:200px;
-	overflow-y:auto;
-	background:white;
+	overflow-y: auto;
+	background: white;
 	outline: 1.5px solid #5B9DD9;
 	outline: -webkit-focus-ring-color auto 5px;
 }
 
 #worksTable table {font-size:12px;}
 #worksTable th{
-	background:#f5f5f5;
+	background: #f5f5f5;
 }
 #worksTable td{
-	padding:10px;
+	padding: 10px;
 }
 #worksTable td:nth-child(2){
-	text-align:left;
-	padding-left:5px
+	text-align: left;
+	padding-left: 5px
 }
 #estimateTable td{
-	border-top:none
+	border-top: none
 }
 #estimateTable th, #estimateTable td{
-	overflow:hidden;
-	text-overflow:ellipsis;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #estimateTable tr th{
 	cursor:pointer;
@@ -41,11 +41,11 @@
     background-image: linear-gradient(top,#f5f5f5,#eee);
 }
 #estimateTable td:nth-child(1){
-	cursor:pointer;
-	text-decoration:none!important;
-	font-weight:100!important;
+	cursor: pointer;
+	text-decoration: none!important;
+	font-weight: 100!important;
 	font:normal 14px arial,sans-serif!important;
-	text-align:center!important;
+	text-align: center!important;
 }
 #estimateTable tr td:nth-child(1){
 	background-color: #f5f5f5;
@@ -59,31 +59,36 @@
 	position:relative;
 }
 #estimateTable tr td:nth-child(3){
-	position:relative;
-	text-align:left;
-	padding-left:5px;
+	position: relative;
+	text-align: left;
+	padding-left: 5px;
 }
-#estimateTable tr th:nth-child(1), #estimateTable tr td:nth-child(1){width:3%;}
-#estimateTable tr th:nth-child(2), #estimateTable tr td:nth-child(2){width:8%;}
-#estimateTable tr th:nth-child(3), #estimateTable tr td:nth-child(3){width:33%;}
-#estimateTable tr th:nth-child(4), #estimateTable tr td:nth-child(4){width:7%;}
-#estimateTable tr th:nth-child(5), #estimateTable tr td:nth-child(5){width:7%;}
-#estimateTable tr th:nth-child(6), #estimateTable tr td:nth-child(6){width:7%;}
-#estimateTable tr th:nth-child(7), #estimateTable tr td:nth-child(7){width:7%;}
-#estimateTable tr th:nth-child(8), #estimateTable tr td:nth-child(8){width:7%;}
-#estimateTable tr th:nth-child(9), #estimateTable tr td:nth-child(9){width:7%;}
-#estimateTable tr th:nth-child(10), #estimateTable tr td:nth-child(10){width:7%;}
-#estimateTable tr th:nth-child(11), #estimateTable tr td:nth-child(11){width:7%;}
+#estimateTable tr th:nth-child(1), #estimateTable tr td:nth-child(1){width: 3%;}
+#estimateTable tr th:nth-child(2), #estimateTable tr td:nth-child(2){width: 8%;}
+#estimateTable tr th:nth-child(3), #estimateTable tr td:nth-child(3){width: 33%;}
+#estimateTable tr th:nth-child(4), #estimateTable tr td:nth-child(4){width: 7%;}
+#estimateTable tr th:nth-child(5), #estimateTable tr td:nth-child(5){width: 7%;}
+#estimateTable tr th:nth-child(6), #estimateTable tr td:nth-child(6){width: 7%;}
+#estimateTable tr th:nth-child(7), #estimateTable tr td:nth-child(7){width: 7%;}
+#estimateTable tr th:nth-child(8), #estimateTable tr td:nth-child(8){width: 7%;}
+#estimateTable tr th:nth-child(9), #estimateTable tr td:nth-child(9){width: 7%;}
+#estimateTable tr th:nth-child(10), #estimateTable tr td:nth-child(10){width: 7%;}
+#estimateTable tr th:nth-child(11), #estimateTable tr td:nth-child(11){width: 7%;}
 
 #sumMoney{
-	margin-top:1%;
-	font-size:18px;
-	text-align:right;
+	margin-top: 1%;
+	font-size: 18px;
+	text-align: right;
+}
+.subCategory{
+	font-size: 18px;
+	font-weight: 900!important;
+	background: #C5EFF7;
 }
 .input_in_cells {
-	border:0;
-	margin:0;
-	padding-right:5px;
-	cursor:cell;
-	width:100%;
+	border: 0;
+	margin: 0;
+	padding-right: 5px;
+	cursor: cell;
+	width:  100%;
 }

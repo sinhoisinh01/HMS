@@ -24,6 +24,7 @@
 	<script src="js/factories/userFactory.js"></script>
 	<script src="js/factories/constructionFactory.js"></script>
 	<script src="js/factories/supplierFactory.js"></script>
+    <script src="js/factories/workFactory.js"></script>
 	<script src="js/factories/resourceFactory.js"></script>
     <script src="js/loginController.js"></script>
     <script src="js/navController.js"></script>
@@ -37,8 +38,6 @@
 </head>
 <body>
 <div ui-view="nav"></div>
-<div ui-view="menu"></div>
-<div ui-view="toolbar"></div>
 <div ui-view="categories"></div>
 <div ui-view="content" class="container-full">
     <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="mainTable">

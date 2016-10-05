@@ -1,47 +1,45 @@
 angular.module('HMS')
-    .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
-            $scope.subCategoryStyle = {
-                "background-color" : "#C5EFF7",
-                "font-size" : "16px",
-                "font-weight" : "bold"
-            };
-            if (!$rootScope.works)
-                $http.get(baseURL + 'works', {params:{construction_id: $stateParams.construction_id}}).then(function (response)
-                {
-                    $rootScope.works = response.data;
+    .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) {
+            $scope.showCategoryWorks = false;
 
+            if (!$scope.works)
+            {
+                workFactory.get()
+                .then(function(result){
+                    $scope.works = result;
+                })
+                .then(function(){
                     $http.get(baseURL + 'categoryWorks',{params:{category_id:$stateParams.category_id}})
-                    .then(function (response) {
-                        
-                        $scope.subCategories = response.data.sort(function(a,b){
+                    .then(function (response) {        
+                        var temp = response.data.sort(function(a,b){
                             return a.no - b.no;
                         });
-
-                        angular.forEach($scope.subCategories, function(value, key)
+                        for(var i=0; i<temp.length; i++)
                         {
-                            value.subcategory_works.sort(function(a,b){
+                            temp[i].subcategory_works.sort(function(a,b){
                                 return a.no - b.no;
-                            });
-                            angular.forEach(value.subcategory_works, function(value, key)
+                            })
+
+                            for(var j=0; j<temp[i].subcategory_works.length; j++)
                             {
-                                var subcategoryWork = value;
-                                value.descriptions.sort(function(a,b){
+                                temp[i].subcategory_works[j].descriptions.sort(function(a,b){
                                     return a.no - b.no;
                                 });
-                                angular.forEach($rootScope.works, function(value, key)
-                                {
-                                    if(subcategoryWork.work_id == value.id)
-                                    {
-                                        subcategoryWork.code = value.code;
-                                        subcategoryWork.name = value.name;
-                                        subcategoryWork.unit = value.unit;
-                                    }
-                                });
-                            });
-                        },$scope.subCategories);
+
+                                var work = $scope.works[temp[i].subcategory_works[j].work_id-1];
+                                // array index starts from 0, work id starts from 1
+                                temp[i].subcategory_works[j].code = work.code;
+                                temp[i].subcategory_works[j].name = work.name;
+                                temp[i].subcategory_works[j].unit = work.unit;
+                                 temp[i].subcategory_works[j].price = work.price;
+                            }
+                        }
+                        $scope.subCategories = temp;  
+                        $scope.showCategoryWorks = true; 
                     });
-            });
-            
+                })
+                ;
+            }   
             $scope.worksWindow = {
                 show: false,
                 search: {code: '', name: '', $: ''},

@@ -86,30 +86,36 @@ i{cursor:pointer;}
 	height:100%;
 }
 /* navbar */
-#navigationBar{
-	width:100%;
-	margin:0;
-	height:70px;
+#nav-bar{
+	width: 100%;
+	margin: 0;
+	height: 70px;
+	background: white;
 }
 #logo{
 	height:100%;
 	background:#eaeaea;
 }
-#titleBar, #menuBar{
-	height:50%;
-	background:white;
-}
-#titleBar .col-sm-6{
-	padding-left: 12px;
+#construction-search{
 	height:100%;
 }
-#titleBar h3{
+#construction-search .input-group{
+	margin-top:15px;
+}
+#nav-bar-mid{
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+#title-bar, #menu-bar{
+	height:50%;
+}
+#title-bar h3{
+	padding-left: 12px;
+	height:100%;
 	margin-top: 1%;
 }
-#titleBar #account{
-	padding-right:1%;
-}
-#menuBar .well{
+#menu-bar .well{
 	height:100%;
 	margin:0;
 	padding:0;
@@ -118,16 +124,28 @@ i{cursor:pointer;}
 	border-radius: 0;
 	background:none;
 }
-#menuBar .well .btn-group, #menuBar .well .btn-group button{
+#menu-bar .well .btn-group, #menu-bar .well .btn-group button{
 	height:100%;
 }
-#menuBar button{
+#menu-bar button{
 	border:none;
 	box-shadow:none;
 }
-#navigationBar .popover{
+#account{
+	height:100%;
+}
+#account>img{
+	margin: auto;
+	position: absolute;
+	top: 0; left: 0; bottom: 0; right: 0;
+}
+#nav-bar .popover .arrow{
+	left:85%!important;
+}
+#nav-bar .popover{
 	word-wrap: break-word;
 	cursor:auto;
+	left: -180px!important;
 }
 /* home page */
 #homeContainer .fa-plus-circle, #homeContainer .fa-th {
