@@ -1,6 +1,7 @@
 angular.module('HMS')
     .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) {
             $scope.subCategories = false;
+			$scope.estimateSheet = [];
             if (!$scope.works)
             {
                 workFactory.get()
@@ -17,7 +18,10 @@ angular.module('HMS')
                         {
                             temp[i].subcategory_works.sort(function(a,b){
                                 return a.no - b.no;
-                            })
+                            });
+							
+							temp[i].code = "*";
+							$scope.estimateSheet.push(temp[i]);
 
                             for(var j=0; j<temp[i].subcategory_works.length; j++)
                             {
@@ -30,14 +34,28 @@ angular.module('HMS')
                                 temp[i].subcategory_works[j].code = work.code;
                                 temp[i].subcategory_works[j].name = work.name;
                                 temp[i].subcategory_works[j].unit = work.unit;
-                                 temp[i].subcategory_works[j].price = work.price;
+                                temp[i].subcategory_works[j].price = work.price;
+								temp[i].subcategory_works[j].totalPrice = temp[i].subcategory_works[j].value * work.price;
+								
+								$scope.estimateSheet.push(temp[i].subcategory_works[j]);
+								
+								if (temp[i].subcategory_works[j].descriptions)
+									for (var k=0; k<temp[i].subcategory_works[j].descriptions.length; k++)
+									{
+										$scope.estimateSheet.push(temp[i].subcategory_works[j].descriptions[k]);
+									}
                             }
                         }
                         $scope.subCategories = temp;  
-                        $scope.showCategoryWorks = true; 
+                        $scope.showCategoryWorks = true;
+						
+						var blankRowNum = 50-$scope.estimateSheet.length;
+						for (var i=0; i<blankRowNum; i++)
+						{
+							$scope.estimateSheet.push({});
+						}
                     });
-                })
-                ;
+                });
             }   
             $scope.worksWindow = {
                 show: false,
@@ -49,11 +67,18 @@ angular.module('HMS')
                 oldName: '',
                 newWork: {}
             };
-			$scope.newDes = {};
-            /*$scope.inputChanged = function (value) {
-             if ($scope.field)
-             $scope.worksWindow.search = $scope.categoryWorks[$scope.index][$scope.field] = value;
-             };*/
+			$scope.checkRow = function(newRow) {
+				if (newRow.code) {
+					if(input.charAt(0) === '*')
+						 $scope.addType = 'subcategory';
+					else if(/[a-zA-Z0-9., ]/.test(input))
+						$scope.addType = 'work';
+					//else if(input === '') 
+				}
+				else {
+					
+				}
+			};
             $scope.cellFocused = function ($event, categoryWorkEdited) {
                 var cell = angular.element($event.target);
                 $scope.worksWindow = {
@@ -156,31 +181,16 @@ angular.module('HMS')
 			
             /*Estimate Table Context Menu*/
             $scope.menuOptions = [
-				['Add Descriptions', function ($itemScope) {
-                    $itemScope.categoryWork.addDescriptions = true;
+				['Add Row Above', function ($itemScope) {
+                    $scope.estimateSheet.splice($itemScope.$index, 0, {});
+                }],
+                null,
+				['Add Row Below', function ($itemScope) {
+                    $scope.estimateSheet.splice($itemScope.$index+1, 0, {});
                 }],
                 null,
                 ['Delete Row', function ($itemScope) {
-                    if ($itemScope.des) {
-						$http.delete(baseURL + 'descriptions/' + $stateParams.category_id + '/' + $itemScope.des.work_code + '/' + $itemScope.des.content, {})
-						.then(function () {
-						  $itemScope.categoryWork.descriptions
-							.forEach(function(element, index) {
-								if (element.content === $itemScope.des.content)
-								{
-									$itemScope.categoryWork.descriptions.splice(index, 1);
-								}
-							});
-						});
-					}
-					else {
-						$http.delete(baseURL + 'categoryWork/' + $stateParams.category_id + "/" + $itemScope.categoryWork.code, {no: $itemScope.categoryWork.no})
-							.then(function () {
-								for (i = $itemScope.$index; i < $scope.categoryWorks.length; i++)
-									$scope.categoryWorks[i].no--;
-								$scope.categoryWorks.splice($itemScope.$index, 1);
-							});
-					}
+                    $scope.estimateSheet.splice($itemScope.$index, 1);
                 }]
             ];
         }

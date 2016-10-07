@@ -26,58 +26,19 @@
                 Loading...</h3>
             </td>
         </tr>
-        <tr ng-repeat-start="subCategory in subCategories" context-menu="menuOptions" class="subCategory">
-            <td></td>
-            <td>*</td>
-            <td>{{subCategory.name}}</td>
-            <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8]"></td>
-
-            <tr ng-repeat-start="subcategory_work in subCategory.subcategory_works" context-menu="menuOptions">
-                <td>{{subcategory_work.no}}</td>
-                <td>
-                  <input class="input_in_cells" ng-model="subcategory_work.code" ng-click="cellFocused($event, subcategory_work)"
-                    ng-change="searchWork('code', subcategory_work.code)" ng-blur="cellBlured($index)">
-                </td>
-                <td>
-                  <input class="input_in_cells" ng-model="subcategory_work.name" ng-change="searchWork('name', subcategory_work.name)" ng-blur="cellBlured($index)">
-                </td>
-                <td>{{subcategory_work.unit}}</td>
-                <td></td>
-                <td></td>
-                <td>{{subcategory_work.length}}</td>
-                <td></td>
-                <td>
-                  <input class="input_in_cells" ng-model="subcategory_work.value" ng-click="focusReplaceValue($index)" ng-blur="replaceValue($index)">
-                </td>
-                <td>{{subcategory_work.price}}</td>
-                <td>{{subcategory_work.price*subcategory_work.value}}</td>
-
-                <tr ng-repeat-end ng-repeat="des in subcategory_work.descriptions" context-menu="menuOptions">
-                    <td></td>
-                    <td></td>
-                    <td>
-                    <input class="input_in_cells" ng-model="des.name">
-                    </td>
-                    <td></td>
-                    <td><input class="input_in_cells" ng-model="des.amount"></td>
-                    <td><input class="input_in_cells" ng-model="des.length"></td>
-                    <td><input class="input_in_cells" ng-model="des.width"></td>
-                    <td><input class="input_in_cells" ng-model="des.height"></td>
-                    <td>{{des.amount*des.length*des.width*des.height}}</td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tr>
-        </tr>
-        <tr ng-repeat-end ng-hide="true"></tr>   
-        <tr ng-if="showCategoryWorks">
-            <td></td>
-            <td>
-    		  <input class="input_in_cells" ng-model="newLine" ng-click="cellFocused($event, null)"
-                ng-change="searchWork('$',newLine)" ng-blur="cellBlured(null)">
-    		</td>
-            <td ng-repeat="x in [1, 2, 3, 4, 5, 6, 7, 8, 9]"></td>
-        </tr>
+		<tr ng-repeat="row in estimateSheet" context-menu="menuOptions">
+			<td>{{$index+1}}</td>
+			<td><input class="input_in_cells" ng-model="row.code"></td>
+			<td><input class="input_in_cells" ng-model="row.name"></td>
+			<td><input class="input_in_cells" ng-model="row.unit"></td>
+			<td><input class="input_in_cells" ng-model="row.amount"></td>
+			<td><input class="input_in_cells" ng-model="row.length"></td>
+			<td><input class="input_in_cells" ng-model="row.width"></td>
+			<td><input class="input_in_cells" ng-model="row.height"></td>
+			<td><input class="input_in_cells" ng-model="row.value"></td>
+			<td><input class="input_in_cells" ng-model="row.price"></td>
+			<td>{{row.totalPrice}}</td>
+		</tr>
     </tbody>
 </table>
 <div id="sumMoney">Tổng chi phí: {{}} VNĐ</div>
