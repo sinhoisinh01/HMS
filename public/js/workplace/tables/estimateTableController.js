@@ -1,7 +1,6 @@
 angular.module('HMS')
     .controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) {
-            $scope.showCategoryWorks = false;
-
+            $scope.subCategories = false;
             if (!$scope.works)
             {
                 workFactory.get()
@@ -74,6 +73,9 @@ angular.module('HMS')
             };
             $scope.addWork = function (work) {
                 $scope.worksWindow.newWork = work;
+                $http.post(baseURL + "subcategoryWork", {subcategoryWork:subCategoryWork}).then(function(){
+                    console.log('success!');
+                });
             };
             /*$scope.cellBlured = function (index) {
                 if ($scope.worksWindow.newWork) {

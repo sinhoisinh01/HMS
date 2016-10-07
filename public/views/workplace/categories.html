@@ -1,5 +1,5 @@
 <div class="col-md-2" uib-collapse="isCollapsedCategories" horizontal>
-    <div id="category_header_top">
+    <div id="category-header-top">
         <p>Categories list</p>
     </div>
     <div id="category-header-bot">
@@ -9,7 +9,7 @@
     <div id="category-content">
         <span ng-click="add()" class="clickable"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> New Category</span>
         <div class="category-item" ng-repeat="category in categories | filter:{name : input_search_category}">
-            <i ui-sref=".category.table({category_id:category.id,table:'estimate'})">{{category.name}}</i>
+            <div ui-sref=".category.table({category_id:category.id,table:'estimate'})" class="category-name">{{category.name}}</div>
             <div class="category-options">
                 <i ng-click="remove($index)" class="glyphicon glyphicon-remove"></i>
                 <i ng-click="edit($index)" class="glyphicon glyphicon-edit"></i>

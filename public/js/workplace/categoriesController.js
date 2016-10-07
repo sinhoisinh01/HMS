@@ -13,11 +13,13 @@ angular.module('HMS')
                 templateUrl: 'views/modals/categoryModal.html',
                 scope: $scope
             }).result.then(function (name) {
-                var category ={construction_id:$stateParams.construction_id,name:name};
+                var category = {construction_id:$stateParams.construction_id,name:name};
                 $http.post(baseURL + 'category', {category:category})
                     .then(function (response) {
                         $scope.name = "";
                         $scope.categories.push(response.data);
+                        var subcategory = {category_id:response.data.id, name:'', no:0};
+                        $http.post(baseURL + 'subcategory', {subcategory:subcategory}).then({});
                     });
             });
         };

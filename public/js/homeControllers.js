@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $scope, $state, $uibModal, $timeout, constructionFactory, supplierFactory) {
+    .controller('HomeController', function ($http, baseURL, $rootScope, $scope, $state, $uibModal, $timeout, constructionFactory, supplierFactory) {
         $scope.showConstructions = false;
 		
 		$scope.getDateFormat = function (timestamp) {
@@ -7,7 +7,7 @@ angular.module('HMS')
         };
         constructionFactory.get().then(function (cache) {
 			$scope.constructions = cache;
-            $scope.recentConstructions = cache.sort(function (a, b) {
+            $rootScope.recentConstructions = cache.sort(function (a, b) {
 				return new Date(b.updated_at) - new Date(a.updated_at);
 			}).slice(0, 4);
 			$scope.showConstructions = true;
@@ -81,11 +81,11 @@ angular.module('HMS')
 				}
             });
         };
-        $scope.viewAll = function () {
+        /*$scope.viewAll = function() {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
                 size: 'lg',
                 scope: $scope
             });
-        };
+        };*/
     });
