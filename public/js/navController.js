@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, userFactory, constructionFactory, supplierFactory, $http, $state, $stateParams, $rootScope, $scope, $uibModal) {
+    .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -24,6 +24,10 @@ angular.module('HMS')
                 .then(function (constructions) {
                     $scope.stateName = constructions[0].name;
                 });
+        $scope.searchConstruction = function(input){
+            $rootScope.recentConstructions = $filter('filter')($scope.constructions, {name:input});
+            $rootScope.hasSearchResult = true;
+        }
         $scope.deleteUser = function () {
             if (confirm("All of your data will be lost. Are you sure to delete your account?"))
 			{	
@@ -54,6 +58,7 @@ angular.module('HMS')
                     scope: $scope
                 }).result.then(function (construction) {
                     $scope.stateName = construction.name;
+                    construction.supplier_id = construction.supplier.id;
                     $http.post(baseURL + 'construction/' + construction.id,
                         {construction: construction}).then(function () {
                         $scope.constructions.forEach(function (con, i) {

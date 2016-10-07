@@ -1,6 +1,7 @@
 angular.module('HMS')
     .factory('constructionFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
         var cache;
+        var hasSearchResult = false;
         return {
             get: function () {
                 var deferred = $q.defer();
@@ -92,6 +93,6 @@ angular.module('HMS')
 					}
 				);
 				return deferred.promise;
-			}
+			},
         };
     }]);
