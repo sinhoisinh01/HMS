@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="css/landing-page.css">
     <link rel="stylesheet" href="css/main.css">
 	<link rel="stylesheet" href="css/loading.css">
-    <link rel="stylesheet" href="css/menu.css">
-    <link rel="stylesheet" href="css/calcss3.css">
 	<link rel="stylesheet" href="css/sheet.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -41,7 +39,7 @@
 <div ui-view="nav"></div>
 <div ui-view="categories"></div>
 <div ui-view="content" class="container-full">
-    <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="mainTable">
+    <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="main-table">
     <div ui-view="tabs"></div>
     <div ui-view="table"></div>
 </div>

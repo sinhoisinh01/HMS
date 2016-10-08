@@ -2,8 +2,11 @@
     <div class="input-group-addon"><span class="glyphicon glyphicon-pushpin"></span></div>
     <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div-->
-<p>{{worksWindow}}</p>
-<table id="estimateTable" fixed-header>
+<!--<p>{{worksWindow}}</p>-->
+<center>
+    <h3 ng-if="!showCategoryWorks && !hasInternetError"><span class="glyphicon glyphicon-refresh gly-spin"></span>Loading...</h3> 
+</center>
+<table id="estimate-table">
     <thead>
         <tr>
             <th>#</th>
@@ -20,45 +23,32 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-if="!showCategoryWorks && !hasInternetError">
-            <td colspan="11" align="center">
-                <h3><span class="glyphicon glyphicon-refresh gly-spin"></span>
-                Loading...</h3>
-            </td>
-        </tr>
-		<tr ng-repeat="row in estimateSheet" context-menu="menuOptions">
+		<tr ng-repeat="row in estimateSheet" context-menu="menuOptions" ng-click="getRowPos($index)">
 			<td>{{$index+1}}</td>
-			<td><input class="input_in_cells" ng-model="row.code"></td>
-			<td><input class="input_in_cells" ng-model="row.name"></td>
-			<td><input class="input_in_cells" ng-model="row.unit"></td>
-			<td><input class="input_in_cells" ng-model="row.amount"></td>
-			<td><input class="input_in_cells" ng-model="row.length"></td>
-			<td><input class="input_in_cells" ng-model="row.width"></td>
-			<td><input class="input_in_cells" ng-model="row.height"></td>
-			<td><input class="input_in_cells" ng-model="row.value"></td>
-			<td><input class="input_in_cells" ng-model="row.price"></td>
+			<td><input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)" ng-change="searchWork(row, row.code)" ng-blur="worksWindow.show = false;"  ng-model-options="{debounce: 500}"></td>
+			<td><input class="input-in-cells" ng-model="row.name" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.unit" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.amount" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.length" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.width" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.height" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.value" ng-blur="cellBlured(row)"></td>
+			<td><input class="input-in-cells" ng-model="row.price" ng-blur="cellBlured(row)"></td>
 			<td>{{row.totalPrice}}</td>
 		</tr>
     </tbody>
 </table>
-<div id="sumMoney">Tổng chi phí: {{}} VNĐ</div>
-<div id="worksTable" ng-style="{top: worksWindow.top, left: worksWindow.left}" ng-show="worksWindow.show">
+<div id="sum-money">Tổng chi phí: {{}} VNĐ</div>
+<div id="works-table" ng-style="{top: top, left: left}" ng-if="worksWindow.show">
     <table>
-        <thead>
-        <tr>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Unit</th>
-            <th></th>
-        </tr>
-        </thead>
         <tbody>
-        <tr ng-repeat="work in works | filter:worksWindow.search">
+        <tr ng-repeat="work in filterResults = (works | filter:worksWindow.search)" ng-if="filterResults.length">
             <td>{{work.code}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
             <td><button ng-mousedown="addWork(work)" class="btn btn-primary">{{worksWindow.method}}</button></td>
         </tr>
+        <tr ng-if="!filterResults.length"><td colspan="4">No results found</td></tr>
         </tbody>
     </table>
 </div>

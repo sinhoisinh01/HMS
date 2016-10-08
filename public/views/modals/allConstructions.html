@@ -1,9 +1,9 @@
 <div class="modal-header">
     <button class="close" ng-click="$dismiss()">&times;</button>
-    <h2 class="modal-title">Tất cả công trình</h2>
+    <h2 class="modal-title">All constructions</h2>
 </div>
 <div class="modal-body row">
-    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-repeat="construction in constructions" ng-if="showConstructions && !hasInternetError"">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-repeat="construction in constructions" ng-if="!hasInternetError">
         <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
             <img src="images/defaultPictureForConstructions.png" class="clickable"
                  ui-sref="construction({construction_id: construction.id, name:construction.name})">
@@ -20,14 +20,6 @@
             </div>
         </div>
     </div>
-	<div ng-if="!showConstructions && !hasInternetError">
-		<h3>
-		  <center>
-			<span class="glyphicon glyphicon-refresh gly-spin"></span>
-			Loading...
-		  </center>
-		</h3>
-	</div>
 	<div class="alert alert-danger" role="alert" ng-if="hasInternetError">
 		<center>
 			<p><b>Your data will not be saved!</b> Because your connection has some error. Please reload this page!</p>

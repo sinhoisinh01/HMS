@@ -24,35 +24,48 @@ angular.module('HMS')
                 .then(function (constructions) {
                     $scope.stateName = constructions[0].name;
                 });
+        $scope.allConstructions = function () {
+            $uibModal.open({
+                templateUrl: 'views/modals/allConstructions.html',
+                size: 'lg',
+                scope: $scope
+            });
+        };
         $scope.searchConstruction = function(input){
             $rootScope.recentConstructions = $filter('filter')($scope.constructions, {name:input});
             $rootScope.hasSearchResult = true;
         }
-        $scope.deleteUser = function () {
-            if (confirm("All of your data will be lost. Are you sure to delete your account?"))
-			{	
-				userFactory.deleteUser().then(function(response) {
-					$scope.logOut();
-				});
-			}
+        $scope.addConstruction = function () {
+            $scope.names = $scope.constructions.map(function (con) {
+                return con.name;
+            });
+            $uibModal.open({
+                templateUrl: 'views/modals/constructionModal.html',
+                scope: $scope
+            }).result.then(function (construction) {
+                // table 'constructions' doesn't have supplier column (just supplier_id)
+                construction.supplier_id = construction.supplier.id;
+                delete construction.supplier;
+                constructionFactory.post(construction).then(function (construction) {
+                    $state.go('construction', {construction_id: construction.id, name: construction.name});
+                });
+            });
         };
         $scope.editConstruction = function () {
 			if ($stateParams.construction_id) {
                 $scope.construction = $scope.constructions.filter(function (con) {
 					return con.id == $stateParams.construction_id;
 				})[0];
-				constructionFactory.get().then(function (cache) {
-					$scope.names = cache.map(function (con) {
-                        if (con.id !== $scope.construction.id)
-                            return con.name;
-					});
-				});
-				supplierFactory.get().then(function (cache) {
-					$scope.suppliers = cache;
-					$scope.construction.supplier = $scope.suppliers.filter(function (supp) {
-						return supp.id == $scope.construction.supplier_id;
-					})[0];
-				});
+
+				$scope.names = $scope.constructions.map(function (con) {
+                    if (con.id !== $scope.construction.id)
+                        return con.name;
+                });
+
+				$scope.construction.supplier = $scope.suppliers.filter(function (supp) {
+                        return supp.id == $scope.construction.supplier_id;
+                    })[0];
+                
                 $uibModal.open({
                     templateUrl: 'views/modals/constructionModal.html',
                     scope: $scope
@@ -71,6 +84,14 @@ angular.module('HMS')
                             }
                         });
                     });
+                });
+            }
+        };
+        $scope.deleteUser = function () {
+            if (confirm("All of your data will be lost. Are you sure to delete your account?"))
+            {   
+                userFactory.deleteUser().then(function(response) {
+                    $scope.logOut();
                 });
             }
         };
