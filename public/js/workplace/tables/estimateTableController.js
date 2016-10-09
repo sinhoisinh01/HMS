@@ -116,6 +116,15 @@ angular.module('HMS')
         return true;
     }
 
+	$scope.updateRowData = function(row) {
+		if (row.value && row.price)
+			row.totalPrice = row.value * row.price;
+		if (!row.price && (row.amount || row.length || row.width || row.height))
+		{
+			row.value = (row.amount || 1) * (row.length || 1) * (row.width || 1) * (row.height || 1);
+		}
+	}
+	
     $scope.save = function(row) {
         var sheet = $scope.estimateSheet;
         if(!row.id)

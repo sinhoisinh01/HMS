@@ -28,13 +28,13 @@
 			<td><input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)" ng-change="searchWork(row, row.code)" ng-blur="worksWindow.show = false;"  ng-model-options="{debounce: 500}"></td>
 			<td><input class="input-in-cells" ng-model="row.name" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.unit" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.amount" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.length" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.width" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.height" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.value" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.amount" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.length" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.width" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.height" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.value" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.price"></td>
-			<td>{{row.totalPrice}}</td>
+			<td><input class="input-in-cells" ng-model="row.totalPrice" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 		</tr>
     </tbody>
 </table>
