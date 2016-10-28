@@ -16,4 +16,8 @@ class SubcategoryWork extends Model
     {
         return $this->hasMany('App\Models\Description', 'subcategoryWork_id');
     }
+	public function work()
+    {
+        return $this->hasOne('App\Models\Work', 'id');
+    }
 }
