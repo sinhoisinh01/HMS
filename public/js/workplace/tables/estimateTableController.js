@@ -11,22 +11,29 @@ angular.module('HMS')
         })
         .then(function(){
             $http.get(baseURL + 'categoryWorks',{params:{category_id:$stateParams.category_id}})
-            .then(function (response) {        
+            .then(function (response) {
+
                 var subcategories = response.data.sort(function(a,b){
                     return a.no - b.no;
                 });
-                for(var i=0; i<subcategories.length; i++)
+
+                var length1 = subcategories.length; 
+                for(var i = 0; i < length1; i++)
                 {
                     subcategories[i].subcategory_works.sort(function(a,b){
                         return a.no - b.no;
                     });
                     
-                    subcategories[i].code = "*";// add '*' as code of subcategory
+                    subcategories[i].code = "*";
                     subcategories[i].subcategory_id = subcategories[i].id;
+                    subcategories[i].type = 'subcategory';
                     
-                    $scope.estimateSheet.push(subcategories[i]);
+                    var length2 = subcategories[i].subcategory_works.length;
+                    var temp = JSON.parse(JSON.stringify(subcategories[i]));
+                    delete temp.subcategory_works;
+                    $scope.estimateSheet.push(temp);
 
-                    for(var j=0; j<subcategories[i].subcategory_works.length; j++)
+                    for(var j = 0; j < length2; j++)
                     {
                         subcategories[i].subcategory_works[j].descriptions.sort(function(a,b){
                             return a.no - b.no;
@@ -38,22 +45,28 @@ angular.module('HMS')
                         subcategories[i].subcategory_works[j].name = work.name;
                         subcategories[i].subcategory_works[j].unit = work.unit;
                         subcategories[i].subcategory_works[j].price = work.price;
-                        subcategories[i].subcategory_works[j].totalPrice = subcategories[i].subcategory_works[j].value * work.price;
+                        subcategories[i].subcategory_works[j].total_price = subcategories[i].subcategory_works[j].value * work.price;
+                        subcategories[i].subcategory_works[j].type = 'work';
 
-                        $scope.estimateSheet.push(subcategories[i].subcategory_works[j]);
+                        var temp = JSON.parse(JSON.stringify(subcategories[i].subcategory_works[j]));
+                        delete temp.subcategory_works;
+                        $scope.estimateSheet.push(temp);
                         
                         if (subcategories[i].subcategory_works[j].descriptions)
-                            for (var k=0; k<subcategories[i].subcategory_works[j].descriptions.length; k++)
+                            var length3 = subcategories[i].subcategory_works[j].descriptions.length;
+                            for (var k = 0; k < length3; k++)
                             {
-                                subcategories[i].subcategory_works[j].descriptions[k].subcategory_id = subcategories[i].id; 
+                                subcategories[i].subcategory_works[j].descriptions[k].subcategory_id = subcategories[i].id;
+                                subcategories[i].subcategory_works[j].descriptions[k].type = "description";
                                 $scope.estimateSheet.push(subcategories[i].subcategory_works[j].descriptions[k]);
                             }
                     }
                 }
+
                 $scope.showCategoryWorks = true;
                 
-                var blankRowNum = 50 - $scope.estimateSheet.length;
-                if(!blankRowNum)
+                var blankRowNum = 101 - $scope.estimateSheet.length;
+                if(blankRowNum<=0)
                     blankRowNum += 50;
                 for (var i=0; i<blankRowNum; i++)
                     $scope.estimateSheet.push({});
@@ -93,22 +106,21 @@ angular.module('HMS')
         return addType;
     }
 
-    $scope.isValid = function(addType){
+    $scope.isValid = function(addType, pos){
         var sheet = $scope.estimateSheet;
         switch(addType){
             case 'subcategory':
-                if( (sheet[$scope.rowPos-1].code && !sheet[$scope.rowPos+1].code && sheet[$scope.rowPos+1].name) || (!sheet[$scope.rowPos-1].code && !sheet[$scope.rowPos+1].code && sheet[$scope.rowPos+1].name) )
+                if( (sheet[pos-1].type == "description" && sheet[pos+1].type == "description") || (sheet[pos-1].type == "work" && sheet[pos+1].type == "description") )
                     return false;
                 // adding subcategory between 2 descriptions or below work and above description is invalid
             break;
             case 'work':
-                if( (sheet[$scope.rowPos-1].code && !sheet[$scope.rowPos+1].code && sheet[$scope.rowPos+1].name) || (!sheet[$scope.rowPos-1].code && !sheet[$scope.rowPos+1].code && sheet[$scope.rowPos+1].name) )
+                if( (sheet[pos-1].type == "description" && sheet[pos+1].type == "description") || (sheet[pos-1].type == "work" && sheet[pos+1].type == "description") )
                     return false;
                 // adding work between 2 descriptions or below work and above description is invalid
             break;
             case 'description':
-                if(sheet[$scope.rowPos-1].code && sheet[$scope.rowPos+1].code)
-                    if( (sheet[$scope.rowPos-1].code.charAt(0) === '*' && sheet[$scope.rowPos+1].code.charAt(0) === '*') || (sheet[$scope.rowPos-1].code.charAt(0) === '*' &&sheet[$scope.rowPos+1].code) )
+                if( (sheet[pos-1].type == "subcategory" && sheet[pos+1].type == "subcategory") || (sheet[pos-1].type == "subcategory" && sheet[pos+1].type == "work") || (sheet[pos-1].type == "subcategory" && !sheet[pos+1].name) )  
                     return false;
                 // adding work between 2 subcategories or below subcategory and above work is invalid
             break;
@@ -124,17 +136,16 @@ angular.module('HMS')
 			row.value = (row.amount || 1) * (row.length || 1) * (row.width || 1) * (row.height || 1);
 		}
 	}
-	
+
     $scope.save = function(row) {
         var sheet = $scope.estimateSheet;
-        if(!row.id)
-        // if row doesn't have id, it means it's new blank row( adding)
+        if( !row.id && row.name && (!row.name || row.name.length != 0))
         {
             switch($scope.checkAddType(row.code))
             {
                 case 'subcategory':
 
-                if(!$scope.isValid('subcategory'))
+                if(!$scope.isValid('subcategory', $scope.rowPos))
                 {
                     alert("Subcategory can not be added here!");
                     $scope.estimateSheet.splice($scope.rowPos, 1);
@@ -142,21 +153,30 @@ angular.module('HMS')
                 }                
 
                 var subcategory = {category_id:$stateParams.category_id, name:sheet[$scope.rowPos].name, no: null};
-                for(var i = $scope.rowPos-1; i>=0; i--)
+                for(var i = $scope.rowPos-1; i >= 0; i--)
                 {
-                    if(sheet[i].code && sheet[i].code.charAt(0) == '*')
+                    if(sheet[i].type === "subcategory")
                     {
                         subcategory.no = sheet[i].no + 1;
                         break;
                     }       
                 }
+                
+                var i = $scope.rowPos;
+                while(sheet[i].name)
+                {
+                    if(sheet[i].type === "subcategory")
+                        $scope.estimateSheet[i].no++;
+                    i++;
+                }
+
                 $http.post(baseURL + "subcategory",{subcategory:subcategory}).then(function(response){
-                    
                     row.category_id = response.data.category_id;
                     row.subcategory_id = response.data.id;
                     row.id = response.data.id;
                     row.no = response.data.no;
-
+                    row.type = "subcategory";
+                    
                     for(var i = $scope.rowPos+1; i<sheet.length; i++)
                     {
                         if(sheet[i].code)
@@ -174,7 +194,7 @@ angular.module('HMS')
                 });
                 break;
                 case 'description':
-                    if(!$scope.isValid('description'))
+                    if(!$scope.isValid('description',$scope.rowPos))
                     {
                         alert("Description can not be added here!");
                         $scope.estimateSheet.splice($scope.rowPos, 1);
@@ -190,9 +210,16 @@ angular.module('HMS')
                             break;
                         }
                     }
-                    //console.log(description);
-                    $http.post(baseURL + "description", {description:description}).then(function(){
-
+                    var i = $scope.rowPos;
+                    while(sheet[i].name)
+                    {
+                        if(sheet[i].type === "description")
+                            $scope.estimateSheet[i].no++;
+                        i++;
+                    }
+                    row.type = "description";
+                    $http.post(baseURL + "description", {description:description}).then(function(response){
+                        row.id = response.data.id;
                     });
                 break;
             }
@@ -222,7 +249,7 @@ angular.module('HMS')
     };  
 
     $scope.addWork = function (work) {
-        if(!$scope.isValid('work'))
+        if(!$scope.isValid('work',$scope.rowPos))
         {
             alert("Work can not be added here!");
             $scope.estimateSheet.splice($scope.rowPos, 1);
@@ -245,11 +272,19 @@ angular.module('HMS')
                 break; // find closest work to get #
             }       
         }
+        var i = $scope.rowPos;
+        while($scope.estimateSheet[i].name)
+        {
+            if($scope.estimateSheet[i].type === "work")
+                $scope.estimateSheet[i].no++;
+            i++;
+        }
         
         $http.post(baseURL + "subcategoryWork", {subcategoryWork:subcategoryWork}).then(function(response){
             work.id = response.data.id;
             work.subcategory_id = response.data.subcategory_id;
             work.no = response.data.no;
+            work.type = "work";
             $scope.estimateSheet.splice($scope.rowPos,1,work);
             $scope.worksWindow.show = false;
         });
@@ -266,7 +301,37 @@ angular.module('HMS')
         }],
         null,
         ['Delete Row', function ($itemScope) {
-            $scope.estimateSheet.splice($itemScope.$index, 1);
+            var index = $itemScope.$index;
+            
+            if($itemScope.row.type == 'subcategory')
+            {
+                if(confirm("Các công việc và diễn giải của mục này sẽ bị xóa theo. Bạn có chắc muốn tiếp tục?"))
+                {
+                    $scope.estimateSheet.splice(index, 1);
+                    $http.delete(baseURL + "subcategory/" + $itemScope.row.id).then(function(){
+                        while($scope.estimateSheet[index].type !== "subcategory" && $scope.estimateSheet[index].name)
+                        {
+                            $scope.estimateSheet.splice(index, 1);
+                        }
+                    });
+                }
+            }
+            else if($itemScope.row.type == 'work')
+            {
+                if(confirm("Bạn có chắc muốn xóa?"))
+                {
+                    $scope.estimateSheet.splice(index, 1);
+                    $http.delete(baseURL + "subcategoryWork/" + $itemScope.row.id).then(function(){
+                        while($scope.estimateSheet[index].type === "description" && $scope.estimateSheet[index].name)
+                        {
+                            $scope.estimateSheet.splice(index, 1);
+                        }
+                    });
+                }
+            }
+            else if($itemScope.row.type == 'description')
+                if(confirm("Bạn có chắc muốn xóa?"))
+                    $scope.estimateSheet.splice(index, 1);
         }]
     ];
 }

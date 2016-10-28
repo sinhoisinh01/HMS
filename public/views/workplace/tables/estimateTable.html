@@ -23,9 +23,9 @@
         </tr>
     </thead>
     <tbody>
-		<tr ng-repeat="row in estimateSheet" context-menu="menuOptions" ng-click="getRowPos($index)" ng-hide="$index===0">
+		<tr ng-repeat="row in estimateSheet track by $index" context-menu="menuOptions" ng-click="getRowPos($index)" ng-hide="$index===0">
 			<td>{{$index}}</td>
-			<td><input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)" ng-change="searchWork(row, row.code)" ng-blur="worksWindow.show = false;"  ng-model-options="{debounce: 500}"></td>
+			<td><input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)" ng-change="searchWork(row, row.code);" ng-blur="worksWindow.show = false;"  ng-model-options="{debounce: 200}"></td>
 			<td><input class="input-in-cells" ng-model="row.name" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.unit" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.amount" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
@@ -34,7 +34,7 @@
 			<td><input class="input-in-cells" ng-model="row.height" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.value" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.price"></td>
-			<td><input class="input-in-cells" ng-model="row.totalPrice" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td><input class="input-in-cells" ng-model="row.total_price" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 		</tr>
     </tbody>
 </table>
