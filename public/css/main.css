@@ -93,14 +93,14 @@ i{cursor:pointer;}
 	background: white;
 }
 #logo{
-	height:100%;
-	background:#eaeaea;
+	height: 100%;
+	background: url('../images/hms-logo.png') center center no-repeat;
 }
 #construction-search{
-	height:100%;
+	height: 100%;
 }
 #construction-search .input-group{
-	margin-top:15px;
+	margin-top: 15px;
 }
 #nav-bar-mid{
 	height: 100%;
@@ -111,6 +111,7 @@ i{cursor:pointer;}
 	height:50%;
 }
 #title-bar h3{
+	display: inline-block;
 	padding-left: 12px;
 	height:100%;
 	margin-top: 1%;
@@ -140,11 +141,11 @@ i{cursor:pointer;}
 	top: 0; left: 0; bottom: 0; right: 0;
 }
 #nav-bar .popover .arrow{
-	left:85%!important;
+	left: 85%!important;
 }
 #nav-bar .popover{
 	word-wrap: break-word;
-	cursor:auto;
+	cursor: auto;
 	left: -180px!important;
 }
 /* home page */
