@@ -97,7 +97,7 @@ angular.module('HMS')
         else if(/[a-zA-Z0-9.,]/.test(code))
         {
             if(/^TT.*/i.test(code)) 
-                addType = 'user-work';
+                addType = 'userWork';
             else addType = 'work';
         }
         else if(code === '')
@@ -118,6 +118,10 @@ angular.module('HMS')
                 if( (sheet[pos-1].type == "description" && sheet[pos+1].type == "description") || (sheet[pos-1].type == "work" && sheet[pos+1].type == "description") )
                     return false;
                 // adding work between 2 descriptions or below work and above description is invalid
+            break;
+            case 'userWork':
+                 if( (sheet[pos-1].type == "description" && sheet[pos+1].type == "description") || (sheet[pos-1].type == "work" && sheet[pos+1].type == "description") )
+                    return false;
             break;
             case 'description':
                 if( (sheet[pos-1].type == "subcategory" && sheet[pos+1].type == "subcategory") || (sheet[pos-1].type == "subcategory" && sheet[pos+1].type == "work") || (sheet[pos-1].type == "subcategory" && !sheet[pos+1].name) )  
@@ -222,6 +226,23 @@ angular.module('HMS')
                         row.id = response.data.id;
                     });
                 break;
+                case 'userWork':
+                    if(!$scope.isValid('work',$scope.rowPos))
+                    {
+                        alert("Work can not be added here!");
+                        $scope.estimateSheet.splice($scope.rowPos, 1);
+                        return false;
+                    }
+                    row.document = ''; 
+                    row.unit = '';
+                    row.construction_id = $stateParams.construction_id;
+                    $http.post(baseURL + "work",{work:row})
+                    .then(function(response){
+                        row.id = response.data.id;
+                        row.code = response.data.code;
+                        $scope.addWork(row);
+                    });
+                break;
             }
         }
         else{
@@ -254,19 +275,19 @@ angular.module('HMS')
             alert("Work can not be added here!");
             $scope.estimateSheet.splice($scope.rowPos, 1);
             return false;
-        } 
-
+        }
         var subcategoryWork = {subcategory_id:0, work_id: work.id, no:0, value:0};
+
         for(var i = $scope.rowPos-1; i>=0; i--)
         {
             subcategoryWork.subcategory_id = $scope.estimateSheet[i].subcategory_id;  
             // get subcategory id from row above( all rows have subcategory id)
-            if($scope.estimateSheet[i].code && $scope.estimateSheet[i].code.charAt(0) == '*')
+            if($scope.estimateSheet[i].type == "subcategory")
             {
                 subcategoryWork.no = 0;
                 break;// if the row above is subcategory, it means added work is the first work of subcategory( # = 0)
             }
-            if($scope.estimateSheet[i].code && $scope.estimateSheet[i].code.charAt(0) != '*')
+            if($scope.estimateSheet[i].type == "work")
             {
                 subcategoryWork.no = $scope.estimateSheet[i].no + 1;
                 break; // find closest work to get #
