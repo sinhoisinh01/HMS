@@ -24,4 +24,9 @@ class Work extends Model
     {
         return $this->hasMany('App\Models\ResourceWork');
     }
+	
+	public function subcategory_work()
+    {
+        return $this->belongsTo('App\Models\SubcategoryWork');
+    }
 }

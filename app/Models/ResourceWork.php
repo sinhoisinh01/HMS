@@ -14,4 +14,9 @@ class ResourceWork extends Model
     {
         return $this->belongsTo('App\Models\Work');
     }
+	
+	public function resource()
+	{
+		return $this->belongsTo('App\Models\Resource');
+	}
 }

@@ -60,6 +60,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('description', 'DescriptionController@add');
         $app->post('description/{id}', 'DescriptionController@update');
         $app->delete('description/{id}', 'DescriptionController@remove');
+		
+		//Analysis Table
+		$app->get('analysisTable', 'AnalysisTableController@get');
 
         //require: construction_id
         //return: [{id,code,name,unit,price}]

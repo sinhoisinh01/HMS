@@ -1,1 +1,43 @@
-<p>Phân tích</p>
+<div class="row">
+	<h3 class="col-lg-2">Phân tích vật tư</h3>&nbsp
+	<form class="col-lg-10">
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showMaterials">Vật liệu
+		</label>
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showLabors">Nhân công
+		</label>
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showMachines">Ca máy
+		</label>
+	</form>
+</div>
+<table class="table table-sm">
+  <thead>
+	<tr class="bg-primary">
+	  <th class="col-lg-1">#</th>
+	  <th class="col-lg-2">Mã</th>
+	  <th class="col-lg-3">Tên</th>
+	  <th class="col-lg-1">Đơn vị</th>
+	  <th class="col-lg-1">Khối lượng</th>
+	  <th class="col-lg-1">Hao phí</th>
+	  <th class="col-lg-1">Đơn giá</th>
+	  <th class="col-lg-1">Thành tiền</th>
+	  <th class="col-lg-1">Tổng tiền</th>
+	</tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)">
+	  <td class="col-lg-1">{{$index+1}}</td>
+	  <td class="col-lg-2">{{row.code}}</td>
+	  <td class="col-lg-3">{{row.name}}</td>
+	  <td class="col-lg-1">{{row.unit}}</td>
+	  <td class="col-lg-1">{{row.value}}</td>
+	  <td class="col-lg-1">{{row.unitValue}}</td>
+	  <td class="col-lg-1">{{row.unitPrice}}</td>
+	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice}}</p></td>
+	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice*row.workValue}}</p></td>
+	  </tr>
+	</tr>
+  </tbody>
+</table>
