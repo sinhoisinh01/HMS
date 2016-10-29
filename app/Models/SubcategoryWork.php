@@ -18,6 +18,6 @@ class SubcategoryWork extends Model
     }
 	public function work()
     {
-        return $this->hasOne('App\Models\Work', 'id');
+        return $this->belongsTo('App\Models\Work');
     }
 }

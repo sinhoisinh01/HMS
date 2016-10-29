@@ -1,6 +1,7 @@
 angular.module('HMS')
 .controller('analysisTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
 	$scope.analysisSheet = [];
+	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
 	$http.get(baseURL + 'analysisTable',{params:{category_id:$stateParams.category_id}})
 	.then(function(response) {
 		var data = response.data;
@@ -33,6 +34,7 @@ angular.module('HMS')
 				{
 					var resource = {};
 					resource.id = resourcesWork[k].resource.id;
+					resource.resourceCode = resourcesWork[k].resource.code;
 					resource.name = resourcesWork[k].resource.name;
 					resource.unit = resourcesWork[k].resource.unit;
 					resource.unitValue = resourcesWork[k].value;
@@ -44,4 +46,29 @@ angular.module('HMS')
 			}
 		}
 	});
+	
+	$scope.filterResources = function(row) {
+		// kiểm tra nếu dòng đang xét là dòng show resource
+		if (row.resourceCode) {
+			switch (row.resourceCode.substr(0,1)) {
+				case 'V': 
+					if ( $scope.filterCondition.showMaterials === true )
+						return true;
+					else return false;
+					break;
+				case 'N': 
+					if ( $scope.filterCondition.showLabors === true )
+						return true;
+					else return false;
+					break;
+				case 'M': 
+					if ( $scope.filterCondition.showMachines === true )
+						return true;
+					else return false;
+					break;
+				default : break;
+			}		
+		}
+		return true;
+	};
 });

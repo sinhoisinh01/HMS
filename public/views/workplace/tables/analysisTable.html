@@ -2,13 +2,13 @@
 	<h3 class="col-lg-2">Phân tích vật tư</h3>&nbsp
 	<form class="col-lg-10">
 		<label class="checkbox-inline">
-		  <input type="checkbox" value="" checked>Vật tư
+		  <input type="checkbox" ng-model="filterCondition.showMaterials">Vật liệu
 		</label>
 		<label class="checkbox-inline">
-		  <input type="checkbox" value="" checked>Nhân công
+		  <input type="checkbox" ng-model="filterCondition.showLabors">Nhân công
 		</label>
 		<label class="checkbox-inline">
-		  <input type="checkbox" value="" checked>Ca máy
+		  <input type="checkbox" ng-model="filterCondition.showMachines">Ca máy
 		</label>
 	</form>
 </div>
@@ -27,8 +27,8 @@
 	</tr>
   </thead>
   <tbody>
-	<tr ng-repeat="row in analysisSheet" ng-hide="$index===0" ng-class="row.classType">
-	  <td class="col-lg-1">{{$index}}</td>
+	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)">
+	  <td class="col-lg-1">{{$index+1}}</td>
 	  <td class="col-lg-2">{{row.code}}</td>
 	  <td class="col-lg-3">{{row.name}}</td>
 	  <td class="col-lg-1">{{row.unit}}</td>

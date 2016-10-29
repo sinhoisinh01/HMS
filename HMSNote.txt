@@ -3,3 +3,5 @@
 Insert into `construction_resource` SELECT @construction_id:= 3, `resource_id`, `price` FROM `resource_supplier` WHERE `supplier_id` = 31 ORDER BY `supplier_id` DESC
 
 - Khi tạo công trình, cần lưu ý thêm toàn bộ giá vật tư từ resouce_supplier sang construction_supplier bằng câu lệnh phía trên
+
+Các subCategory ở đầu tiên ko hiển thị được
