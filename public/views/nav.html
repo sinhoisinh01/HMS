@@ -3,7 +3,7 @@
     <div class="col-lg-1 clickable" id="logo" ui-sref="home"></div>
     <div class="col-lg-10" id="construction-search" ng-if="stateName == 'Home'">
         <div class="input-group">
-          <input class="form-control" placeholder="Search constructions..." type="text" ng-model="constructionSearchTxt">
+          <input class="form-control" placeholder="Nhập tên công trình cần tìm..." type="text" ng-model="constructionSearchTxt">
           <div class="input-group-btn">
             <button class="btn btn-default" type="button" ng-click="searchConstruction(constructionSearchTxt)"><i class="glyphicon glyphicon-search"></i></button>
           </div>
@@ -18,52 +18,52 @@
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
                     <button class="btn btn-default" uib-dropdown-toggle> File <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem" ng-click="addConstruction()"><a>New</a></li>
-                        <li role="menuitem" ng-click="allConstructions()"><a>Open...</a></li>
-                        <li role="menuitem"><a>Import...</a></li>
-                        <li role="menuitem"><a>Export...</a></li>
+                        <li role="menuitem" ng-click="addConstruction()"><a>Mới</a></li>
+                        <li role="menuitem" ng-click="allConstructions()"><a>Mở...</a></li>
+                        <li role="menuitem"><a>Nhập file...</a></li>
+                        <li role="menuitem"><a>Xuất file...</a></li>
                         <li class="divider"></li>
                         
                     </ul>
                 </div>
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                    <button class="btn btn-default" uib-dropdown-toggle> Construction <span class="caret"></span></button>
+                    <button class="btn btn-default" uib-dropdown-toggle> Công trình <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem"><a>Analyse construction...</a></li>
-                        <li role="menuitem"><a>Construction info</a></li>
+                        <li role="menuitem"><a>Phân tích...</a></li>
+                        <li role="menuitem"><a>Thông tin chi tiết</a></li>
                     </ul>
                 </div>
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                    <button class="btn btn-default" uib-dropdown-toggle> Data <span class="caret"></span></button>
+                    <button class="btn btn-default" uib-dropdown-toggle> Dữ liệu <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem"><a>Download new supplier...</a></li>
-                        <li role="menuitem"><a>Import supplier...</a></li>
-                        <li role="menuitem"><a>Export supplier...</a></li>
+                        <li role="menuitem"><a>Tải bảng giá mới...</a></li>
+                        <li role="menuitem"><a>Nhập bảng giá...</a></li>
+                        <li role="menuitem"><a>Xuất bảng giá...</a></li>
                     </ul>
                 </div>
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                    <button class="btn btn-default" uib-dropdown-toggle> Tools <span class="caret"></span></button>
+                    <button class="btn btn-default" uib-dropdown-toggle> Công cụ <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem"><a>Tool 1</a></li>
-                        <li role="menuitem"><a>Tool 2</a></li>
+                        <li role="menuitem"><a>1</a></li>
+                        <li role="menuitem"><a>2</a></li>
                     </ul>
                 </div>
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                    <button class="btn btn-default" uib-dropdown-toggle> View <span class="caret"></span></button>
+                    <button class="btn btn-default" uib-dropdown-toggle> Hiển thị <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem" ng-click="collapseCategories()"><a>Show/ Hide categories</a></li>
-                        <li role="menuitem"><a>Settings...</a></li>
+                        <li role="menuitem" ng-click="collapseCategories()"><a>Ẩn/ Hiện hạng mục</a></li>
+                        <li role="menuitem"><a>Tùy chỉnh...</a></li>
                     </ul>
                 </div>
                 <div class="btn-group" uib-dropdown dropdown-append-to-body>
-                    <button class="btn btn-default" uib-dropdown-toggle> Help <span class="caret"></span></button>
+                    <button class="btn btn-default" uib-dropdown-toggle> Trợ giúp <span class="caret"></span></button>
                     <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
-                        <li role="menuitem"><a>Tutorial mode</a></li>
-                        <li role="menuitem"><a>Tutorial videos</a></li>
-                        <li role="menuitem"><a>Something else...</a></li>
+                        <li role="menuitem"><a>Chế độ hướng dẫn</a></li>
+                        <li role="menuitem"><a>Video hướng dẫn</a></li>
+                        <li role="menuitem"><a>...</a></li>
                     </ul>
                 </div>
-                <span>Last modified:</span>
+                <span>Sửa lần cuối vào:</span>
             </div>
         </div>
     </div>
@@ -83,11 +83,11 @@
             <div class="col-xs-8"><b>{{user.name}}</b><p>{{user.email}}</p></div>
         </div>
         <div class="row well well-sm">
-            <div class="col-xs-8">
-                <button type="button" class="btn btn-default" ng-click="deleteUser()">Delete Account</button>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-default" ng-click="deleteUser()">Xóa tài khoản</button>
             </div>
-            <div class="col-xs-4">
-                <button type="button" class="btn btn-default" ng-click="logOut()">Sign out</button>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-default" ng-click="logOut()">Đăng xuất</button>
             </div>
         </div>
     </div>

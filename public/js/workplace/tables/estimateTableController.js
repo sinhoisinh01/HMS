@@ -239,8 +239,7 @@ angular.module('HMS')
                     $http.post(baseURL + "work",{work:row})
                     .then(function(response){
                         var resourceWork = {resource_id: 1, work_id:response.data.id, value:0};
-                        $http.post(baseURL + "resourceWork", {resourceWork:resourceWork})
-                        .then(function(){});
+                        $http.post(baseURL + "resourceWork", {resourceWork:resourceWork});
                         row.id = response.data.id;
                         row.code = response.data.code;
                         $scope.addWork(row);
@@ -249,7 +248,17 @@ angular.module('HMS')
             }
         }
         else{
-
+            switch($scope.checkAddType(row.code))
+            {
+                case 'subcategory':
+                    var subcategory = {id: row.id, category_id: row.category_id, name: row.name, no: row.no};
+                    $http.post(baseURL + "subcategory/" + row.id, {subcategory:subcategory});
+                break;
+                case 'description':
+                    var description = {id: row.id, subcategoryWork_id: row.subcategoryWork_id, name: row.name, no: row.no, amount: row.amount, length: row.length, width: row.width, height: row.height, value: row.value};
+                    $http.post(baseURL + "description/" + row.id, {description:description});
+                break;
+            }
         }
     };
 
