@@ -46,9 +46,9 @@
             <td>{{work.code}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>
-            <td><button ng-mousedown="addWork(work)" class="btn btn-primary">{{worksWindow.method}}</button></td>
+            <td><button ng-mousedown="workAction(worksWindow.method, work)" class="btn btn-primary">{{worksWindow.method}}</button></td>
         </tr>
-        <tr ng-if="!filterResults.length"><td colspan="4">No results found</td></tr>
+        <tr ng-if="!filterResults.length"><td colspan="4">Không có kết quả</td></tr>
         </tbody>
     </table>
 </div>

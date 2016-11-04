@@ -87,7 +87,7 @@ angular.module('HMS')
         $scope.rowPos = index;
     }
 
-    $scope.checkAddType = function(code){
+    $scope.checkType = function(code){
         var addType = '';
 
         if(code === undefined)
@@ -145,7 +145,7 @@ angular.module('HMS')
         var sheet = $scope.estimateSheet;
         if( !row.id && row.name && (!row.name || row.name.length != 0))
         {
-            switch($scope.checkAddType(row.code))
+            switch($scope.checkType(row.code))
             {
                 case 'subcategory':
 
@@ -248,14 +248,24 @@ angular.module('HMS')
             }
         }
         else{
-            switch($scope.checkAddType(row.code))
+            switch($scope.checkType(row.code))
             {
                 case 'subcategory':
-                    var subcategory = {id: row.id, category_id: row.category_id, name: row.name, no: row.no};
+                    var subcategory = {category_id: row.category_id, name: row.name, no: row.no};
                     $http.post(baseURL + "subcategory/" + row.id, {subcategory:subcategory});
                 break;
+                case 'userWork':
+                    var subcategoryWork = {subcategory_id: row.subcategory_id, work_id: row.work_id, no: row.no, value: row.value};
+                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork});
+                    var work = {code: row.code, document: '', name: row.name, unit: row.unit, construction_id: row.construction_id};
+                    $http.post(baseURL + "work/" + row.work_id, {work:work});
+                break;
+                case 'work':
+                    var subcategoryWork = {subcategory_id: row.subcategory_id, work_id: row.work_id, no: row.no, value: row.value};
+                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork});
+                break;
                 case 'description':
-                    var description = {id: row.id, subcategoryWork_id: row.subcategoryWork_id, name: row.name, no: row.no, amount: row.amount, length: row.length, width: row.width, height: row.height, value: row.value};
+                    var description = {subcategoryWork_id: row.subcategoryWork_id, name: row.name, no: row.no, amount: row.amount, length: row.length, width: row.width, height: row.height, value: row.value};
                     $http.post(baseURL + "description/" + row.id, {description:description});
                 break;
             }
@@ -280,6 +290,13 @@ angular.module('HMS')
             newWork: null
         };
     };  
+
+    $scope.workAction =  function(action, work){
+        if(action === 'Add')
+            $scope.addWork(work);
+        else
+            $scope.replaceWork(work);
+    }
 
     $scope.addWork = function (work) {
         if(!$scope.isValid('work',$scope.rowPos))
@@ -322,6 +339,18 @@ angular.module('HMS')
             $scope.worksWindow.show = false;
         });
     };
+    $scope.replaceWork = function(work){
+        var oldWork = $scope.estimateSheet[$scope.rowPos];
+        var subcategoryWork = {subcategory_id: oldWork.subcategory_id, work_id: work.id, no: oldWork.no, value: 0};
+        $http.post(baseURL + "subcategoryWork/" + oldWork.id, {subcategoryWork:subcategoryWork})
+        .then(function(response){
+            $scope.estimateSheet[$scope.rowPos].code = work.code;
+            $scope.estimateSheet[$scope.rowPos].name = work.name;
+            $scope.estimateSheet[$scope.rowPos].unit = work.unit;
+            $scope.estimateSheet[$scope.rowPos].price = work.price;
+            $scope.estimateSheet[$scope.rowPos].value = 0;
+        });
+    }
 
     /*Estimate Table Context Menu*/
     $scope.menuOptions = [
