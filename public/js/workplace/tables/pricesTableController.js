@@ -38,7 +38,6 @@ angular.module('HMS')
 		if (row.price != $scope.oldPrice) {
 			$http.post(baseURL + 'pricesTable', {construction_id: $stateParams.construction_id, resource_id: row.resource_id, price: row.price});
 			workFactory.emptyCache();
-			console.log(workFactory);
 		}
 	}
 });
