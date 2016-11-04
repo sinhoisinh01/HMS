@@ -1,4 +1,7 @@
 <div class="row">
+  <div uib-alert ng-repeat="alert in alerts.alertList" ng-class="'alert-warning'" close="alerts.closeAlert($index)">{{alert.msg}}</div>
+</div>
+<div class="row">
 	<h3 class="col-lg-2">Phân tích vật tư</h3>&nbsp
 	<form class="col-lg-10">
 		<label class="checkbox-inline">
@@ -27,7 +30,7 @@
 	</tr>
   </thead>
   <tbody>
-	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)">
+	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)" context-menu="menuOptions">
 	  <td class="col-lg-1">{{$index+1}}</td>
 	  <td class="col-lg-2">{{row.code}}</td>
 	  <td class="col-lg-3">{{row.name}}</td>
@@ -37,7 +40,6 @@
 	  <td class="col-lg-1">{{row.unitPrice}}</td>
 	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice}}</p></td>
 	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice*row.workValue}}</p></td>
-	  </tr>
 	</tr>
   </tbody>
 </table>

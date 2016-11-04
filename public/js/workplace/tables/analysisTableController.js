@@ -2,6 +2,16 @@ angular.module('HMS')
 .controller('analysisTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
 	$scope.analysisSheet = [];
 	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
+	$scope.alerts = {
+		"alertList" : [], 
+		"alertMessage" : "Không thể chỉnh sửa định mức của nhà nước", 
+		"addAlert" : function() {
+			$scope.alerts.alertList.push({msg: $scope.alerts.alertMessage});
+		},
+		"closeAlert" : function(index) {
+			$scope.alerts.alertList.splice(index, 1);
+		}
+	};
 	$http.get(baseURL + 'analysisTable',{params:{category_id:$stateParams.category_id}})
 	.then(function(response) {
 		var data = response.data;
@@ -71,4 +81,18 @@ angular.module('HMS')
 		}
 		return true;
 	};
+	
+	/*Estimate Table Context Menu*/
+    $scope.menuOptions = [
+        ['Thêm vật tư', function ($itemScope) {
+            if ( !$itemScope.workCode || $itemScope.workCode.substr(0,2) !== 'TT' )
+				$scope.alerts.addAlert();
+
+        }],
+        null,
+        ['Xóa vật tư', function ($itemScope) {
+			if ( !$itemScope.workCode || $itemScope.workCode.substr(0,2) !== 'TT' )
+				$scope.alerts.addAlert();
+        }]
+    ];
 });

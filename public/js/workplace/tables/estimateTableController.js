@@ -334,5 +334,4 @@ angular.module('HMS')
                     $scope.estimateSheet.splice(index, 1);
         }]
     ];
-}
-);
+});
