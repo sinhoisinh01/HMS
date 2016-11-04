@@ -1,1 +1,40 @@
-<p>Hao phí</p>
+<div class="row">
+	<h3 class="col-lg-3">Bảng tổng hợp hao phí</h3>&nbsp
+	<form class="col-lg-9">
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showMaterials">Vật liệu
+		</label>
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showLabors">Nhân công
+		</label>
+		<label class="checkbox-inline">
+		  <input type="checkbox" ng-model="filterCondition.showMachines">Ca máy
+		</label>
+	</form>
+</div>
+<table class="table table-sm">
+  <thead>
+	<tr class="bg-primary">
+	  <th class="col-lg-1">#</th>
+	  <th class="col-lg-1">Loại</th>
+	  <th class="col-lg-2">Tên</th>
+	  <th class="col-lg-1">Đơn vị</th>
+	  <th class="col-lg-1">Khối lượng</th>
+	  <th class="col-lg-2">Đơn giá</th>
+	  <th class="col-lg-2">Thành tiền</th>
+	  <th class="col-lg-2">Ghi chú</th>
+	</tr>
+  </thead>
+  <tbody>
+	<tr ng-repeat="row in pricesTable" ng-show="filterResources(row)">
+	  <td class="col-lg-1">{{$index+1}}</td>
+	  <td class="col-lg-1">{{row.code.substr(0,1)}}</td>
+	  <td class="col-lg-2">{{row.name}}</td>
+	  <td class="col-lg-1">{{row.unit}}</td>
+	  <td class="col-lg-1">{{row.value}}</td>
+	  <td class="col-lg-2"><input class="input-in-cells" ng-model="row.price" ng-focus="storeOldPrice(row.price)" ng-blur="updatePrice(row)"></td>
+	  <td class="col-lg-2">{{row.value*row.price}}</td>
+	  <td class="col-lg-2"></td>
+	</tr>
+  </tbody>
+</table>
