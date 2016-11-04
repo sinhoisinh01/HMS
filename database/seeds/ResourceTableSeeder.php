@@ -7,7 +7,7 @@ class ResourceTableSeeder extends Seeder
 {
     public function run()
     {
-        $resources = [['code' => 'M240001', 'name' => 'Ô tô tự đổ 27T', 'unit' => 'ca', 'user_id' => 1],
+        $resources = [['code' => '1', 'name' => 'default resource', 'unit' => '', 'user_id' => 1], ['code' => 'M240001', 'name' => 'Ô tô tự đổ 27T', 'unit' => 'ca', 'user_id' => 1],
             ['code' => 'M240002', 'name' => 'Ô tô chở phế thải 7Tấn', 'unit' => 'ca', 'user_id' => 1],
             ['code' => 'M240003', 'name' => 'Ô tô chứa nhiên liệu 2,5Tấn', 'unit' => 'ca', 'user_id' => 1],
             ['code' => 'M240004', 'name' => 'Ô tô thùng 2,5Tấn', 'unit' => 'ca', 'user_id' => 1],

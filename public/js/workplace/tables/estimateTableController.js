@@ -238,6 +238,9 @@ angular.module('HMS')
                     row.construction_id = $stateParams.construction_id;
                     $http.post(baseURL + "work",{work:row})
                     .then(function(response){
+                        var resourceWork = {resource_id: 1, work_id:response.data.id, value:0};
+                        $http.post(baseURL + "resourceWork", {resourceWork:resourceWork})
+                        .then(function(){});
                         row.id = response.data.id;
                         row.code = response.data.code;
                         $scope.addWork(row);
