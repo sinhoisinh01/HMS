@@ -13,9 +13,9 @@ class WorkController extends Controller
     {
         return response()->json(
             Work::join('resource_work', 'resource_work.work_id', '=', 'works.id')
-                ->join('resource_supplier', 'resource_supplier.resource_id', '=', 'resource_work.resource_id')
-                ->where('supplier_id', Construction::find($request->input('construction_id'))->supplier_id)
-				->whereIn('construction_id', [1, $request->input('construction_id')])
+                ->join('construction_resource', 'construction_resource.resource_id', '=', 'resource_work.resource_id')
+                ->where('construction_resource.construction_id', $request->input('construction_id'))
+				->whereIn('works.construction_id', [1, $request->input('construction_id')])
 				->get()
                 ->groupBy('id')
                 //laravel group by, not sql group by
