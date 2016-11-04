@@ -1,13 +1,13 @@
 <div class="col-md-2" uib-collapse="isCollapsedCategories" horizontal>
     <div id="category-header-top">
-        <p>Categories list</p>
+        <p>Hạng mục</p>
     </div>
     <div id="category-header-bot">
-        <input class="form-control input-sm" placeholder="Search categories..." id="input_search_category"
+        <input class="form-control input-sm" placeholder="Tìm hạng mục..." id="input_search_category"
                ng-model="input_search_category">
     </div>
     <div id="category-content">
-        <span ng-click="add()" class="clickable"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> New Category</span>
+        <span ng-click="add()" class="clickable"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i> Tạo mới</span>
         <div class="category-item" ng-repeat="category in categories | filter:{name : input_search_category}">
             <div ui-sref=".category.table({category_id:category.id,table:'estimate'})" class="category-name">{{category.name}}</div>
             <div class="category-options">
