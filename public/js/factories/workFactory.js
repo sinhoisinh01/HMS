@@ -29,6 +29,9 @@ angular.module('HMS')
 			},
 			delete: function () {
 				
+			},
+			emptyCache: function () {
+				cache = null;
 			}
         };
     }]);

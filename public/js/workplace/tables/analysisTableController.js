@@ -12,7 +12,7 @@ angular.module('HMS')
 			$scope.alerts.alertList.splice(index, 1);
 		}
 	};
-	$http.get(baseURL + 'analysisTable',{params:{category_id:$stateParams.category_id}})
+	$http.get(baseURL + 'analysisTable',{params:{construction_id: $stateParams.construction_id, category_id:$stateParams.category_id}})
 	.then(function(response) {
 		var data = response.data;
 		var dataLength = data.length;

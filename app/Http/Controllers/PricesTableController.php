@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subcategory;
+use App\Models\ConstructionResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
@@ -25,8 +26,13 @@ class PricesTableController extends Controller
         return response()->json($res);
     }
 
-    function update($id, Request $request)
+    function update(Request $request)
     {
-		//ToDo
+		echo('construction_id:' . $request->input('construction_id') . '</br>');
+        echo('resource_id:' . $request->input('resource_id') . '</br>');
+        echo($request->input('price'));
+        ConstructionResource::where('construction_id', $request->input('construction_id'))
+        ->where('resource_id', $request->input('resource_id'))
+        ->update(['price' => $request->input('price')]);
     }
 }

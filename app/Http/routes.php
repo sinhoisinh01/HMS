@@ -68,6 +68,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         //Prices Table
         //require: construction_id, category_id
         $app->get('pricesTable', 'PricesTableController@get');
+        $app->post('pricesTable', 'PricesTableController@update');
 
         //require: construction_id
         //return: [{id,code,name,unit,price}]
