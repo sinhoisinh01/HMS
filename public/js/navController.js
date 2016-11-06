@@ -43,6 +43,12 @@ angular.module('HMS')
                 templateUrl: 'views/modals/constructionModal.html',
                 scope: $scope
             }).result.then(function (construction) {
+                $uibModal.open({
+                    templateUrl: 'views/modals/loadingModal.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+
                 // table 'constructions' doesn't have supplier column (just supplier_id)
                 construction.supplier_id = construction.supplier.id;
                 delete construction.supplier;

@@ -1,9 +1,14 @@
 angular.module('HMS')
 .controller('pricesTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) {
+	$scope.showPricesTable = false;
 	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
 	$http.get(baseURL + 'pricesTable', {params: {construction_id: $stateParams.construction_id, category_id:$stateParams.category_id}})
 	.then(function(response) {
 		$scope.pricesTable = response.data;
+		$scope.showPricesTable = true;
+	},
+	function(error) {
+		$scope.hasInternetError = true;
 	});
 	
 	$scope.filterResources = function(row) {

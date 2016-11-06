@@ -3,10 +3,19 @@
     <input class="form-control input-sm" ng-model="input" ng-change="inputChanged(input)">
 </div-->
 <!--<p>{{worksWindow}}</p>-->
-<center>
-    <h3 ng-if="!showCategoryWorks && !hasInternetError"><span class="glyphicon glyphicon-refresh gly-spin"></span>Đang tải...</h3> 
+<center ng-if="!showCategoryWorks && !hasInternetError">
+    <h3><span class="glyphicon glyphicon-refresh gly-spin"></span> Đang tải...</h3>
 </center>
-<table id="estimate-table">
+<center ng-if="hasInternetError">
+    <div class="alert alert-danger" role="alert">
+        <center>
+            <p><b>Lỗi kết nối!</b>Dữ liệu của bạn sẽ không được lưu! Vui lòng tải lại trang</p>
+            <button type="button" class="btn btn-default" onClick="history.go(0)">Tải lại</button>
+        </center>
+    </div>
+</center>
+
+<table id="estimate-table" ng-if="showCategoryWorks">
     <thead>
         <tr>
             <th>#</th>

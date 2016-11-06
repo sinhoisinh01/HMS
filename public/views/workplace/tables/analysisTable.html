@@ -1,7 +1,18 @@
+<center ng-if="!showAnalysisTable && !hasInternetError">
+    <h3><span class="glyphicon glyphicon-refresh gly-spin"></span> Đang tải...</h3>
+</center>
+<center ng-if="hasInternetError">
+    <div class="alert alert-danger" role="alert">
+        <center>
+            <p><b>Lỗi kết nối!</b>Dữ liệu của bạn sẽ không được lưu! Vui lòng tải lại trang</p>
+            <button type="button" class="btn btn-default" onClick="history.go(0)">Tải lại</button>
+        </center>
+    </div>
+</center>
 <div class="row">
   <div uib-alert ng-repeat="alert in alerts.alertList" ng-class="'alert-warning'" close="alerts.closeAlert($index)">{{alert.msg}}</div>
 </div>
-<div class="row">
+<div class="row" ng-if="showAnalysisTable">
 	<h3 class="col-lg-2">Phân tích vật tư</h3>&nbsp
 	<form class="col-lg-10">
 		<label class="checkbox-inline">
@@ -15,7 +26,7 @@
 		</label>
 	</form>
 </div>
-<table class="table table-sm">
+<table class="table table-sm" ng-if="showAnalysisTable">
   <thead>
 	<tr class="bg-primary">
 	  <th class="col-lg-1">#</th>

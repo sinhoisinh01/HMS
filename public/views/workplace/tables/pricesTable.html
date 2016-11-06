@@ -1,4 +1,15 @@
-<div class="row">
+<center ng-if="!showPricesTable && !hasInternetError">
+    <h3><span class="glyphicon glyphicon-refresh gly-spin"></span> Đang tải...</h3>
+</center>
+<center ng-if="hasInternetError">
+    <div class="alert alert-danger" role="alert">
+        <center>
+            <p><b>Lỗi kết nối!</b> Dữ liệu của bạn sẽ không được lưu! Vui lòng tải lại trang</p>
+            <button type="button" class="btn btn-default" onClick="history.go(0)">Tải lại</button>
+        </center>
+    </div>
+</center>
+<div class="row" ng-if="showPricesTable">
 	<h3 class="col-lg-3">Bảng tổng hợp hao phí</h3>&nbsp
 	<form class="col-lg-9">
 		<label class="checkbox-inline">
@@ -12,7 +23,7 @@
 		</label>
 	</form>
 </div>
-<table class="table table-sm">
+<table class="table table-sm" ng-if="showPricesTable">
   <thead>
 	<tr class="bg-primary">
 	  <th class="col-lg-1">#</th>

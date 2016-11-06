@@ -1,5 +1,6 @@
 angular.module('HMS')
 .controller('analysisTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
+	$scope.showAnalysisTable = false;
 	$scope.analysisSheet = [];
 	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
 	$scope.alerts = {
@@ -55,6 +56,10 @@ angular.module('HMS')
 				}
 			}
 		}
+		$scope.showAnalysisTable = true;
+	},
+	function(error) {
+		$rootScope.hasInternetError = true;
 	});
 	
 	$scope.filterResources = function(row) {

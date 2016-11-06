@@ -27,11 +27,20 @@ angular.module('HMS')
                 templateUrl: 'views/modals/constructionModal.html',
                 scope: $scope
             }).result.then(function (construction) {
+                $uibModal.open({
+                    templateUrl: 'views/modals/loadingModal.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+
                 // table 'constructions' doesn't have supplier column (just supplier_id)
                 construction.supplier_id = construction.supplier.id;
                 delete construction.supplier;
                 constructionFactory.post(construction).then(function (construction) {
                     $state.go('construction', {construction_id: construction.id, name: construction.name});
+                },
+                function(error) {
+                    $rootScope.hasInternetError = true;
                 });
             });
         };
