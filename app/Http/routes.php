@@ -52,10 +52,10 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 
         //require: category_id
         //return: [{id,name,no,subcategory_works=[{id,work_id,no,value,descriptions=[{id,name,no,amount,length,width,height,value}]]]
-        $app->get('categoryWorks', 'SubcategoryWorkController@get');
-        $app->post('subcategoryWork', 'SubcategoryWorkController@add');
-        $app->post('subcategoryWork/{id}', 'SubcategoryWorkController@update');
-        $app->delete('subcategoryWork/{id}', 'SubcategoryWorkController@remove');
+        $app->get('estimateTableGet', 'EstimateTableController@get');
+        $app->post('estimateTable', 'EstimateTableController@add');
+        $app->post('estimateTable/{id}', 'EstimateTableController@update');
+        $app->delete('estimateTable/{id}', 'EstimateTableController@remove');
 
         $app->post('description', 'DescriptionController@add');
         $app->post('description/{id}', 'DescriptionController@update');
