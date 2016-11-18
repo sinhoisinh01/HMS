@@ -7,7 +7,7 @@ use App\Models\SubcategoryWork;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
-class EstimateTableController extends Controller
+class SubcategoryWorkController extends Controller
 {
     function get(Request $request)
     {
