@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Construction;
 use App\Models\ConstructionResource;
-use App\Models\ConstructionResourceWork;
-use App\Models\ResourceWork;
 use App\Models\ResourceSupplier;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -32,12 +30,6 @@ class ConstructionController extends Controller
             return $item;
         });
         ConstructionResource::insert($construction_resource->toArray());
-        $construction_resource_work = ResourceWork::all();
-        $construction_resource_work->transform(function ($item, $key) use ($construction) {
-            $item['construction_id'] = $construction->toArray()['id'];
-            return $item;
-        });
-        ConstructionResourceWork::insert($construction_resource_work->toArray());
         return response()->json($constructions);
     }
 
@@ -68,8 +60,7 @@ class ConstructionController extends Controller
 
     function remove($id)
     {
-        ConstructionResource::where('construction_id', $id)->forceDelete();
-        ConstructionResourceWork::where('construction_id', $id)->forceDelete();
         Construction::destroy($id);
+        ConstructionResource::where('construction_id', $id)->forceDelete();
     }
 }

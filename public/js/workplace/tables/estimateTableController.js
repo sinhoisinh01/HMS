@@ -62,7 +62,7 @@ angular.module('HMS')
                             }
                     }
                 }
-                //console.log($scope.estimateSheet);
+
                 $scope.showCategoryWorks = true;
                 
                 var blankRowNum = 101 - $scope.estimateSheet.length;
@@ -180,18 +180,19 @@ angular.module('HMS')
                     row.id = response.data.id;
                     row.no = response.data.no;
                     row.type = "subcategory";
-
+                    
                     for(var i = $scope.rowPos+1; i<sheet.length; i++)
                     {
-                        if(sheet[i].type === "subcategory")
+                        if(sheet[i].code)
                         {
-                            break;
-                        }
-                        else if(sheet[i].type === "work" || sheet[i].type === "userWork")
-                        {
-                            var subcategoryWork = {id:sheet[i].id, subcategory_id:response.data.id,work_id:sheet[i].work_id,no:sheet[i].no,value:sheet[i].value};
-                            console.log(subcategoryWork);
-                            $http.post(baseURL + "subcategoryWork/" + subcategoryWork.id, {subcategoryWork:subcategoryWork});
+                            if(sheet[i].code.charAt(0) == "*")
+                                break;
+                            else{
+                                var subcategoryWork = {id:sheet[i].id, subcategory_id:response.data.id,work_id:sheet[i].work_id,no:sheet[i].no,value:sheet[i].value};
+                                $http.post(baseURL + "subcategoryWork/" + subcategoryWork.id, {subcategoryWork:subcategoryWork}).then(function(){
+
+                                });
+                            }
                         }
                     }
                 });
