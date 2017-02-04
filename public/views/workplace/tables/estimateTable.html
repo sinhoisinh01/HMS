@@ -51,7 +51,7 @@
 <div id="works-table" ng-style="{top: top, left: left}" ng-if="worksWindow.show">
     <table>
         <tbody>
-        <tr ng-repeat="work in filterResults = (works | filter:worksWindow.search)" ng-if="filterResults.length">
+        <tr ng-repeat="work in filterResults = (workLibrary | filter:worksWindow.search)" ng-if="filterResults.length">
             <td>{{work.code}}</td>
             <td>{{work.name}}</td>
             <td>{{work.unit}}</td>

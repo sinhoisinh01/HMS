@@ -8,6 +8,16 @@ angular.module('HMS')
         workFactory.get()
         .then(function(result){
             $scope.works = result;
+            // combine system work and user-defined work into worLibrary
+            $scope.workLibrary = [];
+            workAmmount = result.system.length;
+            for (i = 0; i < workAmmount; i++) {
+                $scope.workLibrary.push(result.system[i]);
+            };
+            workAmmount = result.user_defined.length;
+            for (i = 0; i < workAmmount; i++) {
+                $scope.workLibrary.push(result.user_defined[i]);
+            };
         })
         .then(function(){
             $http.get(baseURL + 'categoryWorks',{params:{category_id:$stateParams.category_id}})
