@@ -17,6 +17,7 @@ angular.module('HMS')
                     return a.no - b.no;
                 });
 
+                // loop all sub-categories
                 var length1 = subcategories.length; 
                 for(var i = 0; i < length1; i++)
                 {
@@ -33,14 +34,20 @@ angular.module('HMS')
                     delete temp.subcategory_works;
                     $scope.estimateSheet.push(temp);
 
+                    // loop all sub-categorie_works
                     for(var j = 0; j < length2; j++)
                     {
                         subcategories[i].subcategory_works[j].descriptions.sort(function(a,b){
                             return a.no - b.no;
                         });
 
-                        var work = $scope.works[subcategories[i].subcategory_works[j].work_id-1];
-                        // array index starts from 0, work id starts from 1
+                        work = {};
+
+                        if (subcategories[i].subcategory_works[j].work_id < $scope.works.system.length)
+                            // array index starts from 0, work id starts from 1
+                            work = $scope.works.system[subcategories[i].subcategory_works[j].work_id-1];
+                        else work = findWorkById(subcategories[i].subcategory_works[j].work_id, $scope.works.user_defined);
+                        
                         subcategories[i].subcategory_works[j].code = work.code;
                         subcategories[i].subcategory_works[j].name = work.name;
                         subcategories[i].subcategory_works[j].unit = work.unit;
@@ -73,6 +80,20 @@ angular.module('HMS')
             });
         });
     }  
+
+    /*
+     * input: work_id, user_defined_works array
+     * output: object work{id, code, name, unit, price}
+     * description: get user-defined work with work_id
+     */
+    function findWorkById(work_id, user_defined_works) {
+        length = user_defined_works;
+        for (i = 0; i < length; i++) {
+            if (user_defined_works[i].work_id = work_id)
+                return user_defined_works[i];
+        };
+        return null;
+    }
 
     $scope.worksWindow = {
         show: false,
