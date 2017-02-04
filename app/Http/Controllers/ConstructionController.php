@@ -45,11 +45,11 @@ class ConstructionController extends Controller
 		$construction = Construction::find($id);
 
         // if user change supplier, delete old construction_resource then insert new construction_resource
-        if ($input['supplier_id'] != $construction->get('supplier_id')) {
+        if ($input['supplier_id'] != $construction->supplier_id) {
             $construction_resource = ResourceSupplier::where('supplier_id', $input['supplier_id'])
             ->get(['resource_id', 'price']);
             $construction_resource->transform(function ($item, $key) use ($input) {
-                $item['construction_id'] = $input->toArray()['id'];
+                $item['construction_id'] = $input['id'];
                 return $item;
             });
             ConstructionResource::where('construction_id', $id)->forceDelete();

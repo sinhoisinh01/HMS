@@ -9,6 +9,11 @@ use Laravel\Lumen\Routing\Controller;
 
 class WorkController extends Controller
 {
+    /*
+     * Input: construction_id
+     * Ouput: [{id, code, name, price, unit}]
+     * Description: get all system works (work with construction_id = 1) by an construction_id
+     */
     function get(Request $request)
     {
         return response()->json(
