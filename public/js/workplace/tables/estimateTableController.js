@@ -3,6 +3,20 @@ angular.module('HMS')
 {
     $scope.estimateSheet = [];
 
+    /**
+    * Description: find work in works array
+    * Params: work_id, works array
+    * Return: work if exists. null if not
+    */
+    function searchWorkById(work_id, works) {
+        workLength = works.length;
+        for (i = 0; i < workLength; i++) {
+            if (work_id == works[i].work_id)
+                return works[i];
+        };
+        return null;
+    }
+
     if (!$scope.works)
     {
         workFactory.get()
@@ -39,8 +53,8 @@ angular.module('HMS')
                             return a.no - b.no;
                         });
 
-                        var work = $scope.works[subcategories[i].subcategory_works[j].work_id-1];
-                        // array index starts from 0, work id starts from 1
+                        var work = searchWorkById(subcategories[i].subcategory_works[j].work_id, $scope.works);
+
                         subcategories[i].subcategory_works[j].code = work.code;
                         subcategories[i].subcategory_works[j].name = work.name;
                         subcategories[i].subcategory_works[j].unit = work.unit;
@@ -238,8 +252,8 @@ angular.module('HMS')
                     row.construction_id = $stateParams.construction_id;
                     $http.post(baseURL + "work",{work:row})
                     .then(function(response){
-                        var resourceWork = {resource_id: 1, work_id:response.data.id, value:0};
-                        $http.post(baseURL + "resourceWork", {resourceWork:resourceWork});
+                        var constructionResourceWork = {construction_id: $stateParams.construction_id, resource_id: 1, work_id:response.data.id, value:0};
+                        $http.post(baseURL + "ConstructionResourceWorkController", {constructionResourceWork:constructionResourceWork});
                         row.id = response.data.id;
                         row.code = response.data.code;
                         $scope.addWork(row);

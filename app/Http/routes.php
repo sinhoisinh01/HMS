@@ -84,6 +84,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('resourceWork/{resource_id}/{work_id}', 'ResourceWorkController@update');
         $app->delete('resourceWork/{resource_id}/{work_id}', 'ResourceWorkController@remove');
 
+        //require: construction_id
+        $app->post('ConstructionResourceWorkController', 'ConstructionResourceWorkController@add');
+
         //require: supplier_id
         //return: [{resource_id,price}]
         $app->get('resourcesSupplier', 'ResourceSupplierController@get');
