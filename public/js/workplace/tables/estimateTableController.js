@@ -151,11 +151,27 @@ angular.module('HMS')
 			row.totalPrice = row.value * row.price;
 		if (!row.price && (row.amount || row.length || row.width || row.height))
 		{
-			row.value = (row.amount || 1) * (row.length || 1) * (row.width || 1) * (row.height || 1);
-		}
+            row.value = (row.amount || 1) * (row.length || 1) * (row.width || 1) * (row.height || 1);
+		    for(var i = $scope.rowPos - 1; i >= 0; i--)
+            {
+                if($scope.estimateSheet[i].type === "work" || $scope.estimateSheet[i].type === "userWork")
+                {
+                    $scope.estimateSheet[i].value = 0; 
+                    for(var j = i+1; j <= $scope.estimateSheet.length; j++)
+                    {
+                        if(!$scope.estimateSheet[j] || $scope.estimateSheet[j].type != "description")
+                            break; 
+                        $scope.estimateSheet[i].value += $scope.estimateSheet[j].value;
+                    }
+                    $scope.save($scope.estimateSheet[i]);  
+                    break;
+                }       
+            }  
+        }
 	}
 
     $scope.save = function(row) {
+        //console.log($scope.rowPos);
         var sheet = $scope.estimateSheet;
         if( !row.id && row.name && (!row.name || row.name.length != 0))
         {
