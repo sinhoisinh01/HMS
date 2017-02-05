@@ -5,7 +5,11 @@ angular.module('HMS')
         return {
             get: function () {
                 var deferred = $q.defer();
-                $http.get(baseURL + 'constructions').then(
+                if (cache) {
+					deferred.resolve(cache);
+					$rootScope.hasInternetError = false;
+				}
+				else $http.get(baseURL + 'constructions').then(
 						function (response) {
 							cache = response.data;
 							deferred.resolve(cache);
@@ -21,7 +25,11 @@ angular.module('HMS')
 			getById: function (id) {
 				// return an array with one construction which have the same id
 				var deferred = $q.defer();
-				$http.get(baseURL + 'constructions').then(
+				if (cache)
+					deferred.resolve(cache.filter(function (construction) {
+						return construction.id == id;
+					}));
+				else $http.get(baseURL + 'constructions').then(
 					function (response) {
 						cache = response.data;
 						deferred.resolve(cache.filter(function (construction) {
