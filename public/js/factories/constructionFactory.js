@@ -1,7 +1,6 @@
 
 angular.module('HMS')
     .factory('constructionFactory', ['$rootScope', '$http', '$q', 'baseURL' ,function ($rootScope, $http, $q, baseURL) {
-        var cache;
         var hasSearchResult = false;
         return {
             get: function () {

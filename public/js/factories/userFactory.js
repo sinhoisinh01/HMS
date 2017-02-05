@@ -1,6 +1,5 @@
 angular.module('HMS')
     .factory('userFactory', function ($q, $http, baseURL) {
-        var cache;
 		return {
 			getUser: function() {
                 var deferred = $q.defer();

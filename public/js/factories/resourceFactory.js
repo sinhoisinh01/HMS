@@ -1,6 +1,5 @@
 angular.module('HMS')
     .factory('resourceFactory', ['$rootScope', '$http', '$q', 'baseURL', '$stateParams', function ($rootScope, $http, $stateParams, $q, baseURL) {
-        var cache;
         return {
             get: function () {
                 var deferred = $q.defer();

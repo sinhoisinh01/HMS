@@ -1,6 +1,5 @@
 angular.module('HMS')
     .factory('workFactory', ['$rootScope', '$stateParams', '$http', '$q', 'baseURL' ,function ($rootScope, $stateParams, $http, $q, baseURL) {
-        var cache;
         return {
             get: function () {
                 var deferred = $q.defer();
@@ -25,9 +24,6 @@ angular.module('HMS')
 			},
 			delete: function () {
 				
-			},
-			emptyCache: function () {
-				cache = null;
 			}
         };
     }]);
