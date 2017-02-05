@@ -1,14 +1,9 @@
 angular.module('HMS')
     .factory('resourceFactory', ['$rootScope', '$http', '$q', 'baseURL', '$stateParams', function ($rootScope, $http, $stateParams, $q, baseURL) {
-        var cache;
         return {
             get: function () {
                 var deferred = $q.defer();
-                if (cache) {
-					deferred.resolve(cache);
-					$rootScope.hasInternetError = false;
-				}
-				else $http.get(baseURL + 'resources').then(
+                $http.get(baseURL + 'resources').then(
 						function (response) {
 							cache = response.data;
 							deferred.resolve(cache);
@@ -24,11 +19,7 @@ angular.module('HMS')
 			getById: function (id) {
 				// return an array with one resource which have the same id
 				var deferred = $q.defer();
-				if (cache)
-					deferred.resolve(cache.filter(function (resource) {
-						return resource.id == id;
-					}));
-				else $http.get(baseURL + 'resources').then(
+				$http.get(baseURL + 'resources').then(
 					function (response) {
 						cache = response.data;
 						deferred.resolve(cache.filter(function (resource) {

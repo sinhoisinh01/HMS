@@ -1,13 +1,9 @@
 angular.module('HMS')
     .factory('userFactory', function ($q, $http, baseURL) {
-        var cache;
 		return {
 			getUser: function() {
                 var deferred = $q.defer();
-                if (cache)
-                    deferred.resolve(cache);
-                else {
-                    $http.get(baseURL + 'user').then(
+                $http.get(baseURL + 'user').then(
                         function (response) {
                             cache = response.data;
                             deferred.resolve(cache);
@@ -16,7 +12,6 @@ angular.module('HMS')
                             deferred.reject(reason);
                         }
                     );
-                }
                 return deferred.promise;
 			},
 			deleteUser: function() {
