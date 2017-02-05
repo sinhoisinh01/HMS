@@ -4,31 +4,23 @@ angular.module('HMS')
         return {
             get: function () {
                 var deferred = $q.defer();
-                if (cache) {
-					deferred.resolve(cache);
-					$rootScope.hasInternetError = false;
-				}
-				else $http.get(baseURL + 'suppliers').then(
-						function (response) {
-							cache = response.data;
-							deferred.resolve(cache);
-							$rootScope.hasInternetError = false;
-						},
-						function (reason) {		
-							deferred.reject(reason);
-							$rootScope.hasInternetError = true;
-						}
-					);
+				$http.get(baseURL + 'suppliers').then(
+					function (response) {
+						cache = response.data;
+						deferred.resolve(cache);
+						$rootScope.hasInternetError = false;
+					},
+					function (reason) {		
+						deferred.reject(reason);
+						$rootScope.hasInternetError = true;
+					}
+				);
                 return deferred.promise;
             },
 			getById: function (id) {
 				// return an array with one Supplier which have the same id
 				var deferred = $q.defer();
-				if (cache)
-					deferred.resolve(cache.filter(function (supplier) {
-						return supplier.id == id;
-					}));
-				else $http.get(baseURL + 'suppliers').then(
+				$http.get(baseURL + 'suppliers').then(
 					function (response) {
 						cache = response.data;
 						deferred.resolve(cache.filter(function (supplier) {

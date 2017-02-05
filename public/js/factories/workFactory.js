@@ -4,21 +4,17 @@ angular.module('HMS')
         return {
             get: function () {
                 var deferred = $q.defer();
-                if (cache) {
-					deferred.resolve(cache);
-					$rootScope.hasInternetError = false;
-				}
-				else $http.get(baseURL + 'works', {params: {construction_id: $stateParams.construction_id}}).then(
-						function (response) {
-							cache = response.data;
-							deferred.resolve(cache);
-							$rootScope.hasInternetError = false;
-						},
-						function (reason) {		
-							deferred.reject(reason);
-							$rootScope.hasInternetError = true;
-						}
-					);
+                $http.get(baseURL + 'works', {params: {construction_id: $stateParams.construction_id}}).then(
+					function (response) {
+						cache = response.data;
+						deferred.resolve(cache);
+						$rootScope.hasInternetError = false;
+					},
+					function (reason) {		
+						deferred.reject(reason);
+						$rootScope.hasInternetError = true;
+					}
+				);
                 return deferred.promise;
             },
             post: function () {
@@ -29,9 +25,6 @@ angular.module('HMS')
 			},
 			delete: function () {
 				
-			},
-			emptyCache: function () {
-				cache = null;
 			}
         };
     }]);
