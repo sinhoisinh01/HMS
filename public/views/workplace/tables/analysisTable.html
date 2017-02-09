@@ -41,7 +41,8 @@
 	</tr>
   </thead>
   <tbody>
-	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)" context-menu="menuOptions">
+	<!--Rows that show data only-->
+	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)" context-menu="menuOptions" ng-if="!row.isNewRow">
 	  <td class="col-lg-1">{{$index+1}}</td>
 	  <td class="col-lg-2">{{row.code}}</td>
 	  <td class="col-lg-3">{{row.name}}</td>
@@ -51,6 +52,35 @@
 	  <td class="col-lg-1">{{row.unitPrice}}</td>
 	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice}}</p></td>
 	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice*row.workValue}}</p></td>
+	</tr>
+
+	<!--Rows to insert new data-->
+	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)" context-menu="menuOptions" ng-if="row.isNewRow">
+	  <td class="col-lg-1">{{$index+1}}</td>
+	  <td class="col-lg-2">
+	  	<input class="input-in-cells" ng-model="row.code">
+	  </td>
+	  <td class="col-lg-3">
+	  	<input class="input-in-cells" ng-model="row.name">
+	  </td>
+	  <td class="col-lg-1">
+	  	<input class="input-in-cells" ng-model="row.unit">
+	  </td>
+	  <td class="col-lg-1">
+	  	{{row.value}}
+	  </td>
+	  <td class="col-lg-1">
+	  	<input class="input-in-cells" ng-model="row.unitValue">
+	  </td>
+	  <td class="col-lg-1">
+	  	{{row.unitPrice}}
+	  </td>
+	  <td class="col-lg-1">
+	  	{{row.unitValue*row.unitPrice}}
+	  </td>
+	  <td class="col-lg-1">
+	  	{{row.unitValue*row.unitPrice*row.workValue}}
+	  </td>
 	</tr>
   </tbody>
 </table>

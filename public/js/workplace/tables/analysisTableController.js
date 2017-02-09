@@ -1,6 +1,7 @@
 angular.module('HMS')
 .controller('analysisTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope) {
 	$scope.showAnalysisTable = false;
+	$scope.resourceList = [];
 	$scope.analysisSheet = [];
 	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
 	$scope.alerts = {
@@ -61,6 +62,12 @@ angular.module('HMS')
 	function(error) {
 		$rootScope.hasInternetError = true;
 	});
+
+	// get Resource List
+	$http.get(baseURL + 'resources', {params:{construction_id: $stateParams.construction_id}})
+		.then(function(response) {
+			$scope.resourceList = response.data;
+		});
 	
 	$scope.filterResources = function(row) {
 		// kiểm tra nếu dòng đang xét là dòng show resource
@@ -90,9 +97,18 @@ angular.module('HMS')
 	/*Estimate Table Context Menu*/
     $scope.menuOptions = [
         ['Thêm vật tư', function ($itemScope) {
-            if ( !$itemScope.workCode || $itemScope.workCode.substr(0,2) !== 'TT' )
+            if ( !$itemScope.row.code || $itemScope.row.code.substr(0,2) !== 'TT' ) {
 				$scope.alerts.addAlert();
-
+			}
+			else {
+				$scope.analysisSheet.push({
+					"workValue": $itemScope.row.value,
+					"unitPrice": 0,
+					"unitValue": 0,
+					"classType": "table-success", 
+					"isNewRow": true
+				});
+			}
         }],
         null,
         ['Xóa vật tư', function ($itemScope) {
