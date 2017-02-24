@@ -4,11 +4,29 @@
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",
+	"repositories": [{
+		"type": "package",
+		"package": {
+			"name": "PHPOffice/PHPExcel",
+			"version": "1.8.0",
+			"source": {
+				"url": "https://github.com/PHPOffice/PHPExcel.git",
+				"type": "git",
+				"reference": "1.8.0"
+			},
+			"autoload": {
+				"psr-0": {
+					"PHPExcel": "Classes/"
+				}
+			}
+		}
+	}],
     "require": {
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
-        "google/apiclient": "1.0.*@beta"
+        "google/apiclient": "1.0.*@beta",
+		"PHPOffice/PHPExcel": "1.8.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

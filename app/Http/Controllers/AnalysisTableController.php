@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subcategory;
 use App\Models\SubcategoryWork;
+use App\Models\ConstructionResourceWork;
 use App\Models\Work;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
@@ -20,7 +21,7 @@ class AnalysisTableController extends Controller
 
     function add(Request $request)
     {
-        //ToDo
+        ConstructionResourceWork::create($request->input('construction_resource_work'));
     }
 
     function update($id, Request $request)

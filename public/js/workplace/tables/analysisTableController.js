@@ -3,17 +3,8 @@ angular.module('HMS')
 	$scope.showAnalysisTable = false;
 	$scope.resourceList = [];
 	$scope.analysisSheet = [];
+	$scope.currentRow = {};
 	$scope.filterCondition = {"showMaterials" : true, "showLabors" : true, "showMachines" : true};
-	$scope.alerts = {
-		"alertList" : [], 
-		"alertMessage" : "Không thể chỉnh sửa định mức của nhà nước", 
-		"addAlert" : function() {
-			$scope.alerts.alertList.push({msg: $scope.alerts.alertMessage});
-		},
-		"closeAlert" : function(index) {
-			$scope.alerts.alertList.splice(index, 1);
-		}
-	};
 	$http.get(baseURL + 'analysisTable',{params:{construction_id: $stateParams.construction_id, category_id:$stateParams.category_id}})
 	.then(function(response) {
 		var data = response.data;
@@ -33,7 +24,9 @@ angular.module('HMS')
 			{
 				var work = {};
 				work.id = subcategoryWorks[j].work.id;
+				work.work_id = work.id;
 				work.code = subcategoryWorks[j].work.code;
+				work.work_code = work.code;
 				work.name = subcategoryWorks[j].work.name;
 				work.unit = subcategoryWorks[j].work.unit;
 				work.value = subcategoryWorks[j].value;
@@ -46,6 +39,8 @@ angular.module('HMS')
 				{
 					var resource = {};
 					resource.id = resourcesWork[k].resource.id;
+					resource.work_id = subcategoryWorks[j].work.id;
+					resource.work_code = subcategoryWorks[j].work.code;
 					resource.resourceCode = resourcesWork[k].resource.code;
 					resource.name = resourcesWork[k].resource.name;
 					resource.unit = resourcesWork[k].resource.unit;
@@ -65,9 +60,49 @@ angular.module('HMS')
 
 	// get Resource List
 	$http.get(baseURL + 'resources', {params:{construction_id: $stateParams.construction_id}})
-		.then(function(response) {
-			$scope.resourceList = response.data;
-		});
+	.then(function(response) {
+		$scope.resourceList = response.data;
+	});
+
+	$scope.resourcesWindow = {
+        show: false,
+        search: '',
+        method: '',
+        oldId: '',
+        oldName: '',
+        newResources: {}
+    };
+
+    $scope.searchResource = function (res, resTxt) {
+        $scope.resourcesWindow = {
+            show: true,
+            search: resTxt,
+            method: res.unit ? 'Cập nhật' : 'Thêm',
+            oldId: res ? res.code : '',
+            oldName: res ? res.name : '',
+            newRes: null
+        };
+        $scope.currentRow = res;
+    };
+
+    $scope.resourcesWindowPos = function($event){
+        $scope.resourcesWindow.show = false;
+        var cell = angular.element($event.target);
+        $scope.top = (cell.prop('offsetParent').offsetTop
+                + cell.prop('offsetParent').offsetHeight) + 'px';
+        $scope.left = cell.prop('offsetParent').offsetLeft + 'px';
+    }
+
+    $scope.addConstructionResourceWork = function() {
+    	construction_resource_work.construction_id = $stateParams.construction_id;
+    	construction_resource_work.resource_id = $scope.currentRow.id;
+    	construction_resource_work.work_id = $scope.currentRow.work_id;
+    	construction_resource_work.value = $scope.currentRow.unitValue;
+    	$http.post(baseURL + "analysisTable", {construction_resource_work:construction_resource_work})
+    		.then();
+
+    	console.log(construction_resource_work);
+    }
 	
 	$scope.filterResources = function(row) {
 		// kiểm tra nếu dòng đang xét là dòng show resource
@@ -97,11 +132,12 @@ angular.module('HMS')
 	/*Estimate Table Context Menu*/
     $scope.menuOptions = [
         ['Thêm vật tư', function ($itemScope) {
-            if ( !$itemScope.row.code || $itemScope.row.code.substr(0,2) !== 'TT' ) {
-				$scope.alerts.addAlert();
+            if ( !$itemScope.row.work_code || $itemScope.row.work_code.substr(0,2) !== 'TT' ) {
+				alert('Không thể chỉnh sửa định mức của nhà nước');
 			}
 			else {
 				$scope.analysisSheet.push({
+					"work_id": $itemScope.row.work_id,
 					"workValue": $itemScope.row.value,
 					"unitPrice": 0,
 					"unitValue": 0,

@@ -43,7 +43,7 @@
 			<td><input class="input-in-cells" ng-model="row.height" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.value" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
 			<td><input class="input-in-cells" ng-model="row.price"></td>
-			<td><input class="input-in-cells" ng-model="row.total_price" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
+			<td>{{row.price && row.value ? row.price*row.value : ''}}</td>
 		</tr>
     </tbody>
 </table>

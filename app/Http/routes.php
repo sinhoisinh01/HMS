@@ -64,6 +64,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 		//Analysis Table
         //require: construction_id, category_id
 		$app->get('analysisTable', 'AnalysisTableController@get');
+        $app->post('analysisTable', 'AnalysisTableController@add');
 
         //Prices Table
         //require: construction_id, category_id

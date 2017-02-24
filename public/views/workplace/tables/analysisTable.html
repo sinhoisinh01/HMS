@@ -58,10 +58,20 @@
 	<tr ng-repeat="row in analysisSheet" ng-class="row.classType" ng-show="filterResources(row)" context-menu="menuOptions" ng-if="row.isNewRow">
 	  <td class="col-lg-1">{{$index+1}}</td>
 	  <td class="col-lg-2">
-	  	<input class="input-in-cells" ng-model="row.code">
+	  	<input class="input-in-cells" 
+	  		ng-model="row.code" 
+	  		ng-click="resourcesWindowPos($event)" 
+		  	ng-change="searchResource(row, row.code)" 
+		  	ng-model-options="{debounce: 200}" 
+		  	ng-blur="resourcesWindow.show = false;">
 	  </td>
 	  <td class="col-lg-3">
-	  	<input class="input-in-cells" ng-model="row.name">
+	  	<input class="input-in-cells" 
+		  	ng-model="row.name" 
+		  	
+		  	ng-change="searchResource(row, row.name)" 
+		  	ng-model-options="{debounce: 200}" 
+		  	ng-blur="resourcesWindow.show = false;">
 	  </td>
 	  <td class="col-lg-1">
 	  	<input class="input-in-cells" ng-model="row.unit">
@@ -84,3 +94,20 @@
 	</tr>
   </tbody>
 </table>
+<div id="works-table" ng-style="{top: top, left: left}" ng-if="resourcesWindow.show">
+    <table>
+        <tbody>
+        <tr ng-repeat="res in filterResults = (resourceList | filter:resourcesWindow.search)" ng-if="filterResults.length">
+            <td>{{res.name}}</td>
+            <td>{{res.unit}}</td>
+            <td>{{res.price}}</td>
+            <td>
+            	<button class="btn btn-primary" ng-click="addConstructionResourceWork()">
+            		{{resourcesWindow.method}}
+            	</button>
+            </td>
+        </tr>
+        <tr ng-if="!filterResults.length"><td colspan="4">Không có kết quả</td></tr>
+        </tbody>
+    </table>
+</div>
