@@ -17,6 +17,7 @@ class LoginController extends Controller
         $client->setRedirectUri('http://localhost/HMS/public/loginCallBack');
         $client->setScopes(['profile', 'email']);
         $client->setAccessType('offline');
+        $client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
         $auth_url = $client->createAuthUrl();
         return $auth_url;
     }
@@ -30,7 +31,7 @@ class LoginController extends Controller
         $client->authenticate($_GET['code']);
         $service = new Google_Service_Oauth2($client);
         $userInfo = $service->userinfo->get();
-        $token = json_decode($client->getAccessToken())->id_token;
+        $token = $client->getAccessToken()["id_token"];
         $user = User::where('google_id', $userInfo->id)->first();
         if (!$user)
             User::create(['google_id' => $userInfo->id,

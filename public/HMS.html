@@ -6,6 +6,8 @@
 
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="bower_components/FixedHeader-3.1.2/css/fixedHeader.bootstrap.min.css">
+    <link rel="stylesheet" href="bower_components/FixedHeader-3.1.2/css/fixedHeader.dataTables.min.css">
     <link rel="stylesheet" href="css/bootstrap-social.css">
     <link rel="stylesheet" href="css/landing-page.css">
     <link rel="stylesheet" href="css/main.css">
@@ -18,7 +20,9 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
 	<script src="bower_components/angular-bootstrap-contextmenu/contextMenu.js"></script>
-	<script src="bower_components/angu-fixed-header-table-master/angu-fixed-header-table.js"></script>
+	<script src="bower_components//FixedHeader-3.1.2/js/jquery-3.1.1.min.js"></script>
+    <script src="bower_components//FixedHeader-3.1.2/js/jquery.dataTables.min.js"></script>
+    <script src="bower_components//FixedHeader-3.1.2/js/dataTables.fixedHeader.js"></script>
     <script src="js/app.js"></script>
 	<script src="js/factories/userFactory.js"></script>
 	<script src="js/factories/constructionFactory.js"></script>
@@ -40,9 +44,11 @@
 <div ui-view="categories"></div>
 <div ui-view="content" class="container-full">
     <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="main-table">
-    <div ui-view="tabs"></div>
-    <div ui-view="table"></div>
+        <div ui-view="tabs"></div>
+        <div ui-view="table"></div>
+    </div>
 </div>
-</div>
+
+<script src="js/loadFixedHeader.js"></script>
 </body>
 </html>
