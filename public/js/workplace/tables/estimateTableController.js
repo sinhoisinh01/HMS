@@ -426,12 +426,4 @@ angular.module('HMS')
                     $scope.estimateSheet.splice(index, 1);
         }]
     ];
-
-    jQuery(document).ready(function(){
-        setTimeout(function(){ 
-            jQuery("#estimate-table").DataTable( {
-                fixedHeader: true
-            } );
-        }, 2000);
-    });
 });

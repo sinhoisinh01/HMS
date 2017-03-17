@@ -152,12 +152,4 @@ angular.module('HMS')
 				$scope.alerts.addAlert();
         }]
     ];
-
-    jQuery(document).ready(function(){
-		setTimeout(function(){ 
-			jQuery("#analysis-table").DataTable( {
-			    fixedHeader: true
-			} );
-		}, 3000);
-	});
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Google_Client;
 use Google_Service_Oauth2;
+use Google_Service_Sheets;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller;
 
@@ -17,7 +18,8 @@ class LoginController extends Controller
         $client->setRedirectUri('http://localhost/HMS/public/loginCallBack');
         $client->setScopes(['profile', 'email']);
         $client->setAccessType('offline');
-        $client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
+        $client->addScope(Google_Service_Sheets::DRIVE);
+        $client->addScope(Google_Service_Sheets::SPREADSHEETS);
         $auth_url = $client->createAuthUrl();
         return $auth_url;
     }

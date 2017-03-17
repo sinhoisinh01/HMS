@@ -98,4 +98,7 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->post('constructionResource', 'ConstructionResourceController@add');
         $app->post('constructionResource/{construction_id}/{resource_id}', 'ConstructionResourceController@update');
         $app->delete('constructionResource/{construction_id}/{resource_id}', 'ConstructionResourceController@remove');
+
+        $app->get('export', 'ExportGoogleSheetController@get');
+        $app->get('exportTest', 'ExportGoogleSheetController@create');
     });
