@@ -11,12 +11,12 @@ use Laravel\Lumen\Routing\Controller;
 
 class ExportGetDataController extends Controller
 {
-	public function estimateTable( $categoryID ){
-    	$categoryFull = Subcategory::where('category_id', $categoryID)
+    public function estimateTableData( $categoryID ){
+        $subcategories = Subcategory::where('category_id', $categoryID)
             ->select("subcategories.id","subcategories.name")
             ->orderBy('subcategories.no')
             ->with(['subcategoryWorks'=> function($q){
-                        $q->select("subcategory_work.subcategory_id", "subcategory_work.id", "works.code","works.name","works.unit");
+                        $q->select("subcategory_work.subcategory_id", "subcategory_work.id", "works.code","works.name","works.unit","value");
                         $q->orderBy('no');
                         $q->join('works', 'subcategory_work.work_id', '=', 'works.id');
                     },
@@ -27,30 +27,33 @@ class ExportGetDataController extends Controller
                     }
                     ])
             ->get()->toArray();
+
         $array = []; 
-        $subcategoriesLength = count($categoryFull); 
+        $subcategoriesLength = count($subcategories); 
         $no = 1;
+
         for($i = 0; $i < $subcategoriesLength; $i++){
-            $subcategory = $categoryFull[$i];
+            $subcategory = $subcategories[$i];
             unset($subcategory['id']);
             unset($subcategory['subcategory_works']);// remove unecessary properties
-            array_unshift($subcategory,"*******");// add number order and empty element to array for empty columns
-            array_unshift($subcategory,$no);
+            array_unshift($subcategory,"*******");// add empty element to array for empty column
+            array_unshift($subcategory,$no); // add number order 
             $array[] = $subcategory;
             $no++;
-            $worksLength = count($categoryFull[$i]["subcategory_works"]);
+
+            $worksLength = count($subcategories[$i]["subcategory_works"]);
             for($j = 0; $j < $worksLength; $j++){
-                $work = $categoryFull[$i]["subcategory_works"][$j];
+                $work = $subcategories[$i]["subcategory_works"][$j];
                 unset($work["subcategory_id"]);
                 unset($work['id']);
                 unset($work['descriptions']);
                 array_unshift($work,$no);
                 $array[] = $work;
                 $no++;
-                $descriptionsLength = count($categoryFull[$i]["subcategory_works"][$j]["descriptions"]);
+                $descriptionsLength = count($subcategories[$i]["subcategory_works"][$j]["descriptions"]);
                 for($k = 0; $k < $descriptionsLength; $k++)
                 {
-                    $description = $categoryFull[$i]["subcategory_works"][$j]["descriptions"][$k];
+                    $description = $subcategories[$i]["subcategory_works"][$j]["descriptions"][$k];
                     unset($description["subcategoryWork_id"]);
                     array_unshift($description,"");
                     array_unshift($description,$no);
@@ -60,22 +63,23 @@ class ExportGetDataController extends Controller
                 }
             }
         }
-  		return $array;
+        return $array;
     }
 
     // return values with Google Spreadsheet Format
-    public function getEstimateTableData( $categoryID )
+    public function estimateTableFormat( $categoryID )
     {
-        $data = $this->estimateTable( $categoryID );
+        $data = $this->estimateTableData( $categoryID );
+
         $values = [
             [
                 'TT', 'Mã', 'Hạng mục/Công tác', 'Đơn vị', 'Số lượng', 'Dài', 
                 'Rộng', 'Cao', 'Khối lượng', 'Đơn giá', 'Thành tiền'
             ]
         ];
+
         for ( $i = 0; $i < sizeof( $data ); $i++ ) {
-            $tmpArr = [];
-            
+            $tmpArr = [];  
             // Column A: STT
             array_push( $tmpArr, ($i + 1) );
 
@@ -124,8 +128,49 @@ class ExportGetDataController extends Controller
         return $values;
     }
 
-    public function summaryTable( $categoryID )
+    public function summaryTableData( $constructionID, $categoryID )
     {
-    	
+        $constructionID = 3; $categoryID = 1;
+        $subcategories = Subcategory::where("category_id", $categoryID)
+        ->select("subcategories.id")
+        ->with([ 
+            "works" => function($q){
+                $q->select("works.id");
+            }, 
+            "works.resources" => function($q) use ($constructionID) {
+                $q->select("resources.id", "resources.code","price");
+                $q->join("construction_resource","construction_resource.resource_id","=","resources.id");
+                $q->where("construction_resource.construction_id",$constructionID);
+               
+
+            }
+        ])
+        ->get()
+        ->toArray();
+
+        $labourCost = 0;
+        $machineCost = 0;
+        $materialCost = 0;
+        $cost = [];
+
+        //echo '<pre>'; print_r($subcategories); echo '</pre>';
+        foreach($subcategories as $subcategory)
+            foreach($subcategory['works'] as $work)
+                foreach($work['resources'] as $resource){
+                    if( substr($resource['code'],0,1) === "N" )
+                    {
+                        $labourCost += $resource['price'];
+                    }
+                    if( substr($resource['code'],0,1) === "M" )
+                    {
+                        $machineCost += $resource['price'];
+                    }
+                    if( substr($resource['code'],0,1) === "V" )
+                    {
+                        $materialCost += $resource['price'];
+                    }
+                }
+        array_push( $cost, $labourCost, $machineCost, $materialCost);
+        return $cost;
     }
 }
