@@ -66,69 +66,7 @@ class ExportGetDataController extends Controller
         return $array;
     }
 
-    // return values with Google Spreadsheet Format
-    public function estimateTableFormat( $categoryID )
-    {
-        $data = $this->estimateTableData( $categoryID );
-
-        $values = [
-            [
-                'TT', 'Mã', 'Hạng mục/Công tác', 'Đơn vị', 'Số lượng', 'Dài', 
-                'Rộng', 'Cao', 'Khối lượng', 'Đơn giá', 'Thành tiền'
-            ]
-        ];
-
-        for ( $i = 0; $i < sizeof( $data ); $i++ ) {
-            $tmpArr = [];  
-            // Column A: STT
-            array_push( $tmpArr, ($i + 1) );
-
-            // Column B: if code exists, push code, else, push 1st element
-            ( isset( $data[$i]["code"] ) ) ?
-                array_push( $tmpArr, $data[$i]["code"] ) : array_push( $tmpArr, $data[$i][1] );
-
-            // Column C:
-            array_push( $tmpArr, $data[$i]["name"] );
-
-            // Column D: if unit exists, push unit, else, push null character
-            ( isset( $data[$i]["unit"] ) ) ?
-                array_push( $tmpArr, $data[$i]["unit"] ) : array_push( $tmpArr, '' );
-
-            // Column E: if amount exists, push unit, else, push null character
-            ( isset( $data[$i]["amount"] ) ) ?
-                array_push( $tmpArr, $data[$i]["amount"] ) : array_push( $tmpArr, '' );
-
-            // Column F: if amount exists, push unit, else, push null character
-            ( isset( $data[$i]["length"] ) ) ?
-                array_push( $tmpArr, $data[$i]["length"] ) : array_push( $tmpArr, '' );
-
-            // Column G: if width exists, push unit, else, push null character
-            ( isset( $data[$i]["width"] ) ) ?
-                array_push( $tmpArr, $data[$i]["width"] ) : array_push( $tmpArr, '' );
-
-            // Column H: if height exists, push unit, else, push null character
-            ( isset( $data[$i]["height"] ) ) ?
-                array_push( $tmpArr, $data[$i]["height"] ) : array_push( $tmpArr, '' );
-
-            // Column I: if value exists, push unit, else, push null character
-            ( isset( $data[$i]["value"] ) ) ?
-                array_push( $tmpArr, $data[$i]["value"] ) : array_push( $tmpArr, '' );
-
-            // Column J: if price exists, push unit, else, push null character
-            ( isset( $data[$i]["price"] ) ) ?
-                array_push( $tmpArr, $data[$i]["price"] ) : array_push( $tmpArr, '' );
-
-            // Column K: if row is work (has price), push formular to get total, else, push null character
-            ( isset( $data[$i]["price"] ) ) ?
-                array_push( "=I" . ( $i + 1 ) . "+J" . ( $i + 1 ) ) : array_push( $tmpArr, '' );
-
-            // push to values array
-            array_push( $values, $tmpArr );
-        }
-        return $values;
-    }
-
-    public function costTableData( $constructionID, $categoryID )
+    private function costTableData( $constructionID, $categoryID )
     {
         $subcategories = Subcategory::where("category_id", $categoryID)
         ->select("subcategories.id")
@@ -137,7 +75,7 @@ class ExportGetDataController extends Controller
                 $q->select("works.id");
             }, 
             "works.resources" => function($q) use ($constructionID) {
-                $q->select("resources.id", "resources.code","price");
+                $q->select("resources.id", "resources.code","resources.name","resources.unit","price");
                 $q->join("construction_resource","construction_resource.resource_id","=","resources.id");
                 $q->where("construction_resource.construction_id",$constructionID);
             }
@@ -145,6 +83,7 @@ class ExportGetDataController extends Controller
         ->get()
         ->toArray();
 
+        $labourMachine = [];
         $labour = [];
         $machine = [];
         $material = [];
@@ -159,12 +98,13 @@ class ExportGetDataController extends Controller
                         unset($resource['id']);
                         unset($resource['pivot']);
                         $labour[] = $resource;
+                        $labourMachine[] = $resource;
                     }
-                    if( substr($resource['code'],0,1) === "M" )
-                    {
+                    if ( substr($resource['code'],0,1) === "M" ) {
                         unset($resource['id']);
                         unset($resource['pivot']);
                         $machine[] = $resource;
+                        $labourMachine[] = $resource;
                     }
                     if( substr($resource['code'],0,1) === "V" )
                     {
@@ -173,14 +113,13 @@ class ExportGetDataController extends Controller
                         $material[] = $resource;
                     }
                 }
-        array_push( $cost, $labour, $machine, $material);
+        array_push( $cost, $labour, $machine, $material, $labourMachine);
         return $cost;
         // return an array with 3 arrays: labour resources, machine resources, material resources
     }
 
     private function summaryTableData( $constructionID, $categoryID )
     {
-        $constructionID = 3; $categoryID = 1;
         $resources = $this->costTableData($constructionID, $categoryID);
         
         $labourCost = 0;
@@ -226,4 +165,118 @@ class ExportGetDataController extends Controller
         ];
     }
 
+    // return values with Google Spreadsheet Format
+    public function estimateTableFormat( $categoryID )
+    {
+        $data = $this->estimateTableData( $categoryID );
+
+        $values = [
+            [ "BẢNG DỰ TOÁN CHI TIẾT" ],
+            [ " " ],
+            [ "CÔNG TRÌNH: " ],
+            [ "HẠNG MỤC: " ],
+            [ "ĐỊA ĐIỂM: " ],
+            [ " " ],
+            ['TT', 'Mã', 'Hạng mục/Công tác', 'Đơn vị', 'Số lượng', 'Dài', 
+            'Rộng', 'Cao', 'Khối lượng', 'Đơn giá', 'Thành tiền']
+        ];
+
+        $stt = 1;
+        for ( $i = 0; $i < sizeof( $data ); $i++ ) {
+            $tmpArr = [];
+            // Column A: if unit exists, push STT, else, push null character
+            if ( isset( $data[$i]["code"] ) ) {
+                array_push( $tmpArr, $stt );
+                $stt++;
+            } else {
+                array_push( $tmpArr, '' );
+            }
+
+            // Column B: if code exists, push code, else, push 1st element
+            ( isset( $data[$i]["code"] ) ) ?
+                array_push( $tmpArr, $data[$i]["code"] ) : array_push( $tmpArr, $data[$i][1] );
+
+            // Column C:
+            array_push( $tmpArr, $data[$i]["name"] );
+
+            // Column D: if unit exists, push unit, else, push null character
+            ( isset( $data[$i]["unit"] ) ) ?
+                array_push( $tmpArr, $data[$i]["unit"] ) : array_push( $tmpArr, '' );
+
+            // Column E: if amount exists, push unit, else, push null character
+            ( isset( $data[$i]["amount"] ) ) ?
+                array_push( $tmpArr, $data[$i]["amount"] ) : array_push( $tmpArr, '' );
+
+            // Column F: if amount exists, push unit, else, push null character
+            ( isset( $data[$i]["length"] ) ) ?
+                array_push( $tmpArr, $data[$i]["length"] ) : array_push( $tmpArr, '' );
+
+            // Column G: if width exists, push unit, else, push null character
+            ( isset( $data[$i]["width"] ) ) ?
+                array_push( $tmpArr, $data[$i]["width"] ) : array_push( $tmpArr, '' );
+
+            // Column H: if height exists, push unit, else, push null character
+            ( isset( $data[$i]["height"] ) ) ?
+                array_push( $tmpArr, $data[$i]["height"] ) : array_push( $tmpArr, '' );
+
+            // Column I: if value exists, push unit, else, push null character
+            ( isset( $data[$i]["value"] ) ) ?
+                array_push( $tmpArr, $data[$i]["value"] ) : array_push( $tmpArr, '' );
+
+            // Column J: if price exists, push unit, else, push null character
+            ( isset( $data[$i]["price"] ) ) ?
+                array_push( $tmpArr, $data[$i]["price"] ) : array_push( $tmpArr, '' );
+
+            // Column K: if row is work (has price), push formular to get total, else, push null character
+            ( isset( $data[$i]["price"] ) ) ?
+                array_push( "=I" . ( $i + 1 ) . "+J" . ( $i + 1 ) ) : array_push( $tmpArr, '' );
+
+            // push to values array
+            array_push( $values, $tmpArr );
+        }
+        //echo '<pre>', var_export($values, true), '</pre>', "\n";
+        return $values;
+    }
+
+    public function get2CostTable( $constructionID, $categoryID ) {
+        $data = $this->costTableData( $constructionID, $categoryID );
+        $labourMachine = [
+            [ "BẢNG GIÁ NHÂN CÔNG VÀ CA MÁY" ],
+            [ " " ],
+            [ "CÔNG TRÌNH: " ],
+            [ "HẠNG MỤC: " ],
+            [ "ĐỊA ĐIỂM: " ],
+            [ " " ],
+            [ "TT", "Nhân công và máy thi công", "Đơn vị", "Đơn giá" ]
+        ];
+        for ( $i=0; $i < sizeof( $data[3] ); $i++ ) {
+            $row = [];
+            array_push( $row, ($i + 1), $data[3][$i]["name"], $data[3][$i]["unit"], $data[3][$i]["price"] );
+            array_push( $labourMachine, $row );
+        }
+
+        $material = [
+            [ "BẢNG GIÁ VẬT LIỆU" ],
+            [ " " ],
+            [ "CÔNG TRÌNH: " ],
+            [ "HẠNG MỤC: " ],
+            [ "ĐỊA ĐIỂM: " ],
+            [ " " ],
+            [ "TT", "Tên vật liệu", "Đơn vị", "Đơn giá" ]
+        ];
+
+        for ( $i=0; $i < sizeof( $data[2] ); $i++ ) {
+            $row = [];
+            array_push( $row, ($i + 1), $data[2][$i]["name"], $data[2][$i]["unit"], $data[2][$i]["price"] );
+            array_push( $material, $row );
+        }
+
+        return [
+          "labourMachine"   => $labourMachine,
+          "material"        => $material
+        ];
+
+        //echo '<pre>', var_export($labourMachine, true), '</pre>', "\n";
+        //echo '<pre>', var_export($material, true), '</pre>', "\n";
+    }
 }

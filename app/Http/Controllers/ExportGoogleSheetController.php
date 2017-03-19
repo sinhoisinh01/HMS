@@ -144,6 +144,33 @@ class ExportGoogleSheetController extends Controller
 
 		
 		var_dump( $result );
+
+		$costTable = $exportGetData->get2CostTable(2,1);
+		
+		$range = 'Sheet3!A1:K500';
+		$values = $costTable["labourMachine"];
+	  	$optParams = [];
+	  	$optParams['valueInputOption'] = 'USER_ENTERED';
+		$body = new Google_Service_Sheets_ValueRange( array(
+  			'values' => $values
+		) );
+		$result = $service->spreadsheets_values->update($spreadsheetId, $range, $body, $optParams);
+
+		var_dump( $result );
+		
+
+		$range = 'Sheet4!A1:K500';
+		$values = $costTable["material"];
+	  	$optParams = [];
+	  	$optParams['valueInputOption'] = 'USER_ENTERED';
+		$body = new Google_Service_Sheets_ValueRange( array(
+  			'values' => $values
+		) );
+		$result = $service->spreadsheets_values->update($spreadsheetId, $range, $body, $optParams);
+
+		
+		var_dump( $result );
+
     }
 
     function getRequestBody() {
