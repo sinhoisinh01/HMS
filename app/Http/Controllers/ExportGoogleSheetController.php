@@ -26,11 +26,13 @@ class ExportGoogleSheetController extends Controller
         $client->refreshToken(Auth::user()->refresh_token);
 		
         //var_dump($client);
-        $service = new Google_Service_Sheets($client);
+        /*$service = new Google_Service_Sheets($client);
         $spreadsheetId = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms';
 		$range = 'Class Data!A2:E';
 		$response = $service->spreadsheets_values->get($spreadsheetId, $range);
-		$values = $response->getValues();
+		$values = $response->getValues();*/
+
+
 
 		/*if (count($values) == 0) {
 		  print "No data found.\n";
@@ -42,7 +44,15 @@ class ExportGoogleSheetController extends Controller
 		  }
 		}*/
 
-		var_dump($response);
+		$service = new Google_Service_Sheets($client);
+
+		$requestBody = new Google_Service_Sheets_Spreadsheet();
+
+		//$optParams = $this->getRequestBody();
+
+		$response = $service->spreadsheets->create($requestBody);
+
+		echo '<pre>', var_export($requestBody, true), '</pre>', "\n";
 	}
 
 	function create() 
@@ -65,7 +75,7 @@ class ExportGoogleSheetController extends Controller
         $response = $service->spreadsheets->create($sheet);*/
 
         //$spreadsheetId = $response->spreadsheetId;
-        $spreadsheetId = '1i-eEw77VhWq9X1ROcPdzmYUXC8noZyKFvpqsItnb3K4';
+        $spreadsheetId = '1X_g7bTQvHQPPQOl-cnG28DoffXdUfgGcID2AmqzYtuI';
 
         /*Set Data for Spreadsheet*/
         /*$requests[] = new Google_Service_Sheets_Request(array(
@@ -112,7 +122,19 @@ class ExportGoogleSheetController extends Controller
 		    $batchUpdateRequest);*/
 		
 		$range = 'Sheet1!A1:K40';
-		$values = $exportGetData->getEstimateTableData(1);
+		$values = $exportGetData->getSummaryTableData(2,1);
+	  	$optParams = [];
+	  	$optParams['valueInputOption'] = 'USER_ENTERED';
+		$body = new Google_Service_Sheets_ValueRange( array(
+  			'values' => $values
+		) );
+		$result = $service->spreadsheets_values->update($spreadsheetId, $range, $body, $optParams);
+
+		var_dump( $result );
+		
+
+		$range = 'Sheet2!A1:K100';
+		$values = $exportGetData->estimateTableFormat(1);
 	  	$optParams = [];
 	  	$optParams['valueInputOption'] = 'USER_ENTERED';
 		$body = new Google_Service_Sheets_ValueRange( array(
@@ -122,6 +144,109 @@ class ExportGoogleSheetController extends Controller
 
 		
 		var_dump( $result );
-		//var_dump($test->estimateTable(1));
+    }
+
+    function getRequestBody() {
+    	$json_value = '{
+		    "properties": {
+		        "title": "Dự toán",
+		        "defaultFormat": {
+		            "verticalAlignment": "MIDDLE",
+		            "wrapStrategy": "WRAP",
+		            "textFormat": {
+		                "fontFamily": "Arial",
+		                "fontSize": 12
+		            }
+		        }
+		    },
+		    "sheets": [{
+		        "properties": {
+		            "sheetId": 0,
+		            "index": 0,
+		            "title": "CP Xây lắp"
+		        },
+		        "merges": [{
+		            "sheetId": 0,
+		            "startColumnIndex": 0,
+		            "endColumnIndex": 5,
+		            "startRowIndex": 0,
+		            "endRowIndex": 1
+		        }, {
+		            "sheetId": 0,
+		            "startColumnIndex": 0,
+		            "endColumnIndex": 5,
+		            "startRowIndex": 2,
+		            "endRowIndex": 3
+		        }, {
+		            "sheetId": 0,
+		            "startColumnIndex": 0,
+		            "endColumnIndex": 5,
+		            "startRowIndex": 3,
+		            "endRowIndex": 4
+		        }, {
+		            "sheetId": 0,
+		            "startColumnIndex": 0,
+		            "endColumnIndex": 5,
+		            "startRowIndex": 4,
+		            "endRowIndex": 5
+		        }],
+		        "data": [{
+		            "startRow": 0,
+		            "startColumn": 0,
+		            "rowData": [{
+		                "values": [{
+		                    "userEnteredValue": {
+		                        "stringValue": "BẢNG TỔNG HỢP CHI PHÍ XÂY LẮP"
+		                    },
+		                    "userEnteredFormat": {
+		                        "horizontalAlignment": "CENTER"
+		                    }
+		                }]
+		            }, {
+		                "values": [{}]
+		            }, {
+		                "values": [{
+		                    "userEnteredValue": {
+		                        "stringValue": "CÔNG TRÌNH: "
+		                    },
+		                    "userEnteredFormat": {
+		                        "horizontalAlignment": "CENTER",
+		                        "textFormat": {
+		                            "bold": true
+		                        }
+		                    }
+		                }]
+		            }, {
+		                "values": [{
+		                    "userEnteredValue": {
+		                        "stringValue": "HẠNG MỤC: "
+		                    },
+		                    "userEnteredFormat": {
+		                        "horizontalAlignment": "CENTER",
+		                        "textFormat": {
+		                            "bold": true
+		                        }
+		                    }
+		                }]
+		            }, {
+		                "values": [{
+		                    "userEnteredValue": {
+		                        "stringValue": "ĐỊA ĐIỂM: "
+		                    },
+		                    "userEnteredFormat": {
+		                        "horizontalAlignment": "CENTER",
+		                        "textFormat": {
+		                            "bold": true
+		                        }
+		                    }
+		                }]
+		            }],
+		            "rowMetadata": [{}],
+		            "columnMetadata": [{}]
+		        }]
+		    }]
+		}';
+
+    	return json_decode($json_value, true);
     }
 }

@@ -178,7 +178,7 @@ class ExportGetDataController extends Controller
         // return an array with 3 arrays: labour resources, machine resources, material resources
     }
 
-    public function summaryTableData( $constructionID, $categoryID )
+    private function summaryTableData( $constructionID, $categoryID )
     {
         $constructionID = 3; $categoryID = 1;
         $resources = $this->costTableData($constructionID, $categoryID);
@@ -198,6 +198,32 @@ class ExportGetDataController extends Controller
         array_push( $cost, $labourCost, $machineCost, $materialCost);
         return $cost;
         // return an array with 3 elements: labour cost, material cost, machine cost
+    }
+
+    public function getSummaryTableData( $constructionID, $categoryID )
+    {
+        $data = $this->summaryTableData( $constructionID, $categoryID );
+        return [
+            [ "BẢNG TỔNG HỢP CHI PHÍ XÂY LẮP" ],
+            [ " " ],
+            [ "CÔNG TRÌNH: " ],
+            [ "HẠNG MỤC: " ],
+            [ "ĐỊA ĐIỂM: " ],
+            [ " " ],
+            [ "TT", "Hạng mục chi phí", "Ký hiệu", "Hệ số", "Cách tính", "Thành tiền" ],
+            [ "1", "Chi phí vật liệu", "VL", "1.000", "VL", "=" . $data[1] ],
+            [ "2", "Chi phí nhân công", "NC", "5.333", "NC x HS", "=" . $data[0] . "*D9" ],
+            [ "3", "Chí phí máy thi công", "M", "1.500", "M x HS", "=" . $data[2] . "*D10" ],
+            [ "4", "Chí phí trực tiếp khác", "TT", "0.025", "(VL + NC + M) x HS", "=SUM(F8:F10)*D11" ],
+            [ " ", "- Chí phí trực tiếp", "T", "1.000", "VL + NC + M + TT", "=SUM(F8:F11)*D12" ],
+            [ " ", "- Chí phí chung", "C", "0.065", "T x HS", "=F12*D13" ],
+            [ " ", "- Thu nhập chịu thuế tính trước", "L", "0.055", "(T + C) x HS", "=SUM(F12:F13)*D14" ],
+            [ " ", "- Chi phí xây dựng trước thuế", "G", "1.000", "T + C + L", "=SUM(F12:F14)" ],
+            [ " ", "- Thuế giá trị gia tăng", "VAT", "0.1", "G * HS", "=F14*D16" ],
+            [ " ", "- Chi phí xây dựng sau thuế", "Gxd", "1.000", "G+VAT", "=SUM(F15:F16)" ],
+            [ " ", "- Chi phí xây dựng nhà tạm, nhà điều hành", " ", "Gxdnt", "G*1%+(1+10%)", "=F17*1/100+(1+1/100)" ],
+            [ "*.", "- Tổng cộng", "Gxdtc", "1.000", "Gxd+Gxdnt", "=SUM(F17:F18)" ],
+        ];
     }
 
 }
