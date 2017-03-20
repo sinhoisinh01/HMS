@@ -66,8 +66,52 @@ class ExportGetDataController extends Controller
         return $array;
     }
 
-    private function costTableData( $constructionID, $categoryID )
+    public function analysisTableData(){
+        $subcategories = Subcategory::where('category_id', 1)
+        ->select('id', 'name')
+        ->orderBy('subcategories.no')
+        ->with([
+            'works'=> function( $q ){
+                $q->select('works.id','code','name','unit','sw.value');
+                $q->join('subcategory_work as sw','sw.work_id','=','works.id');
+            },
+            'works.resource_work' => function( $q ){
+                $q->select('work_id','name','unit','price','value');
+                $q->join('resources','resource_work.resource_id', '=', 'resources.id')
+                ->join('construction_resource','resource_work.resource_id','=','construction_resource.resource_id');
+            }
+        ])
+        ->get()->toArray();
+    
+        $analysisTableData = [];
+        $subcategoriesLength = count($subcategories);
+        for($i = 0; $i < $subcategoriesLength; $i++){
+            $subcategory = $subcategories[$i];
+            unset($subcategory['id']);
+            unset($subcategory['works']);
+            $analysisTableData[] = $subcategory;
+            $worksLength = count($subcategories[$i]['works']);
+            for($j = 0; $j < $worksLength; $j++){
+                $work = $subcategories[$i]['works'][$j];
+                unset($work['id']);
+                unset($work['pivot']);
+                unset($work['resource_work']); 
+                $analysisTableData[] = $work;
+                $resourcesLength = count($subcategories[$i]['works'][$j]['resource_work']);
+                for($k = 0; $k < $resourcesLength; $k++){
+                    $resource = $subcategories[$i]['works'][$j]['resource_work'][$k];
+                    unset($resource['work_id']);
+                    $analysisTableData[] = $resource;
+                }
+            }
+        }
+        return $analysisTableData;
+       //echo '<pre>'; print_r($analysisTableData); echo '</pre>';
+    }
+
+    public function costTableData( $constructionID, $categoryID )
     {
+        $constructionID = 3; $categoryID = 1;
         $subcategories = Subcategory::where("category_id", $categoryID)
         ->select("subcategories.id")
         ->with([ 
@@ -89,7 +133,6 @@ class ExportGetDataController extends Controller
         $material = [];
         $cost = [];
 
-        //echo '<pre>'; print_r($subcategories); echo '</pre>';
         foreach($subcategories as $subcategory)
             foreach($subcategory['works'] as $work)
                 foreach($work['resources'] as $resource){
@@ -114,6 +157,7 @@ class ExportGetDataController extends Controller
                     }
                 }
         array_push( $cost, $labour, $machine, $material, $labourMachine);
+        //echo '<pre>'; print_r($cost); echo '</pre>';
         return $cost;
         // return an array with 3 arrays: labour resources, machine resources, material resources
     }
