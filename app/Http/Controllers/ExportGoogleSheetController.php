@@ -38,11 +38,13 @@ class ExportGoogleSheetController extends Controller
 		$client = $this->getClient();
         $service = new Google_Service_Sheets($client);
         $exportGetData = new ExportGetDataController();
-		//$spreadsheetId = $this->createSpreadsheet( $service );
-       	$spreadsheetId = '14K326ocE-Gv0O_FOF_Tb74o-4CwiMUNdErVNr2S91v8';
+		$spreadsheetId = $this->createSpreadsheet( $service );
+       	//$spreadsheetId = '14K326ocE-Gv0O_FOF_Tb74o-4CwiMUNdErVNr2S91v8';
 
         $construction_id = $request->input('construction_id');
         $category_id = $request->input('category_id');
+
+        $result = $this->setSpreadsheetFormat( $service, $spreadsheetId );
 
 		$data = $exportGetData->getSummarySheetData( $construction_id, $category_id );
 		$result = $this->setDataForSheet( $service, $spreadsheetId, "CP Xay lap", $data );
@@ -95,8 +97,15 @@ class ExportGoogleSheetController extends Controller
         return $response->spreadsheetId;
     }
 
-    private function setSpreadsheetFormat( $service ) {
-    	
+    private function setSpreadsheetFormat( $service, $spreadsheetId ) {
+    	$requests = $this->getFormatData();
+
+		$requestBody = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest();
+		$requestBody->setRequests($requests);
+
+		$response = $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody);
+
+    	//echo '<pre>', var_export($requestBody, true), '</pre>', "\n";
     }
 
     /**
@@ -117,4 +126,59 @@ class ExportGoogleSheetController extends Controller
 		) );
 		return $service->spreadsheets_values->update($spreadsheetId, $range, $body, $optParams);
     } 
+
+     /**
+   * Get data for a Google Spreadsheet format, returning an Associative array like Google Request.
+   * Link: https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate
+   *
+   * @return Associative array
+   */
+    private function getFormatData() {
+    	$json_string = '{
+		  "requests": [
+		    {
+		      "addSheet": {
+		        "properties": {
+		          "sheetId": 1,
+		          "index": 0,
+		          "title": "CP Xay lap"
+		        }
+		      }
+		    },
+		    {
+		      "addSheet": {
+		        "properties": {
+		          "sheetId": 2,
+		          "index": 1,
+		          "title": "Du toan chi tiet"
+		        }
+		      }
+		    },
+		    {
+		      "addSheet": {
+		        "properties": {
+		          "sheetId": 3,
+		          "index": 2,
+		          "title": "Gia NC,CM"
+		        }
+		      }
+		    },
+		    {
+		      "addSheet": {
+		        "properties": {
+		          "sheetId": 4,
+		          "index": 3,
+		          "title": "Gia VL"
+		        }
+		      }
+		    },
+		    {
+		      "deleteSheet": {
+		        "sheetId": 0
+		      }
+		    }
+		  ]
+		}';
+		return json_decode($json_string, true)["requests"];
+    }
 }
