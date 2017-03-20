@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Construction;
 use App\Models\Subcategory;
 use App\Models\SubcategoryWork;
 use App\Models\Work;
@@ -11,6 +13,15 @@ use Laravel\Lumen\Routing\Controller;
 
 class ExportGetDataController extends Controller
 {
+    public function getConstructionAndCategoryInfo( $constructionID, $categoryID ) {
+        $construction = Construction::find( $constructionID );
+        return [
+          "construction_name" => $construction->name,
+          "construction_address" => $construction->address,
+          "category_name" => Category::find( $categoryID )->name
+        ];
+    }
+
     public function estimateTableData( $constructionID, $categoryID ){
         $subcategories = Subcategory::where('category_id', $categoryID)
             ->select("subcategories.id","subcategories.name")
@@ -178,13 +189,14 @@ class ExportGetDataController extends Controller
 
     public function getSummarySheetData( $constructionID, $categoryID )
     {
+        $construction_and_category_info = $this->getConstructionAndCategoryInfo( $constructionID, $categoryID );
         $data = $this->summaryTableData( $constructionID, $categoryID );
         return [
             [ "BẢNG TỔNG HỢP CHI PHÍ XÂY LẮP" ],
             [ " " ],
-            [ "CÔNG TRÌNH: " ],
-            [ "HẠNG MỤC: " ],
-            [ "ĐỊA ĐIỂM: " ],
+            [ "CÔNG TRÌNH: " . $construction_and_category_info["construction_name"] ],
+            [ "HẠNG MỤC: " . $construction_and_category_info["category_name"] ],
+            [ "ĐỊA ĐIỂM: " . $construction_and_category_info["construction_address"] ],
             [ " " ],
             [ "TT", "Hạng mục chi phí", "Ký hiệu", "Hệ số", "Cách tính", "Thành tiền" ],
             [ "1", "Chi phí vật liệu", "VL", "1.000", "VL", "=" . $data[1] ],
@@ -205,14 +217,15 @@ class ExportGetDataController extends Controller
     // return values with Google Spreadsheet Format
     public function getEstimateSheetData( $constructionID, $categoryID )
     {
+        $construction_and_category_info = $this->getConstructionAndCategoryInfo( $constructionID, $categoryID );
         $data = $this->estimateTableData( $constructionID, $categoryID );
 
         $values = [
             [ "BẢNG DỰ TOÁN CHI TIẾT" ],
             [ " " ],
-            [ "CÔNG TRÌNH: " ],
-            [ "HẠNG MỤC: " ],
-            [ "ĐỊA ĐIỂM: " ],
+            [ "CÔNG TRÌNH: " . $construction_and_category_info["construction_name"] ],
+            [ "HẠNG MỤC: " . $construction_and_category_info["category_name"] ],
+            [ "ĐỊA ĐIỂM: " . $construction_and_category_info["construction_address"] ],
             [ " " ],
             ['TT', 'Mã', 'Hạng mục/Công tác', 'Đơn vị', 'Số lượng', 'Dài', 
             'Rộng', 'Cao', 'Khối lượng', 'Đơn giá', 'Thành tiền']
@@ -276,13 +289,14 @@ class ExportGetDataController extends Controller
     }
 
     public function get2CostSheetData( $constructionID, $categoryID ) {
+        $construction_and_category_info = $this->getConstructionAndCategoryInfo( $constructionID, $categoryID );
         $data = $this->costTableData( $constructionID, $categoryID );
         $labourMachine = [
             [ "BẢNG GIÁ NHÂN CÔNG VÀ CA MÁY" ],
             [ " " ],
-            [ "CÔNG TRÌNH: " ],
-            [ "HẠNG MỤC: " ],
-            [ "ĐỊA ĐIỂM: " ],
+            [ "CÔNG TRÌNH: " . $construction_and_category_info["construction_name"] ],
+            [ "HẠNG MỤC: " . $construction_and_category_info["category_name"] ],
+            [ "ĐỊA ĐIỂM: " . $construction_and_category_info["construction_address"] ],
             [ " " ],
             [ "TT", "Nhân công và máy thi công", "Đơn vị", "Đơn giá" ]
         ];
@@ -295,9 +309,9 @@ class ExportGetDataController extends Controller
         $material = [
             [ "BẢNG GIÁ VẬT LIỆU" ],
             [ " " ],
-            [ "CÔNG TRÌNH: " ],
-            [ "HẠNG MỤC: " ],
-            [ "ĐỊA ĐIỂM: " ],
+            [ "CÔNG TRÌNH: " . $construction_and_category_info["construction_name"] ],
+            [ "HẠNG MỤC: " . $construction_and_category_info["category_name"] ],
+            [ "ĐỊA ĐIỂM: " . $construction_and_category_info["construction_address"] ],
             [ " " ],
             [ "TT", "Tên vật liệu", "Đơn vị", "Đơn giá" ]
         ];
