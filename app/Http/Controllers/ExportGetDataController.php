@@ -11,7 +11,7 @@ use Laravel\Lumen\Routing\Controller;
 
 class ExportGetDataController extends Controller
 {
-    public function estimateTableData( $categoryID ){
+    public function estimateTableData( $constructionID, $categoryID ){
         $subcategories = Subcategory::where('category_id', $categoryID)
             ->select("subcategories.id","subcategories.name")
             ->orderBy('subcategories.no')
@@ -139,7 +139,7 @@ class ExportGetDataController extends Controller
         // return an array with 3 elements: labour cost, material cost, machine cost
     }
 
-    public function getSummaryTableData( $constructionID, $categoryID )
+    public function getSummarySheetData( $constructionID, $categoryID )
     {
         $data = $this->summaryTableData( $constructionID, $categoryID );
         return [
@@ -166,9 +166,9 @@ class ExportGetDataController extends Controller
     }
 
     // return values with Google Spreadsheet Format
-    public function estimateTableFormat( $categoryID )
+    public function getEstimateSheetData( $constructionID, $categoryID )
     {
-        $data = $this->estimateTableData( $categoryID );
+        $data = $this->estimateTableData( $constructionID, $categoryID );
 
         $values = [
             [ "BẢNG DỰ TOÁN CHI TIẾT" ],
@@ -238,7 +238,7 @@ class ExportGetDataController extends Controller
         return $values;
     }
 
-    public function get2CostTable( $constructionID, $categoryID ) {
+    public function get2CostSheetData( $constructionID, $categoryID ) {
         $data = $this->costTableData( $constructionID, $categoryID );
         $labourMachine = [
             [ "BẢNG GIÁ NHÂN CÔNG VÀ CA MÁY" ],
