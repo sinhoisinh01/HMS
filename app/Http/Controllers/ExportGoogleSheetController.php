@@ -33,7 +33,7 @@ class ExportGoogleSheetController extends Controller
 		echo '<pre>', var_export($requestBody, true), '</pre>', "\n";
 	}
 
-	function create(Request $request) 
+	function export(Request $request) 
 	{
 		$client = $this->getClient();
         $service = new Google_Service_Sheets($client);
