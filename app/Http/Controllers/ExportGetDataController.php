@@ -66,8 +66,8 @@ class ExportGetDataController extends Controller
         return $array;
     }
 
-    public function analysisTableData(){
-        $subcategories = Subcategory::where('category_id', 1)
+    public function analysisTableData( $cnstructionID, $categoryID ){
+        $subcategories = Subcategory::where('category_id', $categoryID)
         ->select('id', 'name')
         ->orderBy('subcategories.no')
         ->with([
@@ -79,6 +79,7 @@ class ExportGetDataController extends Controller
                 $q->select('work_id','name','unit','price','value');
                 $q->join('resources','resource_work.resource_id', '=', 'resources.id')
                 ->join('construction_resource','resource_work.resource_id','=','construction_resource.resource_id');
+                $q->where('construction_resource.construction_id',$constructionID)
             }
         ])
         ->get()->toArray();
@@ -106,12 +107,12 @@ class ExportGetDataController extends Controller
             }
         }
         return $analysisTableData;
-       //echo '<pre>'; print_r($analysisTableData); echo '</pre>';
+        //return an array with all works by subcategories, each work has list of resources
+        //echo '<pre>'; print_r($analysisTableData); echo '</pre>';
     }
 
     public function costTableData( $constructionID, $categoryID )
     {
-        $constructionID = 3; $categoryID = 1;
         $subcategories = Subcategory::where("category_id", $categoryID)
         ->select("subcategories.id")
         ->with([ 
@@ -122,31 +123,23 @@ class ExportGetDataController extends Controller
                 $q->select("resources.id", "resources.code","resources.name","resources.unit","price");
                 $q->join("construction_resource","construction_resource.resource_id","=","resources.id");
                 $q->where("construction_resource.construction_id",$constructionID);
+                $q->groupBy('code');
             }
         ])
         ->get()
         ->toArray();
 
         $labourMachine = [];
-        $labour = [];
-        $machine = [];
         $material = [];
-        $cost = [];
+        $prices = [];
 
         foreach($subcategories as $subcategory)
             foreach($subcategory['works'] as $work)
                 foreach($work['resources'] as $resource){
-                    if( substr($resource['code'],0,1) === "N" )
+                    if( substr($resource['code'],0,1) === "N" || substr($resource['code'],0,1) === "M")
                     {
                         unset($resource['id']);
                         unset($resource['pivot']);
-                        $labour[] = $resource;
-                        $labourMachine[] = $resource;
-                    }
-                    if ( substr($resource['code'],0,1) === "M" ) {
-                        unset($resource['id']);
-                        unset($resource['pivot']);
-                        $machine[] = $resource;
                         $labourMachine[] = $resource;
                     }
                     if( substr($resource['code'],0,1) === "V" )
@@ -156,10 +149,10 @@ class ExportGetDataController extends Controller
                         $material[] = $resource;
                     }
                 }
-        array_push( $cost, $labour, $machine, $material, $labourMachine);
-        //echo '<pre>'; print_r($cost); echo '</pre>';
-        return $cost;
-        // return an array with 3 arrays: labour resources, machine resources, material resources
+        array_push( $prices, $labourMachine, $material);
+        
+        return $prices;
+        // return an array with 2 arrays: labour-machine resources, material resources
     }
 
     private function summaryTableData( $constructionID, $categoryID )
