@@ -3,6 +3,9 @@ angular.module('HMS')
 {
     $scope.estimateSheet = [];
 
+    $rootScope.construction_id = $stateParams.construction_id;
+    $rootScope.category_id = $stateParams.category_id;
+
     /**
     * Description: find work in works array
     * Params: work_id, works array
