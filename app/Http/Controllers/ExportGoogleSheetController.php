@@ -39,31 +39,28 @@ class ExportGoogleSheetController extends Controller
         $service = new Google_Service_Sheets($client);
         $exportGetData = new ExportGetDataController();
 		$spreadsheetId = $this->createSpreadsheet( $service );
-       	//$spreadsheetId = '14K326ocE-Gv0O_FOF_Tb74o-4CwiMUNdErVNr2S91v8';
+       	//$spreadsheetId = '1EwQGs5_bE6x0CU8JonmoSNrAqmx8incuk8o-g4fpB-4';
 
         $construction_id = $request->input('construction_id');
         $category_id = $request->input('category_id');
 
-        $result = $this->setSpreadsheetFormat( $service, $spreadsheetId );
+        $this->setSpreadsheetFormat( $service, $spreadsheetId );
 
 		$data = $exportGetData->getSummarySheetData( $construction_id, $category_id );
-		$result = $this->setDataForSheet( $service, $spreadsheetId, "CP Xay lap", $data );
-		var_dump( $result );
-		
+		$this->setDataForSheet( $service, $spreadsheetId, "CP Xay lap", $data );				
 
 		$data = $exportGetData->getEstimateSheetData( $construction_id, $category_id );
-		$result = $this->setDataForSheet( $service, $spreadsheetId, "Du toan chi tiet", $data );
-		var_dump( $result );
-
+		$this->setDataForSheet( $service, $spreadsheetId, "Du toan chi tiet", $data );
+		
 		$costTable = $exportGetData->get2CostSheetData( $construction_id, $category_id );
 		
 	  	$data = $costTable["labourMachine"];
-		$result = $this->setDataForSheet( $service, $spreadsheetId, "Gia NC,CM", $data );
-		var_dump( $result );
+		$this->setDataForSheet( $service, $spreadsheetId, "Gia NC,CM", $data );
 		
 	  	$data = $costTable["material"];
 		$result = $this->setDataForSheet( $service, $spreadsheetId, "Gia VL", $data );
-		var_dump( $result );
+		
+		return response()->json($result["spreadsheetId"]);
     }
 
     /**
@@ -98,14 +95,8 @@ class ExportGoogleSheetController extends Controller
     }
 
     private function setSpreadsheetFormat( $service, $spreadsheetId ) {
-    	$requests = $this->getFormatData();
-
-		$requestBody = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest();
-		$requestBody->setRequests($requests);
-
-		$response = $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody);
-
-    	//echo '<pre>', var_export($requestBody, true), '</pre>', "\n";
+    	$this->sendFormatRequest( $service, $spreadsheetId, $this->getSheetsFormat() );
+    	$this->sendFormatRequest( $service, $spreadsheetId, $this->getSpreadsheetsFormat() );
     }
 
     /**
@@ -128,12 +119,25 @@ class ExportGoogleSheetController extends Controller
     } 
 
      /**
-   * Get data for a Google Spreadsheet format, returning an Associative array like Google Request.
-   * Link: https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/batchUpdate
+   * Send format request to format spreadsheet
+   */
+    private function sendFormatRequest( $service, $spreadsheetId, $format_array ) {
+    	$requests = $format_array;
+
+		$requestBody = new Google_Service_Sheets_BatchUpdateSpreadsheetRequest();
+		$requestBody->setRequests($requests);
+
+		$response = $service->spreadsheets->batchUpdate($spreadsheetId, $requestBody);
+
+    	//echo '<pre>', var_export($requestBody, true), '</pre>', "\n";
+    }
+
+     /**
+   * Get request array for adding sheets
    *
    * @return Associative array
    */
-    private function getFormatData() {
+    private function getSheetsFormat() {
     	$json_string = '{
 		  "requests": [
 		    {
@@ -175,6 +179,86 @@ class ExportGoogleSheetController extends Controller
 		    {
 		      "deleteSheet": {
 		        "sheetId": 0
+		      }
+		    }
+		  ]
+		}';
+		return json_decode($json_string, true)["requests"];
+    }
+
+    /**
+   * Get request array for all spreadsheet format
+   *
+   * @return Associative array
+   */
+    private function getSpreadsheetsFormat() {
+    	$json_string = '{
+		  "requests": [
+		    {
+		      "mergeCells": {
+		        "range": {
+		          "sheetId": 1,
+		          "startColumnIndex": 0,
+		          "endColumnIndex": 6,
+		          "startRowIndex": 0,
+		          "endRowIndex": 6
+		        },
+		        "mergeType": "MERGE_ROWS"
+		      }
+		    },
+		    {
+		      "mergeCells": {
+		        "range": {
+		          "sheetId": 2,
+		          "startColumnIndex": 0,
+		          "endColumnIndex": 11,
+		          "startRowIndex": 0,
+		          "endRowIndex": 6
+		        },
+		        "mergeType": "MERGE_ROWS"
+		      }
+		    },
+		    {
+		      "mergeCells": {
+		        "range": {
+		          "sheetId": 3,
+		          "startColumnIndex": 0,
+		          "endColumnIndex": 4,
+		          "startRowIndex": 0,
+		          "endRowIndex": 6
+		        },
+		        "mergeType": "MERGE_ROWS"
+		      }
+		    },
+		    {
+		      "mergeCells": {
+		        "range": {
+		          "sheetId": 4,
+		          "startColumnIndex": 0,
+		          "endColumnIndex": 4,
+		          "startRowIndex": 0,
+		          "endRowIndex": 6
+		        },
+		        "mergeType": "MERGE_ROWS"
+		      }
+		    },
+		    {
+		      "updateSpreadsheetProperties": {
+		        "properties": {
+		          "defaultFormat": {
+		            "wrapStrategy": "WRAP",
+		            "numberFormat": {
+		              "type": "NUMBER"
+		            },
+		            "verticalAlignment": "MIDDLE",
+		            "textFormat": {
+		              "fontFamily": "Arial",
+		              "fontSize": 12
+		            }
+		          },
+      			  "title": "Dự toán"
+		        },
+		        "fields": "*"
 		      }
 		    }
 		  ]
