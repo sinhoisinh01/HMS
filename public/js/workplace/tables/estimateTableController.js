@@ -1,5 +1,5 @@
 angular.module('HMS')
-.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) 
+.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory, $filter) 
 {
     $scope.estimateSheet = [];
 

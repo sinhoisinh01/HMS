@@ -47,11 +47,11 @@
 	  <td class="col-lg-2">{{row.code}}</td>
 	  <td class="col-lg-3">{{row.name}}</td>
 	  <td class="col-lg-1">{{row.unit}}</td>
-	  <td class="col-lg-1">{{row.value}}</td>
-	  <td class="col-lg-1">{{row.unitValue}}</td>
-	  <td class="col-lg-1">{{row.unitPrice}}</td>
-	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice}}</p></td>
-	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice*row.workValue}}</p></td>
+	  <td class="col-lg-1">{{row.value | number:2}}</td>
+	  <td class="col-lg-1">{{row.unitValue | number:2}}</td>
+	  <td class="col-lg-1">{{row.unitPrice | number:0}}</td>
+	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice | number:0}}</p></td>
+	  <td class="col-lg-1"><p ng-if="row.unitValue">{{row.unitValue*row.unitPrice*row.workValue | number:0}}</p></td>
 	</tr>
 
 	<!--Rows to insert new data-->
