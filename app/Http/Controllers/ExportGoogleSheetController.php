@@ -39,7 +39,7 @@ class ExportGoogleSheetController extends Controller
         $service = new Google_Service_Sheets($client);
         $exportGetData = new ExportGetDataController();
 		$spreadsheetId = $this->createSpreadsheet( $service );
-       	//$spreadsheetId = '1EwQGs5_bE6x0CU8JonmoSNrAqmx8incuk8o-g4fpB-4';
+       	//$spreadsheetId = '1zYzI4DpYrIvAhJmBVPIZ1DcssSpRomz6MQ9d7WJ9Kfo';
 
         $construction_id = $request->input('construction_id');
         $category_id = $request->input('category_id');
@@ -59,6 +59,9 @@ class ExportGoogleSheetController extends Controller
 		
 	  	$data = $costTable["material"];
 		$result = $this->setDataForSheet( $service, $spreadsheetId, "Gia VL", $data );
+
+		$data = $exportGetData->getAnalysisSheetData( $construction_id, $category_id );
+		$result = $this->setDataForSheet( $service, $spreadsheetId, "Phan tich KL VL,NC,M", $data );
 		
 		return response()->json($result["spreadsheetId"]);
     }
@@ -177,6 +180,15 @@ class ExportGoogleSheetController extends Controller
 		      }
 		    },
 		    {
+		      "addSheet": {
+		        "properties": {
+		          "sheetId": 5,
+		          "index": 4,
+		          "title": "Phan tich KL VL,NC,M"
+		        }
+		      }
+		    },
+		    {
 		      "deleteSheet": {
 		        "sheetId": 0
 		      }
@@ -236,6 +248,18 @@ class ExportGoogleSheetController extends Controller
 		          "sheetId": 4,
 		          "startColumnIndex": 0,
 		          "endColumnIndex": 4,
+		          "startRowIndex": 0,
+		          "endRowIndex": 6
+		        },
+		        "mergeType": "MERGE_ROWS"
+		      }
+		    },
+		    {
+		      "mergeCells": {
+		        "range": {
+		          "sheetId": 5,
+		          "startColumnIndex": 0,
+		          "endColumnIndex": 9,
 		          "startRowIndex": 0,
 		          "endRowIndex": 6
 		        },

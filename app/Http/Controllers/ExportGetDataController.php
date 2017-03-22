@@ -344,4 +344,57 @@ class ExportGetDataController extends Controller
         //echo '<pre>', var_export($labourMachine, true), '</pre>', "\n";
         //echo '<pre>', var_export($material, true), '</pre>', "\n";
     }
+
+    // return values with Google Spreadsheet Format
+    public function getAnalysisSheetData( $constructionID, $categoryID )
+    {
+        $construction_and_category_info = $this->getConstructionAndCategoryInfo( $constructionID, $categoryID );
+        $data = $this->analysisTableData( $constructionID, $categoryID );
+
+        $values = [
+            [ "BẢNG DỰ TOÁN CHI TIẾT" ],
+            [ " " ],
+            [ "CÔNG TRÌNH: " . $construction_and_category_info["construction_name"] ],
+            [ "HẠNG MỤC: " . $construction_and_category_info["category_name"] ],
+            [ "ĐỊA ĐIỂM: " . $construction_and_category_info["construction_address"] ],
+            [ " " ],
+            ['#', 'Mã', 'Tên', 'Đơn vị', 'Khối lượng', 'Hao phí', 
+            'Đơn giá', 'Thành tiền', 'Tổng tiền']
+        ];
+
+        $stt = 1;
+        $indexRow = 8;
+        $workRowIndex = 8;
+        for ( $i = 0; $i < sizeof( $data ); $i++ ) {
+            $row = [];
+
+            // if row is Subcategory
+            if ( !isset( $data[$i]["code"] ) && !isset( $data[$i]["price"] ) ) {
+                array_push( $row, $stt, "* Hạng mục:", $data[$i]["name"] );
+            }
+            // if row is a work
+            else if ( isset( $data[$i]["code"] ) ) {
+                array_push( 
+                    $row, $stt, $data[$i]["code"], $data[$i]["name"],
+                    $data[$i]["unit"], $data[$i]["value"]
+                );
+                $workRowIndex = $indexRow;
+            }
+            // if row is a resource
+            else if ( !isset( $data[$i]["code"] ) && isset( $data[$i]["price"] ) ) {
+                array_push( 
+                    $row, $stt, '', $data[$i]["name"],
+                    $data[$i]["unit"], '', $data[$i]["value"],
+                    $data[$i]["price"], "=F" . $indexRow . "*G" . $indexRow,
+                    "=F" . $indexRow . "*G" . $indexRow . "*E" . $workRowIndex
+                );
+            }
+            array_push( $values, $row );
+            $indexRow++;
+            $stt++;
+        }
+        
+        //echo '<pre>', var_export($values, true), '</pre>', "\n";
+        return $values;
+    }
 }
