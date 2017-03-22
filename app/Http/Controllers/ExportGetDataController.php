@@ -24,6 +24,7 @@ class ExportGetDataController extends Controller
     }
 
     public function estimateTableData( $constructionID, $categoryID ){
+        $constructionID = 2; $categoryID = 1;
         $subcategories = Subcategory::where('category_id', $categoryID)
             ->select("subcategories.id","subcategories.name")
             ->orderBy('subcategories.no')
@@ -45,7 +46,7 @@ class ExportGetDataController extends Controller
 
         $array = []; 
         $subcategoriesLength = count($subcategories); 
-
+        $no = 1;
         for($i = 0; $i < $subcategoriesLength; $i++){
             $subcategory = $subcategories[$i];
             unset($subcategory['id']);
@@ -53,18 +54,19 @@ class ExportGetDataController extends Controller
             array_unshift($subcategory,"*******");// add empty element to array for empty column
             array_unshift($subcategory,$no); // add number order 
             $array[] = $subcategory;
+            $no++;
 
             $worksLength = count($subcategories[$i]["subcategory_works"]);
             for($j = 0; $j < $worksLength; $j++){
                 $work = $subcategories[$i]["subcategory_works"][$j];
                 unset($work["subcategory_id"]);
                 unset($work['id']);
-                unset($work['value']);
                 unset($work['rwv']);
                 unset($work['price']);
                 unset($work['descriptions']);
                 array_unshift($work,$no);
                 $array[] = $work;
+                $no++;
 
                 $descriptionsLength = count($subcategories[$i]["subcategory_works"][$j]["descriptions"]);
                 for($k = 0; $k < $descriptionsLength; $k++)
@@ -75,9 +77,11 @@ class ExportGetDataController extends Controller
                     array_unshift($description,$no);
                     $description = array_slice($description,0,3,true) + array("unit"=>"") + array_slice($description,3,(count($description)-1),true);
                     $array[] = $description;
+                    $no++;
                 }
             }
         }
+
         //echo '<pre>'; print_r($array); echo '</pre>'; return 1;
         return $array;
     }
@@ -250,6 +254,7 @@ class ExportGetDataController extends Controller
         ];
 
         $stt = 1;
+        $rowIndex = 7;
         for ( $i = 0; $i < sizeof( $data ); $i++ ) {
             $tmpArr = [];
             // Column A: if unit exists, push STT, else, push null character
@@ -287,20 +292,22 @@ class ExportGetDataController extends Controller
             ( isset( $data[$i]["height"] ) ) ?
                 array_push( $tmpArr, $data[$i]["height"] ) : array_push( $tmpArr, '' );
 
-            // Column I: if value exists, push unit, else, push null character
+            // Column I: if value exists, push value, else, push null character
             ( isset( $data[$i]["value"] ) ) ?
                 array_push( $tmpArr, $data[$i]["value"] ) : array_push( $tmpArr, '' );
 
-            // Column J: if price exists, push unit, else, push null character
-            ( isset( $data[$i]["price"] ) ) ?
-                array_push( $tmpArr, $data[$i]["price"] ) : array_push( $tmpArr, '' );
+            // Column J: if unit_price exists, push unit_price, else, push null character
+            ( isset( $data[$i]["unit_price"] ) ) ?
+                array_push( $tmpArr, $data[$i]["unit_price"] ) : array_push( $tmpArr, '' );
 
-            // Column K: if row is work (has price), push formular to get total, else, push null character
-            ( isset( $data[$i]["price"] ) ) ?
-                array_push( "=I" . ( $i + 1 ) . "+J" . ( $i + 1 ) ) : array_push( $tmpArr, '' );
+            // Column K: if row is work (has unit_price), push formular to get total, else, push null character
+            ( isset( $data[$i]["unit_price"] ) ) ?
+                array_push( $tmpArr, "=I" . ( $rowIndex + 1 ) . "*J" . ( $rowIndex + 1 ) ) : array_push( $tmpArr, '' );
 
             // push to values array
             array_push( $values, $tmpArr );
+
+            $rowIndex++;
         }
         
         return $values;

@@ -13,6 +13,7 @@ $app->get('/', function () {
 
 $app->get('/login', 'LoginController@login');
 $app->get('/loginCallBack', 'LoginController@callBack');
+$app->get('a/{x}/{y}', 'ExportGetDataController@estimateTableData');
 
 $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
     function () use ($app) {
