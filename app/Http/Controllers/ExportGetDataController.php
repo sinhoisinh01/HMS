@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Category;
 use App\Models\Construction;
 use App\Models\Subcategory;
@@ -27,9 +28,12 @@ class ExportGetDataController extends Controller
             ->select("subcategories.id","subcategories.name")
             ->orderBy('subcategories.no')
             ->with(['subcategoryWorks'=> function($q){
-                        $q->select("subcategory_work.subcategory_id", "subcategory_work.id", "works.code","works.name","works.unit","value");
-                        $q->orderBy('no');
-                        $q->join('works', 'subcategory_work.work_id', '=', 'works.id');
+                        $q->select("subcategory_work.subcategory_id", "subcategory_work.id", "works.code","works.name","works.unit","subcategory_work.value", 'resource_work.value as rwv','price',DB::raw('sum(resource_work.value*price) AS unit_price'))
+                        ->orderBy('no')
+                        ->join('works', 'subcategory_work.work_id', '=', 'works.id')
+                        ->join('resource_work','subcategory_work.work_id','=','resource_work.work_id')
+                        ->join('construction_resource','construction_resource.resource_id','=','resource_work.resource_id')
+                        ->groupBy('subcategory_work.id');
                     },
                     
                     'subcategoryWorks.descriptions'=> function($q){
@@ -41,7 +45,6 @@ class ExportGetDataController extends Controller
 
         $array = []; 
         $subcategoriesLength = count($subcategories); 
-        $no = 1;
 
         for($i = 0; $i < $subcategoriesLength; $i++){
             $subcategory = $subcategories[$i];
@@ -50,17 +53,19 @@ class ExportGetDataController extends Controller
             array_unshift($subcategory,"*******");// add empty element to array for empty column
             array_unshift($subcategory,$no); // add number order 
             $array[] = $subcategory;
-            $no++;
 
             $worksLength = count($subcategories[$i]["subcategory_works"]);
             for($j = 0; $j < $worksLength; $j++){
                 $work = $subcategories[$i]["subcategory_works"][$j];
                 unset($work["subcategory_id"]);
                 unset($work['id']);
+                unset($work['value']);
+                unset($work['rwv']);
+                unset($work['price']);
                 unset($work['descriptions']);
                 array_unshift($work,$no);
                 $array[] = $work;
-                $no++;
+
                 $descriptionsLength = count($subcategories[$i]["subcategory_works"][$j]["descriptions"]);
                 for($k = 0; $k < $descriptionsLength; $k++)
                 {
@@ -70,10 +75,10 @@ class ExportGetDataController extends Controller
                     array_unshift($description,$no);
                     $description = array_slice($description,0,3,true) + array("unit"=>"") + array_slice($description,3,(count($description)-1),true);
                     $array[] = $description;
-                    $no++;
                 }
             }
         }
+        //echo '<pre>'; print_r($array); echo '</pre>'; return 1;
         return $array;
     }
 
@@ -297,7 +302,7 @@ class ExportGetDataController extends Controller
             // push to values array
             array_push( $values, $tmpArr );
         }
-        //echo '<pre>', var_export($values, true), '</pre>', "\n";
+        
         return $values;
     }
 
