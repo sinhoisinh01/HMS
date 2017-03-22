@@ -1,7 +1,10 @@
 angular.module('HMS')
-.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory) 
+.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory, $filter) 
 {
     $scope.estimateSheet = [];
+
+    $rootScope.construction_id = $stateParams.construction_id;
+    $rootScope.category_id = $stateParams.category_id;
 
     /**
     * Description: find work in works array

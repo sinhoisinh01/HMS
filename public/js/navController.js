@@ -101,4 +101,17 @@ angular.module('HMS')
                 });
             }
         };
+        $scope.exportToGoogleSheet = function() {
+            console.log($rootScope.construction_id);
+            console.log($rootScope.category_id);
+            if ($rootScope.construction_id && $rootScope.category_id) {
+                $http.get(baseURL + 'export?construction_id=' + $rootScope.construction_id + '&category_id=' +$rootScope.category_id)
+                .then(function(response) {
+                    window.open(
+                      'https://docs.google.com/spreadsheets/d/' + response.data,
+                      '_blank' // <- This is what makes it open in a new window.
+                    );
+                });
+            }
+        }
     });

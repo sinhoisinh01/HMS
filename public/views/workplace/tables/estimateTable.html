@@ -34,16 +34,43 @@
     <tbody>
 		<tr ng-repeat="row in estimateSheet track by $index" context-menu="menuOptions" ng-mousedown="getRowPos($index)" ng-hide="$index===0">
 			<td>{{$index}}</td>
-			<td><input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)" ng-change="searchWork(row, row.code);" ng-blur="worksWindow.show = false;"  ng-model-options="{debounce: 200}"></td>
-			<td><input class="input-in-cells" ng-model="row.name" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.unit" ng-change="save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.amount" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.length" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.width" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.height" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.value" ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}"></td>
-			<td><input class="input-in-cells" ng-model="row.price"></td>
-			<td>{{row.price && row.value ? row.price*row.value : ''}}</td>
+			<td>
+                <input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)"
+                 ng-change="searchWork(row, row.code);" ng-blur="worksWindow.show = false;"
+                  ng-model-options="{debounce: 200}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.name" ng-change="save(row)"
+                 ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.unit" ng-change="save(row)"
+                 ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.amount"
+                 ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.length"
+                 ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.width"
+                 ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.height"
+                 ng-change="updateRowData(row); save(row)" ng-model-options="{updateOn: 'blur'}">
+            </td>
+			<td>
+                <input class="input-in-cells" ng-model="row.value"
+                 ng-value="row.value | number:2"
+                 ng-change="updateRowData(row); save(row)"
+                 ng-model-options="{updateOn: 'blur'}">
+             </td>
+			<td>{{row.price ? (row.price | number:0) : ''}}</td>
+			<td>{{row.price && row.value ? (row.price*row.value | number:0) : ''}}</td>
 		</tr>
     </tbody>
 </table>

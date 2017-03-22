@@ -71,6 +71,10 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
         $app->get('pricesTable', 'PricesTableController@get');
         $app->post('pricesTable', 'PricesTableController@update');
 
+        //Summary Table
+        //require: construction_id, category_id
+        $app->get('summaryTable', 'SummaryTableController@get');
+
         //require: construction_id
         //return: [{id,code,name,unit,price}]
         $app->get('resources', 'ResourceController@get');

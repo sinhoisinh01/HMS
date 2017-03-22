@@ -44,6 +44,10 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
             .state('construction.category', {
                 url: '/category/:category_id',
                 views: {
+                    'nav': {
+                        templateUrl: 'views/nav.html',
+                        controller: 'NavController'
+                    },
                     'tabs@': {
                         templateUrl: 'views/workplace/tabs.html',
                         controller: 'TabsController'
@@ -54,6 +58,10 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
             .state('construction.category.table', {
                 url: '/',
                 views: {
+                    'nav': {
+                        templateUrl: 'views/nav.html',
+                        controller: 'NavController'
+                    },
                     'table@': {
                         templateUrl: function ($stateParams) {
                             return 'views/workplace/tables/' + $stateParams.table + 'Table.html';
