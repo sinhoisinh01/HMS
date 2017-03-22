@@ -11,12 +11,12 @@ class SummaryTableController extends Controller
     function get(Request $request)
     {
         $getDataController = new ExportGetDataController();
-        //$summary = $getDataController->summaryTableData( $request->input('construction_id'), $request->input('category_id') );
+        $summaryTable = $getDataController->summaryTableData( $request->input('construction_id'), $request->input('category_id') );
 
         $summary = [
-          "labourPrice" => 50000,
-          "machinePrice" => 50000,
-          "materialPrice" => 50000
+          "labourPrice" => $summaryTable[1],
+          "machinePrice" => $summaryTable[2],
+          "materialPrice" => $summaryTable[0]
         ];
 
         return response()->json($summary);
