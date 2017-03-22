@@ -90,7 +90,7 @@ class ExportGetDataController extends Controller
                 $q->select('work_id','name','unit','price','value');
                 $q->join('resources','resource_work.resource_id', '=', 'resources.id')
                 ->join('construction_resource','resource_work.resource_id','=','construction_resource.resource_id');
-                $q->where('construction_resource.construction_id',$constructionID)
+                $q->where('construction_resource.construction_id',$constructionID);
             }
         ])
         ->get()->toArray();
