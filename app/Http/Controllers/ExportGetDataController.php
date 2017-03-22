@@ -131,7 +131,7 @@ class ExportGetDataController extends Controller
                 $q->select("works.id");
             }, 
             "works.resources" => function($q) use ($constructionID) {
-                $q->select("resources.id", "resources.code","resources.name","resources.unit");
+                $q->select("resources.id", "resources.code","resources.name","resources.unit","construction_resource.price");
                 $q->join("construction_resource","construction_resource.resource_id","=","resources.id");
                 $q->where("construction_resource.construction_id",$constructionID);
                 $q->groupBy('code');
@@ -313,12 +313,13 @@ class ExportGetDataController extends Controller
             [ " " ],
             [ "TT", "Nhân công và máy thi công", "Đơn vị", "Đơn giá" ]
         ];
-        for ( $i=0; $i < sizeof( $data[3] ); $i++ ) {
+
+        //echo '<pre>', var_export($data, true), '</pre>', "\n";
+        for ( $i=0; $i < sizeof( $data[0] ); $i++ ) {
             $row = [];
-            array_push( $row, ($i + 1), $data[3][$i]["name"], $data[3][$i]["unit"], $data[3][$i]["price"] );
+            array_push( $row, ($i + 1), $data[0][$i]["name"], $data[0][$i]["unit"], $data[0][$i]["price"] );
             array_push( $labourMachine, $row );
         }
-
         $material = [
             [ "BẢNG GIÁ VẬT LIỆU" ],
             [ " " ],
@@ -329,9 +330,9 @@ class ExportGetDataController extends Controller
             [ "TT", "Tên vật liệu", "Đơn vị", "Đơn giá" ]
         ];
 
-        for ( $i=0; $i < sizeof( $data[2] ); $i++ ) {
+        for ( $i=0; $i < sizeof( $data[1] ); $i++ ) {
             $row = [];
-            array_push( $row, ($i + 1), $data[2][$i]["name"], $data[2][$i]["unit"], $data[2][$i]["price"] );
+            array_push( $row, ($i + 1), $data[1][$i]["name"], $data[1][$i]["unit"], $data[1][$i]["price"] );
             array_push( $material, $row );
         }
 

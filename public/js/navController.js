@@ -105,12 +105,25 @@ angular.module('HMS')
             console.log($rootScope.construction_id);
             console.log($rootScope.category_id);
             if ($rootScope.construction_id && $rootScope.category_id) {
+                modal = $uibModal.open({
+                        templateUrl: 'views/modals/exportLoadingModal.html',
+                        scope: $scope,
+                        size: 'md'
+                    });
                 $http.get(baseURL + 'export?construction_id=' + $rootScope.construction_id + '&category_id=' +$rootScope.category_id)
                 .then(function(response) {
                     window.open(
                       'https://docs.google.com/spreadsheets/d/' + response.data,
                       '_blank' // <- This is what makes it open in a new window.
                     );
+                    $rootScope.hasInternetError = false;
+                    modal.close();
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                      modal.close();
+                    }, 2300);
                 });
             }
         }
