@@ -123,7 +123,7 @@ angular.module('HMS')
                     setTimeout(function() { 
                       $rootScope.hasInternetError = false;
                       modal.close();
-                    }, 2300);
+                    }, 3000);
                 });
             }
         }
