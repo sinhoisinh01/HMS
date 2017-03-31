@@ -30,32 +30,22 @@ angular.module('HMS')
             $http.get(baseURL + 'categoryWorks',{params:{category_id:$stateParams.category_id}})
             .then(function (response) {
 
-                var subcategories = response.data.sort(function(a,b){
-                    return a.no - b.no;
-                });
+                var subcategories = response.data;
 
-                var length1 = subcategories.length; 
-                for(var i = 0; i < length1; i++)
-                {
-                    subcategories[i].subcategory_works.sort(function(a,b){
-                        return a.no - b.no;
-                    });
-                    
+                var subcategoriesLength = subcategories.length; 
+                for(var i = 0; i < subcategoriesLength; i++)
+                {   
                     subcategories[i].code = "*";
                     subcategories[i].subcategory_id = subcategories[i].id;
                     subcategories[i].type = 'subcategory';
                     
-                    var length2 = subcategories[i].subcategory_works.length;
+                    var subcategoryWorksLength = subcategories[i].subcategory_works.length;
                     var temp = JSON.parse(JSON.stringify(subcategories[i]));
                     delete temp.subcategory_works;
                     $scope.estimateSheet.push(temp);
 
-                    for(var j = 0; j < length2; j++)
+                    for(var j = 0; j < subcategoryWorksLength; j++)
                     {
-                        subcategories[i].subcategory_works[j].descriptions.sort(function(a,b){
-                            return a.no - b.no;
-                        });
-
                         var work = searchWorkById(subcategories[i].subcategory_works[j].work_id, $scope.works);
 
                         subcategories[i].subcategory_works[j].code = work.code;
@@ -66,12 +56,12 @@ angular.module('HMS')
                         subcategories[i].subcategory_works[j].type = 'work';
 
                         var temp = JSON.parse(JSON.stringify(subcategories[i].subcategory_works[j]));
-                        delete temp.subcategory_works;
+                        delete temp.descriptions;
                         $scope.estimateSheet.push(temp);
                         
                         if (subcategories[i].subcategory_works[j].descriptions)
-                            var length3 = subcategories[i].subcategory_works[j].descriptions.length;
-                            for (var k = 0; k < length3; k++)
+                            var descriptionsLength = subcategories[i].subcategory_works[j].descriptions.length;
+                            for (var k = 0; k < descriptionsLength; k++)
                             {
                                 subcategories[i].subcategory_works[j].descriptions[k].subcategory_id = subcategories[i].id;
                                 subcategories[i].subcategory_works[j].descriptions[k].type = "description";
@@ -81,7 +71,9 @@ angular.module('HMS')
                 }
 
                 $scope.showCategoryWorks = true;
-                
+
+                //console.log($scope.estimateSheet);
+
                 var blankRowNum = 101 - $scope.estimateSheet.length;
                 if(blankRowNum<=0)
                     blankRowNum += 50;
@@ -149,13 +141,13 @@ angular.module('HMS')
         return true;
     }
 
-	$scope.updateRowData = function(row) {
-		if (row.value && row.price)
-			row.totalPrice = row.value * row.price;
-		if (!row.price && (row.amount || row.length || row.width || row.height))
-		{
+    $scope.updateRowData = function(row) {
+        if (row.value && row.price)
+            row.totalPrice = row.value * row.price;
+        if (!row.price && (row.amount || row.length || row.width || row.height))
+        {
             row.value = (row.amount || 1) * (row.length || 1) * (row.width || 1) * (row.height || 1);
-		    for(var i = $scope.rowPos - 1; i >= 0; i--)
+            for(var i = $scope.rowPos - 1; i >= 0; i--)
             {
                 if($scope.estimateSheet[i].type === "work" || $scope.estimateSheet[i].type === "userWork")
                 {
@@ -171,7 +163,7 @@ angular.module('HMS')
                 }       
             }  
         }
-	}
+    }
 
     $scope.save = function(row) {
         //console.log($scope.rowPos);

@@ -32,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-		<tr ng-repeat="row in estimateSheet track by $index" context-menu="menuOptions" ng-mousedown="getRowPos($index)" ng-hide="$index===0">
+		<tr ng-repeat="row in estimateSheet track by $index" context-menu="menuOptions" ng-mousedown="getRowPos($index)" ng-hide="$index === 0 && !row.name">
 			<td>{{$index}}</td>
 			<td>
                 <input class="input-in-cells" ng-model="row.code" ng-click="workWindowPos($event)"

@@ -12,7 +12,16 @@ class SubcategoryWorkController extends Controller
     function get(Request $request)
     {
         $categoryWorks = Subcategory::where('category_id', $request->input('category_id'))
-            ->with(['subcategoryWorks', 'subcategoryWorks.descriptions'])
+            ->orderBy('subcategories.no')
+            ->with([
+                'subcategoryWorks' => function($q){
+                    $q->orderBy('subcategory_work.no');
+                }
+                ,
+                'subcategoryWorks.descriptions' => function($q){
+                    $q->orderBy('descriptions.no');
+                }
+             ])
             ->get();
         return response()->json($categoryWorks);
     }
@@ -28,14 +37,14 @@ class SubcategoryWorkController extends Controller
 
     function update($id, Request $request)
     {
-		SubcategoryWork::find($id)->update($request->input('subcategoryWork'));
+        SubcategoryWork::find($id)->update($request->input('subcategoryWork'));
     }
 
     function remove($id)
     {
         $toDelete = SubcategoryWork::find($id);
-		SubcategoryWork::where('subcategory_id', $toDelete->subcategory_id)
-		->where('no', '>', $toDelete->no)->decrement('no');
-		SubcategoryWork::destroy($id);
+        SubcategoryWork::where('subcategory_id', $toDelete->subcategory_id)
+        ->where('no', '>', $toDelete->no)->decrement('no');
+        SubcategoryWork::destroy($id);
     }
 }
