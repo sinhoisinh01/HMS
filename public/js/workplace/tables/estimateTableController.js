@@ -176,7 +176,7 @@ angular.module('HMS')
 
                 if(!$scope.isValid('subcategory', $scope.rowPos))
                 {
-                    alert("Subcategory can not be added here!");
+                    alert("Không thể thêm hạng mục con ở đây!");
                     $scope.estimateSheet.splice($scope.rowPos, 1);
                     return false;
                 }                
@@ -225,7 +225,7 @@ angular.module('HMS')
                 case 'description':
                     if(!$scope.isValid('description',$scope.rowPos))
                     {
-                        alert("Description can not be added here!");
+                        alert("Không thể thêm diễn giải ở đây!");
                         $scope.estimateSheet.splice($scope.rowPos, 1);
                         return false;
                     }
@@ -254,7 +254,7 @@ angular.module('HMS')
                 case 'userWork':
                     if(!$scope.isValid('work',$scope.rowPos))
                     {
-                        alert("Work can not be added here!");
+                        alert("Không thể thêm công tác ở đây!");
                         $scope.estimateSheet.splice($scope.rowPos, 1);
                         return false;
                     }
@@ -326,7 +326,7 @@ angular.module('HMS')
     $scope.addWork = function (work) {
         if(!$scope.isValid('work',$scope.rowPos))
         {
-            alert("Work can not be added here!");
+            alert("Không thể thêm công tác ở đây!");
             $scope.estimateSheet.splice($scope.rowPos, 1);
             return false;
         }
