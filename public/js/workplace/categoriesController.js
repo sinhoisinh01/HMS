@@ -7,6 +7,7 @@ angular.module('HMS')
             });
         $scope.add = function () {
             $scope.action = "Tạo mới";
+            $scope.name = null;
             $scope.names = $scope.categories.map(function (cat) {
                 return cat.name;
             });
