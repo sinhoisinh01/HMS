@@ -151,6 +151,10 @@ i{cursor:pointer;}
 	left: -180px!important;
 }
 /* home page */
+#construction-form{
+	height: 60vh;
+	overflow-y: auto;
+}
 #home-container .fa-plus-circle, #homeContainer .fa-th {
 	color:#009ae1;
 }

@@ -32,7 +32,8 @@ angular.module('HMS')
                 $uibModal.open({
                     templateUrl: 'views/modals/loadingModal.html',
                     scope: $scope,
-                    size: 'md'
+                    size: 'md',
+                    windowClass: 'constructionModal'
                 });
 
                 // table 'constructions' doesn't have supplier column (just supplier_id)
