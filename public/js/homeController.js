@@ -1,7 +1,7 @@
 angular.module('HMS')
     .controller('HomeController', function ($http, baseURL, $rootScope, $scope, $state, $uibModal, constructionFactory, supplierFactory, mySweetAlert) {
         $scope.showConstructions = false;
-		
+
 		$scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };
@@ -18,6 +18,7 @@ angular.module('HMS')
         
          $scope.add = function () {
             $scope.construction = undefined;
+            $scope.action = "Tạo mới";
             $scope.names = $scope.constructions.map(function (con) {
                 return con.name;
             });
@@ -46,6 +47,7 @@ angular.module('HMS')
             });
         };
         $scope.edit = function (construction) {
+            $scope.action = "Cập nhật";
             $scope.construction = angular.copy(construction);
             $scope.names = $scope.constructions.map(function (con) {
                 if (con.id !== construction.id)

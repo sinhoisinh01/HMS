@@ -6,6 +6,7 @@ angular.module('HMS')
                 $scope.categories = response.data;
             });
         $scope.add = function () {
+            $scope.action = "Tạo mới";
             $scope.names = $scope.categories.map(function (cat) {
                 return cat.name;
             });
@@ -24,6 +25,7 @@ angular.module('HMS')
             });
         };
         $scope.edit = function (index) {
+            $scope.action = "Cập nhật";
             $scope.name = $scope.categories[index].name;
             $scope.names = $scope.categories.map(function (cat) {
                 return cat.name;

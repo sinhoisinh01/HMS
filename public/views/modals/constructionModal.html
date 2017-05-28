@@ -56,6 +56,6 @@
     <button type="button" class="btn btn-default" ng-click="$dismiss()">Đóng</button>
     <button type="submit" class="btn btn-primary" ng-click="$close(construction);"
             ng-disabled="constructionForm.$invalid || names.indexOf(construction.name) !== -1">
-            {{stateName.indexOf('construction') !== -1 ? 'Tạo mới' : 'Cập nhật'}}
+            {{action}}
     </button>
 </div>
