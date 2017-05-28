@@ -309,7 +309,7 @@ angular.module('HMS')
         $scope.worksWindow = {
             show: true,
             search: searchTxt,
-            method: work.unit ? 'Edit' : 'Add',
+            method: work.unit ? 'Sửa' : 'Thêm',
             oldId: work ? work.code : '',
             oldName: work ? work.name : '',
             newWork: null
@@ -317,7 +317,7 @@ angular.module('HMS')
     };  
 
     $scope.workAction =  function(action, work){
-        if(action === 'Add')
+        if(action === 'Thêm')
             $scope.addWork(work);
         else
             $scope.replaceWork(work);
@@ -379,15 +379,15 @@ angular.module('HMS')
 
     /*Estimate Table Context Menu*/
     $scope.menuOptions = [
-        ['Add Row Above', function ($itemScope) {
+        ['Thêm dòng trên', function ($itemScope) {
             $scope.estimateSheet.splice($itemScope.$index, 0, {});
         }],
         null,
-        ['Add Row Below', function ($itemScope) {
+        ['Thêm dòng dưới', function ($itemScope) {
             $scope.estimateSheet.splice($itemScope.$index+1, 0, {});
         }],
         null,
-        ['Delete Row', function ($itemScope) {
+        ['Xóa dòng', function ($itemScope) {
             var index = $itemScope.$index;
             
             if($itemScope.row.type == 'subcategory')
