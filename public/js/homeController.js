@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('HomeController', function ($http, baseURL, $rootScope, $scope, $state, $uibModal, $timeout, constructionFactory, supplierFactory) {
+    .controller('HomeController', function ($http, baseURL, $rootScope, $scope, $state, $uibModal, constructionFactory, supplierFactory, mySweetAlert) {
         $scope.showConstructions = false;
 		
 		$scope.getDateFormat = function (timestamp) {
@@ -15,7 +15,8 @@ angular.module('HMS')
 		supplierFactory.get().then(function (cache) {
 			$scope.suppliers = cache;
 		});
-        $scope.add = function () {
+        
+         $scope.add = function () {
             $scope.construction = undefined;
             $scope.names = $scope.constructions.map(function (con) {
                 return con.name;
@@ -73,23 +74,32 @@ angular.module('HMS')
 				}).slice(0, 4);
             });
         };
-        $scope.remove = function (construction_id) {
-            $timeout(function () { //confirm occur some problems on firefox
-                if (confirm("Are you sure to delete this construction?"))
-                {
-					$scope.showConstructions = false;
-					constructionFactory.delete(construction_id).then(function () {
-						$scope.showConstructions = true;
-					});
-					$scope.constructions = $scope.constructions.filter(function (con) {
-						return con.id !== construction_id;
-					});
-					$scope.recentConstructions = $scope.constructions.sort(function (a, b) {
-						return new Date(b.updated_at) - new Date(a.updated_at);
-					}).slice(0, 4);
-				}
-            });
-        };
+        $scope.remove = function (construction_id) {          
+            swal(
+                mySweetAlert.getType("warning","Tất cả hạng mục sẽ bị xóa theo"),
+                function(isConfirm){
+                    if (isConfirm) {
+                        $scope.showConstructions = false;
+                        constructionFactory.delete(construction_id).then(function () {
+                            $scope.showConstructions = true;
+                        });
+                        $scope.constructions = $scope.constructions.filter(function (con) {
+                            return con.id !== construction_id;
+                        });
+                        $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                            return new Date(b.updated_at) - new Date(a.updated_at);
+                        }).slice(0, 4);
+                        
+                        swal({
+                            title:"Đã xóa",
+                            type: "success"
+                        });
+                    }
+                }
+            );
+            
+            
+        }
         /*$scope.viewAll = function() {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',
@@ -97,4 +107,5 @@ angular.module('HMS')
                 scope: $scope
             });
         };*/
+
     });

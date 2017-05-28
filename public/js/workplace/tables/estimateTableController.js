@@ -1,5 +1,5 @@
 angular.module('HMS')
-.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory, $filter) 
+.controller('estimateTableController', function ($stateParams, $state, $cookies, baseURL, $http, $scope, $rootScope, workFactory, $filter, mySweetAlert) 
 {
     $scope.estimateSheet = [];
 
@@ -392,33 +392,57 @@ angular.module('HMS')
             
             if($itemScope.row.type == 'subcategory')
             {
-                if(confirm("Các công việc và diễn giải của mục này sẽ bị xóa theo. Bạn có chắc muốn tiếp tục?"))
-                {
-                    $scope.estimateSheet.splice(index, 1);
-                    $http.delete(baseURL + "subcategory/" + $itemScope.row.id).then(function(){
-                        while($scope.estimateSheet[index].type !== "subcategory" && $scope.estimateSheet[index].name)
-                        {
-                            $scope.estimateSheet.splice(index, 1);
-                        }
-                    });
-                }
+                swal(
+                    mySweetAlert.getType("warning","Tất cả công tác và diễn giải của mục này sẽ bị xóa theo")
+                    ,
+                    function(){
+                        $scope.estimateSheet.splice(index, 1);
+                        $http.delete(baseURL + "subcategory/" + $itemScope.row.id).then(function(){
+                            while($scope.estimateSheet[index].type !== "subcategory" && $scope.estimateSheet[index].name)
+                            {
+                                $scope.estimateSheet.splice(index, 1);
+                            }
+                        });
+                        swal({
+                            title:"Đã xóa",
+                            type: "success"
+                        });
+                    }
+                );   
             }
             else if($itemScope.row.type == 'work')
             {
-                if(confirm("Bạn có chắc muốn xóa?"))
-                {
-                    $scope.estimateSheet.splice(index, 1);
-                    $http.delete(baseURL + "subcategoryWork/" + $itemScope.row.id).then(function(){
-                        while($scope.estimateSheet[index].type === "description" && $scope.estimateSheet[index].name)
-                        {
-                            $scope.estimateSheet.splice(index, 1);
-                        }
-                    });
-                }
+                swal(
+                    mySweetAlert.getType("warning","Tất cả diễn giải của công tác này sẽ bị xóa theo")
+                    ,
+                    function(){
+                        $scope.estimateSheet.splice(index, 1);
+                        $http.delete(baseURL + "subcategoryWork/" + $itemScope.row.id).then(function(){
+                            while($scope.estimateSheet[index].type === "description" && $scope.estimateSheet[index].name)
+                            {
+                                $scope.estimateSheet.splice(index, 1);
+                            }
+                        });
+                        swal({
+                            title:"Đã xóa",
+                            type: "success"
+                        });
+                    }
+                );
             }
             else if($itemScope.row.type == 'description')
-                if(confirm("Bạn có chắc muốn xóa?"))
-                    $scope.estimateSheet.splice(index, 1);
+                swal(
+                    mySweetAlert.getType("warning","")
+                    ,
+                    function(){
+                        $scope.estimateSheet.splice(index, 1);
+                        swal({
+                            title:"Đã xóa",
+                            type: "success"
+                        });
+                    }
+                );
+                    
         }]
     ];
 });

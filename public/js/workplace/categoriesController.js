@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $rootScope, $location) {
+    .controller('CategoriesController', function ($stateParams, $state, $http, baseURL, $scope, $uibModal, $rootScope, $location, mySweetAlert) {
         $rootScope.isCollapsedCategories = false;
         $http.get(baseURL + 'categories', {params: {construction_id: $stateParams.construction_id}})
             .then(function (response) {
@@ -40,12 +40,23 @@ angular.module('HMS')
             });
         };
         $scope.remove = function (index) {
-            if (confirm("Are you sure you want to delete this category?"))
-                $http.delete(baseURL + 'category/' + $scope.categories[index].id).then(function () {
+            swal(
+                mySweetAlert.getType("warning","Tất cả hạng mục con, công tác và diễn giải của hạng mục này sẽ bị xóa theo")
+                ,
+                function(){
+                    $http.delete(baseURL + 'category/' + $scope.categories[index].id).then(function () {
                     if ($location.path().indexOf('category/' + $scope.categories[index].id) != -1)
                         $location.path('construction/' + $stateParams.construction_id);
                     $scope.categories.splice(index, 1);
                 });
+                    swal({
+                        title:"Đã xóa",
+                        type: "success"
+                    });
+                }
+            );
+            
+                
         };
     });
 	

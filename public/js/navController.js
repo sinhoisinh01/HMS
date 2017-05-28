@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory) {
+    .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory, mySweetAlert) {
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -94,12 +94,20 @@ angular.module('HMS')
             }
         };
         $scope.deleteUser = function () {
-            if (confirm("All of your data will be lost. Are you sure to delete your account?"))
-            {   
-                userFactory.deleteUser().then(function(response) {
-                    $scope.logOut();
-                });
-            }
+            swal(
+                mySweetAlert.getType("warning","Tất cả thông tin và công trình của bạn sẽ bị xóa theo"),
+                function(isConfirm){
+                    if (isConfirm) {
+                        userFactory.deleteUser().then(function(response) {
+                            $scope.logOut();
+                        });
+                        swal({
+                            title:"Đã xóa",
+                            type: "success"
+                        });
+                    }
+                }
+            );
         };
         $scope.exportToGoogleSheet = function() {
             console.log($rootScope.construction_id);
