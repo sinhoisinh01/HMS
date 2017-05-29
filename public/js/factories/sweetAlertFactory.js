@@ -16,6 +16,16 @@ angular.module('HMS')
 		                closeOnConfirm: false
 		            }
 	            }
+	            if(type === "basic")
+	            {
+	            	properties = {
+		                title: text,
+		                showCancelButton: false,
+		                confirmButtonColor: "#428bca",
+		                confirmButtonText: "Đóng",
+		                closeOnConfirm: true
+		            }
+	            }
 	            return properties;
             },
 			

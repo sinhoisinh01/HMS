@@ -176,7 +176,7 @@ angular.module('HMS')
 
                 if(!$scope.isValid('subcategory', $scope.rowPos))
                 {
-                    alert("Không thể thêm hạng mục con ở đây!");
+                    swal(mySweetAlert.getType("basic","Bạn không thể thêm \n hạng mục con ở đây"));
                     $scope.estimateSheet.splice($scope.rowPos, 1);
                     return false;
                 }                
@@ -225,7 +225,7 @@ angular.module('HMS')
                 case 'description':
                     if(!$scope.isValid('description',$scope.rowPos))
                     {
-                        alert("Không thể thêm diễn giải ở đây!");
+                        swal(mySweetAlert.getType("basic","Bạn không thể thêm \n diễn giải ở đây"));
                         $scope.estimateSheet.splice($scope.rowPos, 1);
                         return false;
                     }
@@ -254,7 +254,7 @@ angular.module('HMS')
                 case 'userWork':
                     if(!$scope.isValid('work',$scope.rowPos))
                     {
-                        alert("Không thể thêm công tác ở đây!");
+                        swal(mySweetAlert.getType("basic","Bạn không thể thêm \n công tác ở đây")); 
                         $scope.estimateSheet.splice($scope.rowPos, 1);
                         return false;
                     }
@@ -326,8 +326,8 @@ angular.module('HMS')
     $scope.addWork = function (work) {
         if(!$scope.isValid('work',$scope.rowPos))
         {
-            alert("Không thể thêm công tác ở đây!");
-            $scope.estimateSheet.splice($scope.rowPos, 1);
+            swal(mySweetAlert.getType("basic","Bạn không thể thêm \n công tác ở đây")); 
+            $scope.estimateSheet.splice($scope.rowPos, 1);      
             return false;
         }
         var subcategoryWork = {subcategory_id:0, work_id: work.id, no:0, value:0};

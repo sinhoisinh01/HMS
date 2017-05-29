@@ -36,6 +36,7 @@ angular.module('HMS')
             $rootScope.hasSearchResult = true;
         }
         $scope.addConstruction = function () {
+            $scope.action = "Tạo mới";
             $scope.names = $scope.constructions.map(function (con) {
                 return con.name;
             });
