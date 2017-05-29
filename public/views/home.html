@@ -1,18 +1,4 @@
 <div id="home-container" class="container">
-    <div id="construction-options">
-        <div class="open-option" ng-click="add()">
-			<i class="fa fa-plus-circle fa-5x" aria-hidden="true"></i>
-            <div class="open-option-title">Tạo công trình mới</div>
-        </div>
-        <div class="open-option">
-            <img class="open-option-thumbnail" src="images/googledrive-logo.png">
-            <div class="open-option-title">Mở với Google Drive</div>
-        </div>
-        <div class="open-option">
-            <img class="open-option-thumbnail" src="images/excel-logo.png">
-            <div class="open-option-title">Mở tệp trên máy</div>
-        </div>
-    </div>
     <div ng-show="recentConstructions.length" ng-if="showConstructions && !hasInternetError" class="col-lg-12">
         <h2 ng-if="!hasSearchResult">Công trình gần đây</h2>
         <h2 ng-if="hasSearchResult">Kết quả tìm kiếm</h2>

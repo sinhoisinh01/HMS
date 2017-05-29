@@ -1,0 +1,64 @@
+<nav class="navbar navbar-default" id="home-nav">
+    <div class="container">
+        <div class="col-xs-4 col-sm-2 col-md-3">
+            <button type="button" class="navbar-toggle collapsed pull-left" ng-init="menuCollapsed = true" ng-click="menuCollapsed = !menuCollapsed">
+                <span class="sr-only">Menu</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand pull-right" ui-sref="home" id="hms-logo">HMS</a>
+            
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-6">
+            <form role="search" id="construction-search">
+                <div class="input-group">
+                    <input type = "text" class =" form-control" placeholder="Nhập tên công trình cần tìm..." ng-model="constructionSearchTxt">
+                    <span class = "input-group-addon" id="construction-search-button" ng-click="searchConstruction(constructionSearchTxt)"><i class="glyphicon glyphicon-search"></i></span>
+                </div>
+            </form>
+        </div>
+            
+        <div class="collapse navbar-collapse" >   
+            <!-- create  construction -->
+            <ul class="nav navbar-nav">
+              <li><a><i class="glyphicon glyphicon-plus" id="home-context-menu" ng-click="addConstruction()"></i></a></li>
+            </ul>
+            <!-- account -->
+            <ul class="nav navbar-nav">
+              <li>
+                <a><img ng-src="{{user.pictureURL}}" alt="picture" class="img-circle clickable" 
+                    width="25" height="25" popover-placement="bottom" uib-popover-template="'popover'" id="account"></a>
+              </li>
+            </ul> 
+        </div>
+        <!-- collapse menu  -->
+        <div class="col-xs-12 collapse hidden-sm hidden-md hidden-lg" ng-class="!menuCollapsed && 'in'" ng-click="menuCollapsed=false" id="collapse-menu">
+            <ul class="nav navbar-nav">
+                <li ng-click="addConstruction()"><a>Tạo công trình mới</a></li>
+                <li ng-click="logOut()"><a>Đăng xuất</a></li>
+                <li ng-click="deleteUser()"><a>Xóa tài khoản</a></li>
+            </ul> 
+        </div>
+        
+    </div><!-- /.container -->
+</nav>
+<script type="text/ng-template" id="popover">
+    <div>
+        <div class="row">
+            <div class="col-xs-4">
+                <img ng-src="{{user.pictureURL}}" class="img-circle" alt="picture" width="70" height="70"
+                     style="margin-bottom : 10px">
+            </div>
+            <div class="col-xs-8"><b>{{user.name}}</b><p>{{user.email}}</p></div>
+        </div>
+        <div class="row well well-sm">
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-default" ng-click="deleteUser()">Xóa tài khoản</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-default" ng-click="logOut()">Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+</script>

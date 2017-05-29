@@ -16,37 +16,7 @@ angular.module('HMS')
 			$scope.suppliers = cache;
 		});
         
-         $scope.add = function () {
-            $scope.construction = undefined;
-            $scope.action = "Tạo mới";
-            $scope.names = $scope.constructions.map(function (con) {
-                return con.name;
-            });
-            $http.get(baseURL + 'suppliers').then(function (response) {
-                $scope.suppliers = response.data;
-            });
-            $uibModal.open({
-                templateUrl: 'views/modals/constructionModal.html',
-                scope: $scope
-            }).result.then(function (construction) {
-                $uibModal.open({
-                    templateUrl: 'views/modals/loadingModal.html',
-                    scope: $scope,
-                    size: 'md',
-                    windowClass: 'constructionModal'
-                });
-
-                // table 'constructions' doesn't have supplier column (just supplier_id)
-                construction.supplier_id = construction.supplier.id;
-                delete construction.supplier;
-                constructionFactory.post(construction).then(function (construction) {
-                    $state.go('construction', {construction_id: construction.id, name: construction.name});
-                },
-                function(error) {
-                    $rootScope.hasInternetError = true;
-                });
-            });
-        };
+         
         $scope.edit = function (construction) {
             $scope.action = "Cập nhật";
             $scope.construction = angular.copy(construction);

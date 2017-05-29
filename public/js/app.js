@@ -16,7 +16,7 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 url: '/',
                 views: {
                     'nav': {
-                        templateUrl: 'views/nav.html',
+                        templateUrl: 'views/home-nav.html',
                         controller: 'NavController'
                     },
                     'content': {
@@ -29,7 +29,7 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                 url: '/construction/:construction_id',
                 views: {
                     'nav': {
-                        templateUrl: 'views/nav.html',
+                        templateUrl: 'views/sheet-nav.html',
                         controller: 'NavController'
                     },
                     'categories': {
