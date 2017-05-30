@@ -1,7 +1,7 @@
 angular.module('HMS')
     .controller('HomeController', function ($http, baseURL, $rootScope, $scope, $state, $uibModal, constructionFactory, supplierFactory, mySweetAlert) {
         $scope.showConstructions = false;
-
+        
 		$scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
         };

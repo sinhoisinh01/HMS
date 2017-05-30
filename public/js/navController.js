@@ -24,6 +24,7 @@ angular.module('HMS')
                 .then(function (constructions) {
                     $scope.stateName = constructions[0].name;
                 });
+                
         $scope.allConstructions = function () {
             $uibModal.open({
                 templateUrl: 'views/modals/allConstructions.html',

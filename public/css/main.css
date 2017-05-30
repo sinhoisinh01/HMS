@@ -77,7 +77,7 @@ i{
     margin: 0 auto;
 	height:100%;
 }
-/* navbar */
+/* home */
 #home-nav{
 	background: #245dc1;
 	border-radius: 0;
@@ -131,20 +131,73 @@ i{
 	margin-top: -5px;
 }
 #home-nav .popover .arrow{
-	left: 85%!important;
+	left: 75%!important;
 }
 #home-nav .popover{
 	word-wrap: break-word;
 	cursor: auto;
 	left: -180px!important;
+	width: 300px;
 }
-/* home page */
+
 #construction-form{
 	height: 60vh;
 	overflow-y: auto;
 }
 
-#recent-constructions{margin-bottom:50px;}
+#recent-constructions{
+	margin-bottom:50px;
+}
+
+/* sheet nav */
+#sheet-nav{
+	height: 72px;
+	border: none;
+	border-bottom: 1px solid #e7e7e7;
+	background: white;
+	margin-bottom: 0;
+}
+#sheet-nav #hms-home{
+	font-size: 2vw;
+	height: 72px;
+	line-height: 72px;
+	text-align: center;
+	background: #245dc1;
+	color: white;
+}
+#construction-name{
+	font-size: 20px;
+	padding-top: 5px;
+}
+#sheet-nav button{
+	background: transparent;
+	border: none;
+}
+
+#sheet-menubar{
+	padding-left: 0;
+	padding-right: 0;
+	margin-left: -25px;
+}
+#sheet-menubar .well-sm{
+	padding: 0;
+	border: none;
+	box-shadow: none;
+	margin-bottom: 0;
+	background: transparent;
+}
+#sheet-account{
+	height: 72px;
+	line-height: 72px;
+	text-align: center;
+}
+#sheet-menu-toggle{
+	margin-bottom: 0;
+	margin-top: 0;
+}
+#sheet-nav #collapse-menu li:first-child{
+	border-top: none;
+}
 /* categories */
 #category-header-top{
 	width: 90%;
