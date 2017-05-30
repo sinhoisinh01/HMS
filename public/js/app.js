@@ -32,7 +32,7 @@ angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.c
                         templateUrl: 'views/sheet-nav.html',
                         controller: 'NavController'
                     },
-                    'categories': {
+                    'categories@': {
                         templateUrl: 'views/workplace/categories.html',
                         controller: 'CategoriesController'
                     }

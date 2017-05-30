@@ -37,7 +37,6 @@
             <ul class="nav">
                 <li ng-click="addConstruction()"><a>Tạo công trình mới</a></li>
                 <li ng-click="logOut()"><a>Đăng xuất</a></li>
-                <li ng-click="deleteUser()"><a>Xóa tài khoản</a></li>
             </ul> 
         </div>
         
@@ -53,10 +52,7 @@
             <div class="col-xs-8"><b>{{user.name}}</b><p>{{user.email}}</p></div>
         </div>
         <div class="row well well-sm">
-            <div class="col-xs-6">
-                <button type="button" class="btn btn-default" ng-click="deleteUser()">Xóa tài khoản</button>
-            </div>
-            <div class="col-xs-6">
+            <div class="col-xs-12 text-center">
                 <button type="button" class="btn btn-default" ng-click="logOut()">Đăng xuất</button>
             </div>
         </div>

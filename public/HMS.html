@@ -45,15 +45,20 @@
     <script src="js/workplace/tables/summaryTableController.js"></script>
 </head>
 <body>
-<div ui-view="nav"></div>
-<div ui-view="categories"></div>
-<div ui-view="content" class="container-full">
-    <div ng-show="showPanel" ng-class="isCollapsedCategories ? 'col-md-12 panel panel-default' : 'col-md-10 panel panel-default'" id="main-table">
-        <div ui-view="tabs"></div>
-        <div ui-view="table"></div>
-    </div>
-</div>
+    <div ui-view="nav"></div>
+    
+    <div ui-view="content" class="container-fluid" id="main-content">
+        <div class="row">
+            <div ui-view="categories"></div>
 
-<script src="js/loadFixedHeader.js"></script>
+            <div id="main-table" class="col-xs-12 col-sm-10">
+                <div ui-view="tabs"></div>
+                <div ui-view="table"></div>
+            </div>
+        </div>       
+       
+    </div>
+
+    <script src="js/loadFixedHeader.js"></script>
 </body>
 </html>
