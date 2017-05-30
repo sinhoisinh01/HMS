@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default" id="home-nav">
     <div class="container">
-        <div class="col-xs-4 col-sm-2 col-md-3">
+        <div class="col-xs-4 col-sm-2 col-md-3" id="logo-container">
             <button type="button" class="navbar-toggle collapsed pull-left" ng-init="menuCollapsed = true" ng-click="menuCollapsed = !menuCollapsed">
                 <span class="sr-only">Menu</span>
                 <span class="icon-bar"></span>
@@ -34,7 +34,7 @@
         </div>
         <!-- collapse menu  -->
         <div class="col-xs-12 collapse hidden-sm hidden-md hidden-lg" ng-class="!menuCollapsed && 'in'" ng-click="menuCollapsed=false" id="collapse-menu">
-            <ul class="nav navbar-nav">
+            <ul class="nav">
                 <li ng-click="addConstruction()"><a>Tạo công trình mới</a></li>
                 <li ng-click="logOut()"><a>Đăng xuất</a></li>
                 <li ng-click="deleteUser()"><a>Xóa tài khoản</a></li>

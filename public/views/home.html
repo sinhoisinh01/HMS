@@ -1,44 +1,50 @@
 <div id="home-container" class="container">
     <div ng-show="recentConstructions.length" ng-if="showConstructions && !hasInternetError" class="col-lg-12">
-        <h2 ng-if="!hasSearchResult">Công trình gần đây</h2>
-        <h2 ng-if="hasSearchResult">Kết quả tìm kiếm</h2>
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" ng-repeat="construction in recentConstructions">
-            <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
-                <img src="images/defaultPictureForConstructions.png" class="clickable"
-                     ui-sref="construction({construction_id: construction.id, name:construction.name})">
-                <div class="caption row">
-                    <p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left">
-                        <b ui-sref="construction({construction_id: construction.id, name:construction.name})"
-                           class="clickable">{{construction.name}}</b><br>
-                        Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
-                    </p>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
-                        <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
-                        <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
+        <div class="row">
+            <h2 ng-if="!hasSearchResult">Công trình gần đây</h2>
+            <h2 ng-if="hasSearchResult">Kết quả tìm kiếm</h2>
+            <div class="col-lg-3 col-sm-4 col-xs-6" ng-repeat="construction in recentConstructions">
+                <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
+                    <img src="images/defaultPictureForConstructions.png" class="clickable"
+                         ui-sref="construction({construction_id: construction.id, name:construction.name})">
+                    <div class="caption row">
+                        <p class="col-xs-8 text-left">
+                            <b ui-sref="construction({construction_id: construction.id, name:construction.name})"
+                               class="clickable">{{construction.name}}</b><br>
+                            Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                        </p>
+                        <div class="col-xs-4" ng-show="showFunctions">
+                            <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
+                            <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        
     </div>
     <div ng-show="constructions.length" ng-if="showConstructions && !hasInternetError && !hasSearchResult" class="col-lg-12">
-        <h2>Tất cả công trình</h2>
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-6" ng-repeat="construction in constructions">
-            <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
-                <img src="images/defaultPictureForConstructions.png" class="clickable"
-                     ui-sref="construction({construction_id: construction.id, name:construction.name})">
-                <div class="caption row">
-                    <p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left">
-                        <b ui-sref="construction({construction_id: construction.id, name:construction.name})"
-                           class="clickable">{{construction.name}}</b><br>
-                        Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
-                    </p>
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
-                        <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
-                        <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
+        <div class="row">
+            <h2>Tất cả công trình</h2>
+            <div class="col-lg-3 col-sm-4 col-xs-6" ng-repeat="construction in constructions">
+                <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
+                    <img src="images/defaultPictureForConstructions.png" class="clickable"
+                         ui-sref="construction({construction_id: construction.id, name:construction.name})">
+                    <div class="caption row">
+                        <p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left">
+                            <b ui-sref="construction({construction_id: construction.id, name:construction.name})"
+                               class="clickable">{{construction.name}}</b><br>
+                            Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                        </p>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
+                            <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
+                            <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>        
         </div>
+    
     </div>
 	<div ng-if="!showConstructions && !hasInternetError">
 		<h3>

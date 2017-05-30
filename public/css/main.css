@@ -6,7 +6,9 @@ html,body{
 	font:normal 14px arial,sans-serif;
 	overflow:auto;
 }
-body{min-height:100%;}
+body{
+	min-height:100%;
+}
 h1,h2,h3,h4{
 	font-weight:500;
 }
@@ -29,27 +31,15 @@ table {
 	border-collapse: collapse; 
 	width:100%;
 }
-th{text-align:center}
+th{
+	text-align:center
+}
 th,td{
 	font-weight:500;
     border: 1px solid #CCC;
 }
-i{cursor:pointer;}
-.modal {
-  text-align: center;
-  padding: 0!important;
-}
-.modal:before {
-  content: '';
-  display: inline-block;
-  height: 100%;
-  vertical-align: middle;
-  margin-right: -4px;
-}
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
+i{
+	cursor:pointer;
 }
 .container-full{
 	width:100%;
@@ -58,6 +48,9 @@ i{cursor:pointer;}
 }
 .clickable {
 	cursor:pointer;
+}
+.sweet-alert .sa-icon.sa-warning {
+    border-color: rgb(212, 103, 82);
 }
 /* about page */
 #btn-start{
@@ -69,9 +62,6 @@ i{cursor:pointer;}
 #btn-start:hover{
 	background:#245dc1;
 	border:1px solid white;
-}
-.sweet-alert .sa-icon.sa-warning {
-    border-color: rgb(212, 103, 82);
 }
 /* login page */
 #login-container{
@@ -93,8 +83,13 @@ i{cursor:pointer;}
 	border-radius: 0;
 	border: none;
 }
+#home-nav .container{
+	padding-left: 0;
+	padding-right: 0;
+}
 #home-nav .navbar-toggle{
 	border: none;
+	margin-right: 0;
 }
 #home-nav .navbar-toggle:hover, #home-nav .navbar-toggle:not( :hover ){
 	background-color: transparent;
@@ -115,6 +110,7 @@ i{cursor:pointer;}
 }
 #collapse-menu ul{
 	margin-bottom: 0;
+	width: 100%;
 }
 #collapse-menu li{
 	border-top: 1px solid #ddd;
@@ -273,5 +269,23 @@ i{cursor:pointer;}
 		width:70%;
 		display:block;
 		margin:10px auto;
+	}
+}
+
+@media screen and (max-width: 440px)
+{
+	#logo-container{
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+@media screen and (max-width: 350px)
+{
+	#hms-logo{
+		font-size: 14px;
+	}
+	#logo-container .icon-bar{
+		width: 15px;
+		height: 1.5px;
 	}
 }
