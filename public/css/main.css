@@ -53,13 +53,13 @@ i{
     border-color: rgb(212, 103, 82);
 }
 #empty-add-construction{
-	color: #ccc;
+	color: #2f4f4f;
 	cursor: pointer;
 	margin: auto;
 	margin-top: 15%;
-	width: 150px;
+	width: 250px;
 	text-align: center;
-	font-size: 16px;
+	font-size: 24px;
 }
 #empty-add-construction .glyphicon-home{
 	font-size: 72px;

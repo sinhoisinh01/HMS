@@ -41,6 +41,7 @@ angular.module('HMS')
             $rootScope.hasSearchResult = true;
         }
         $scope.addConstruction = function () {
+            $scope.construction = null;
             $scope.action = "Tạo mới";
             $scope.names = $scope.constructions.map(function (con) {
                 return con.name;
@@ -64,6 +65,7 @@ angular.module('HMS')
             });
         };
         $scope.editConstruction = function () {
+            $scope.action = "Cập nhật";
 			if ($stateParams.construction_id) {
                 $scope.construction = $scope.constructions.filter(function (con) {
 					return con.id == $stateParams.construction_id;
@@ -83,6 +85,7 @@ angular.module('HMS')
                     scope: $scope
                 }).result.then(function (construction) {
                     $scope.stateName = construction.name;
+
                     construction.supplier_id = construction.supplier.id;
                     $http.post(baseURL + 'construction/' + construction.id,
                         {construction: construction}).then(function () {
@@ -94,11 +97,32 @@ angular.module('HMS')
                                     return new Date(b.updated_at) - new Date(a.updated_at);
                                 }).slice(0, 4);
                             }
+                            $scope.modifiedDate = construction.updated_at;
                         });
                     });
                 });
             }
         };
+        $scope.removeConstruction = function (construction_id) {          
+            swal(
+                mySweetAlert.getType("warning","Tất cả hạng mục sẽ bị xóa theo"),
+                function(isConfirm){
+                    if (isConfirm) {
+                        $scope.showConstructions = false;
+                        constructionFactory.delete(construction_id).then(function () {
+                            $scope.showConstructions = true;
+                        });
+                        $scope.constructions = $scope.constructions.filter(function (con) {
+                            return con.id !== construction_id;
+                        });
+                        $scope.recentConstructions = $scope.constructions.sort(function (a, b) {
+                            return new Date(b.updated_at) - new Date(a.updated_at);
+                        }).slice(0, 4);
+                    }
+                }
+            );          
+            
+        }
         $scope.deleteUser = function () {
             swal(
                 mySweetAlert.getType("warning","Tất cả thông tin và công trình của bạn sẽ bị xóa theo"),

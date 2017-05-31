@@ -1,6 +1,6 @@
 <div class="modal-header">
     <button class="close" ng-click="$dismiss()">&times;</button>
-    <h2 class="modal-title">All constructions</h2>
+    <h2 class="modal-title">Danh sách công trình</h2>
 </div>
 <div class="modal-body row">
     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6" ng-repeat="construction in constructions" ng-if="!hasInternetError">
@@ -11,21 +11,17 @@
                 <p class="col-lg-9 col-md-9 col-sm-9 col-xs-9 text-left">
                     <b ui-sref="construction({construction_id: construction.id, name:construction.name})"
                        class="clickable">{{construction.name}}</b><br>
-                    Modified: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
+                    Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
                 </p>
-                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
-                    <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
-                    <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
-                </div>
             </div>
         </div>
     </div>
 	<div class="alert alert-danger" role="alert" ng-if="hasInternetError">
-		<center>
-			<p><b>Your data will not be saved!</b> Because your connection has some error. Please reload this page!</p>
-			<button type="button" class="btn btn-default" onClick="history.go(0)">Reload this page</button>
-		</center>
-	</div>
+        <center>
+            <p><b>Lỗi kết nối!</b>Dữ liệu của bạn sẽ không được lưu! Vui lòng tải lại trang</p>
+            <button type="button" class="btn btn-default" onClick="history.go(0)">Tải lại</button>
+        </center>
+    </div>
 </div>
 <div class="modal-footer">
     <button class="btn btn-default" ng-click="$dismiss()">Đóng</button>

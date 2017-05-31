@@ -8,7 +8,7 @@
         <div class="row">
             <h2 ng-if="!hasSearchResult">Công trình gần đây</h2>
             <h2 ng-if="hasSearchResult">Kết quả tìm kiếm</h2>
-            <div class="col-lg-3 col-sm-4 col-xs-6" ng-repeat="construction in recentConstructions">
+            <div class="col-lg-3 col-sm-4 col-xs-6 text-right" ng-repeat="construction in recentConstructions">
                 <div class="thumbnail" ng-mouseover="showFunctions=true" ng-mouseleave="showFunctions=false">
                     <img src="images/defaultPictureForConstructions.png" class="clickable"
                          ui-sref="construction({construction_id: construction.id, name:construction.name})">
@@ -41,7 +41,7 @@
                                class="clickable">{{construction.name}}</b><br>
                             Sửa vào: {{getDateFormat(construction.updated_at) | date : 'dd-MM-yyyy'}}
                         </p>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" ng-show="showFunctions">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 text-right" ng-show="showFunctions">
                             <span class="glyphicon glyphicon-remove clickable" ng-click="remove(construction.id)"></span>
                             <span class="glyphicon glyphicon-edit clickable" ng-click="edit(construction)"></span>
                         </div>
@@ -51,18 +51,5 @@
         </div>
     
     </div>
-	<div ng-if="!showConstructions && !hasInternetError">
-		<h3>
-		  <center>
-			<span class="glyphicon glyphicon-refresh gly-spin"></span>
-			Đang tải...
-		  </center>
-		</h3>
-	</div>
-	<div class="alert alert-danger" role="alert" ng-if="hasInternetError">
-		<center>
-			<p><b>Lỗi kết nối!</b>Dữ liệu của bạn sẽ không được lưu! Vui lòng tải lại trang</p>
-			<button type="button" class="btn btn-default" onClick="history.go(0)">Tải lại</button>
-		</center>
-	</div>
+	<div ng-include="'views/modals/loadingModal.html'"></div>
 </div>

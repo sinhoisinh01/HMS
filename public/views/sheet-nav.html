@@ -63,7 +63,7 @@
                         </ul>
                     </div-->
                     <div class="btn-group">
-                        <button class="btn btn-default" uib-dropdown-toggle>Sửa lần cuối vào: {{getDateFormat(modifiedDate) | date : 'dd-MM-yyyy'}}</button>
+                        <button class="btn btn-default" uib-dropdown-toggle style="cursor: auto">Sửa lần cuối vào: {{getDateFormat(modifiedDate) | date : 'dd-MM-yyyy HH:mm'}}</button>
                     </div>
                     <div class="btn-group pull-right" ng-click="logOut()">
                         <button class="btn btn-default">
@@ -83,7 +83,7 @@
             <li ng-click="addConstruction()"><a>Tạo công trình mới</a></li>
             <li ng-click="allConstructions()"><a>Mở công trình...</a></li>
             <li><a ng-click="exportToGoogleSheet()">Xuất tệp...</a></li>
-            <li><a ng-click="logout()">Đăng xuất</a></li>
+            <li><a ng-click="logOut()">Đăng xuất</a></li>
         </ul>
     </div>
   </div>
