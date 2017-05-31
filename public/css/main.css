@@ -52,6 +52,22 @@ i{
 .sweet-alert .sa-icon.sa-warning {
     border-color: rgb(212, 103, 82);
 }
+#empty-add-construction{
+	color: #ccc;
+	cursor: pointer;
+	margin: auto;
+	margin-top: 15%;
+	width: 150px;
+	text-align: center;
+	font-size: 16px;
+}
+#empty-add-construction .glyphicon-home{
+	font-size: 72px;
+}
+#empty-add-construction .glyphicon-plus{
+	font-size: 48px;
+}
+
 /* about page */
 #btn-start{
 	border-radius:0;
@@ -130,8 +146,14 @@ i{
 #collapse-menu li a{
 	color: #222;
 }
-#home-context-menu{
+#add-construction li a i{
 	color: white;
+}
+#add-construction tooltip tip {
+    width: 170px!important;
+}
+#add-construction:hover, #account:hover{
+	opacity: 0.8;
 }
 #account{
 	margin-top: -5px;
@@ -326,3 +348,5 @@ i{
 		height: 1.5px;
 	}
 }
+
+

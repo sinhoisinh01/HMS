@@ -1,5 +1,10 @@
 angular.module('HMS')
     .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory, mySweetAlert) {
+
+        $scope.getDateFormat = function (timestamp) {
+            return new Date(timestamp);
+        };
+
         if (!$cookies.get('googleToken'))
             $state.go('login');
         $scope.logOut = function () {
@@ -17,12 +22,11 @@ angular.module('HMS')
 		});
         if ($state.current.name === 'home')
             $scope.stateName = 'Home';
-        else if ($stateParams.name)
-            $scope.stateName = $stateParams.name;
         else
 			constructionFactory.getById($stateParams.construction_id)
                 .then(function (constructions) {
                     $scope.stateName = constructions[0].name;
+                    $scope.modifiedDate = constructions[0].updated_at;
                 });
                 
         $scope.allConstructions = function () {
@@ -102,10 +106,6 @@ angular.module('HMS')
                     if (isConfirm) {
                         userFactory.deleteUser().then(function(response) {
                             $scope.logOut();
-                        });
-                        swal({
-                            title:"Đã xóa",
-                            type: "success"
                         });
                     }
                 }

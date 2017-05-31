@@ -13,7 +13,7 @@ angular.module('HMS')
 		                confirmButtonColor: "#DD6B55",
 		                confirmButtonText: "Xóa",
 		                cancelButtonText:"Đóng",
-		                closeOnConfirm: false
+		                closeOnConfirm: true
 		            }
 	            }
 	            if(type === "basic")

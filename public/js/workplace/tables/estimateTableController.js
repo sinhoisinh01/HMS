@@ -403,10 +403,6 @@ angular.module('HMS')
                                 $scope.estimateSheet.splice(index, 1);
                             }
                         });
-                        swal({
-                            title:"Đã xóa",
-                            type: "success"
-                        });
                     }
                 );   
             }
@@ -423,10 +419,6 @@ angular.module('HMS')
                                 $scope.estimateSheet.splice(index, 1);
                             }
                         });
-                        swal({
-                            title:"Đã xóa",
-                            type: "success"
-                        });
                     }
                 );
             }
@@ -436,10 +428,6 @@ angular.module('HMS')
                     ,
                     function(){
                         $scope.estimateSheet.splice(index, 1);
-                        swal({
-                            title:"Đã xóa",
-                            type: "success"
-                        });
                     }
                 );
                     

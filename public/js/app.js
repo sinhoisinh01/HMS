@@ -1,4 +1,4 @@
-angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.contextMenu','ng-sweet-alert'])
+angular.module('HMS', ['ui.router', 'ui.bootstrap', 'ngCookies', 'ui.bootstrap.contextMenu','ng-sweet-alert','720kb.tooltips'])
     .constant("baseURL", "http://localhost/HMS/public/")
     .config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/');

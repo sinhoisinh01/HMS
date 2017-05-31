@@ -1,4 +1,9 @@
 <div id="home-container" class="container">
+    <div id="empty-add-construction" ng-click="add()" ng-if="showConstructions && !constructions.length">
+        <i class="glyphicon glyphicon-home"></i>
+        <i class="glyphicon glyphicon-plus"></i>
+        <p>Tạo công trình mới</p>
+    </div>
     <div ng-show="recentConstructions.length" ng-if="showConstructions && !hasInternetError" class="col-lg-12">
         <div class="row">
             <h2 ng-if="!hasSearchResult">Công trình gần đây</h2>

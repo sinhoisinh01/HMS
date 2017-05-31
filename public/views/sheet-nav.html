@@ -63,7 +63,7 @@
                         </ul>
                     </div-->
                     <div class="btn-group">
-                        <button class="btn btn-default" uib-dropdown-toggle>Sửa lần cuối vào:</button>
+                        <button class="btn btn-default" uib-dropdown-toggle>Sửa lần cuối vào: {{getDateFormat(modifiedDate) | date : 'dd-MM-yyyy'}}</button>
                     </div>
                     <div class="btn-group pull-right" ng-click="logOut()">
                         <button class="btn btn-default">
