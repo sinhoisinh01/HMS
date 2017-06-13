@@ -33,7 +33,7 @@ class LoginController extends Controller
         $client->authenticate($_GET['code']);
         $service = new Google_Service_Oauth2($client);
         $userInfo = $service->userinfo->get();
-        $token = $client->getAccessToken()["id_token"];
+        $token = $client->getAccessToken()['access_token'];
         $user = User::where('google_id', $userInfo->id)->first();
         if (!$user)
             User::create(['google_id' => $userInfo->id,
