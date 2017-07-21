@@ -10,7 +10,7 @@
 $app->get('/', function () {
     return redirect('/index.html');
 });
-
+$app->get('/test', 'LoginController@test');
 $app->get('/login', 'LoginController@login');
 $app->get('/loginCallBack', 'LoginController@callBack');
 

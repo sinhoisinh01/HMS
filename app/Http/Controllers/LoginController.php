@@ -8,14 +8,19 @@ use Google_Service_Oauth2;
 use Google_Service_Sheets;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller;
+use App\Utils\UrlManagement;
 
 class LoginController extends Controller
 {
+    function test() {
+        echo UrlManagement::getBaseUrl();
+    }
+
     function login()
     {
         $client = new Google_Client();
         $client->setClientId(env('APP_CLIENT_ID'));
-        $client->setRedirectUri('http://localhost/HMS/public/loginCallBack');
+        $client->setRedirectUri(UrlManagement::getBaseUrl() . 'loginCallBack');
         $client->setScopes(['profile', 'email']);
         $client->setAccessType('offline');
         $client->addScope(Google_Service_Sheets::DRIVE);
@@ -29,7 +34,7 @@ class LoginController extends Controller
         $client = new Google_Client();
         $client->setClientId(env('APP_CLIENT_ID'));
         $client->setClientSecret(env('APP_CLIENT_SECRET'));
-        $client->setRedirectUri('http://localhost/HMS/public/loginCallBack');
+        $client->setRedirectUri(UrlManagement::getBaseUrl() . 'loginCallBack');
         $client->authenticate($_GET['code']);
         $service = new Google_Service_Oauth2($client);
         $userInfo = $service->userinfo->get();
@@ -44,7 +49,7 @@ class LoginController extends Controller
                 'pictureURL' => $userInfo->picture]);
         else
             $user->update(['token' => $token]);
-        return redirect('http://localhost/HMS/public/HMS.html#/login/' . substr($token,0,255));
+        return redirect(UrlManagement::getBaseUrl() . 'HMS.html#/login/' . substr($token,0,255));
     }
 
     function refreshToken()
