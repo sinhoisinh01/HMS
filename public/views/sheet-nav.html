@@ -24,6 +24,17 @@
                             <li role="menuitem" class="clickable"><a ng-click="exportToGoogleSheet()">Xuất tệp...</a></li>
                         </ul>
                     </div>
+
+                    <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                        <button class="btn btn-default" uib-dropdown-toggle> Redmine <span class="caret"></span></button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
+                            <li role="menuitem"><a href="">Quản lý...</a></li>
+                            <li role="menuitem"><a href="" ng-click="exportConstructionToRedmine()">Xuất công trình...</a></li>
+                            <li role="menuitem" class="clickable"><a ng-click="exportCategoryToRedmine()">Xuất hạng mục...</a></li>
+                            <li class="divider"></li>
+                            <li role="menuitem" class="clickable"><a>Cài đặt...</a></li>
+                        </ul>
+                    </div>
                         
                     <!--div class="btn-group" uib-dropdown dropdown-append-to-body>
                         <button class="btn btn-default" uib-dropdown-toggle> Công trình <span class="caret"></span></button>

@@ -14,7 +14,7 @@ $app->get('/test', 'LoginController@test');
 $app->get('/login', 'LoginController@login');
 $app->get('/loginCallBack', 'LoginController@callBack');
 
-$app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
+$app->group(['middleware' => 'auth'],
     function () use ($app) {
         //return: {name,email,pictureURL}
         $app->get('user', 'UserController@get');
@@ -105,4 +105,9 @@ $app->group(['middleware' => 'auth', 'namespace' => 'App\Http\Controllers'],
 
         $app->get('import', 'ExportGoogleSheetController@get');
         $app->get('export', 'ExportGoogleSheetController@export');
+
+        // Redmine Api
+        $app->get('redmine', 'RedmineController@get');
+        $app->post('redmine/construction', 'RedmineController@addConstruction');
+        $app->post('redmine/category', 'RedmineController@addCategory');
     });

@@ -18,7 +18,7 @@ class Subcategory extends Model
 
     public function works()
     {
-        return $this->belongsToMany('App\Models\Work');
+        return $this->hasMany('App\Models\Work');
     }
 
     public function subcategoryWorks()

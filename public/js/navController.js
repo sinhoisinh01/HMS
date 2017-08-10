@@ -160,5 +160,47 @@ angular.module('HMS')
                     }, 3000);
                 });
             }
-        }
+        };
+
+        $scope.exportConstructionToRedmine = function() {
+            if ($rootScope.construction_id) {
+                modal = $uibModal.open({
+                        templateUrl: 'views/modals/exportLoadingModal.html',
+                        scope: $scope,
+                        size: 'md'
+                    });
+                $http.post(baseURL + 'redmine/construction', {construction_id: $rootScope.construction_id})
+                .then(function(response) {
+                    $rootScope.hasInternetError = false;
+                    modal.close();
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                      modal.close();
+                    }, 3000);
+                });
+            }
+        };
+
+        $scope.exportCategoryToRedmine = function() {
+            if ($rootScope.category_id) {
+                modal = $uibModal.open({
+                        templateUrl: 'views/modals/exportLoadingModal.html',
+                        scope: $scope,
+                        size: 'md'
+                    });
+                $http.post(baseURL + 'redmine/category', {category_id: $rootScope.category_id})
+                .then(function(response) {
+                    $rootScope.hasInternetError = false;
+                    modal.close();
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                      modal.close();
+                    }, 3000);
+                });
+            }
+        };
     });
