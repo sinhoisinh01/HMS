@@ -14,8 +14,8 @@ class RedmineProject {
 
 	private $client;
 
-	function __construct($redmineUrl, $ApiKey) {
-		$this->client = new Client($redmineUrl, $ApiKey);
+	function __construct($redmineSetting) {
+		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
 	}
 
 	function get() {

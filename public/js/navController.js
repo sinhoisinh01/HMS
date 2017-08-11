@@ -162,25 +162,32 @@ angular.module('HMS')
             }
         };
 
+        /**-------------------------------Redmine-----------------------------------------------*/
+        $scope.redmineSetting = {};
+
+        function getRedmineSetting() {
+            $http.get(baseURL + "redmine/setting").then(function(response) {
+                $scope.redmineSetting = response.data;
+            });
+        }
+
         $scope.exportConstructionToRedmine = function() {
-            if ($rootScope.construction_id) {
-                modal = $uibModal.open({
-                        templateUrl: 'views/modals/redmine/exportLoadingModal.html',
-                        scope: $scope,
-                        size: 'md'
-                    });
-                $http.post(baseURL + 'redmine/construction', {construction_id: $rootScope.construction_id})
-                .then(function(response) {
-                    $rootScope.hasInternetError = false;
-                    modal.close();
-                }, function(error) {
-                    $rootScope.hasInternetError = true;
-                    setTimeout(function() { 
-                      $rootScope.hasInternetError = false;
-                      modal.close();
-                    }, 3000);
+            modal = $uibModal.open({
+                    templateUrl: 'views/modals/redmine/exportLoadingModal.html',
+                    scope: $scope,
+                    size: 'md'
                 });
-            }
+            $http.post(baseURL + 'redmine/construction', {construction_id: $stateParams.construction_id})
+            .then(function(response) {
+                $rootScope.hasInternetError = false;
+                modal.close();
+            }, function(error) {
+                $rootScope.hasInternetError = true;
+                setTimeout(function() { 
+                  $rootScope.hasInternetError = false;
+                  modal.close();
+                }, 3000);
+            });
         };
 
         $scope.exportCategoryToRedmine = function() {
@@ -218,7 +225,15 @@ angular.module('HMS')
                 templateUrl: 'views/modals/redmine/redmineInitModal.html',
                 scope: $scope
             }).result.then(function (redmineSetting) {
-                console.log(redmineSetting);
+                $http.post(baseURL + 'redmine/init', {redmine_setting: redmineSetting})
+                .then(function(response) {
+
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                    }, 3000);
+                });
             });
         };
 
@@ -227,7 +242,18 @@ angular.module('HMS')
                 templateUrl: 'views/modals/redmine/redmineSettingsModal.html',
                 scope: $scope
             }).result.then(function (redmineSetting) {
-                console.log(redmineSetting);
+                $http.post(baseURL + 'redmine/setting', {redmine_setting: redmineSetting})
+                .then(function(response) {
+
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                    }, 3000);
+                });
             });
         };
+
+        getRedmineSetting();
+        /**-------------------------------End Redmine---------------------------------------------*/
     });

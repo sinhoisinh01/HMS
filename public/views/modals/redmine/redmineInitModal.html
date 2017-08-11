@@ -6,7 +6,7 @@
     <form name="redmineForm" novalidate>
   	  <div class="form-group" ng-show="redmineInit.step == 1">
         <label>Nhập đường dẫn trang web Redmine của bạn:</label>
-        <input type="url" name="redmine_url" ng-model="redmineSetting.url" 
+        <input type="url" name="redmine_url" ng-model="redmineSetting.redmine_url" 
         	class="form-control" 
         	ng-class="{ 'has-error' : (redmineForm.redmine_url.$error.required 
         					|| redmineForm.redmine_url.$error.url)
@@ -27,7 +27,7 @@
           <div class="alert alert-info">
 		  	Bạn có thể vào trang 
 		  	  <strong>
-		  	  	<a href="{{redmineSetting.url}}/settings?tab=api" target="_blank">
+		  	  	<a href="{{redmineSetting.redmine_url}}/settings?tab=api" target="_blank">
         	  	cài đặt API
         	  	</a>
         	  </strong>  trong Redmine của mình để kích hoạt REST web service. Hoặc xem hướng dẫn tại
@@ -42,13 +42,13 @@
 
       <div class="form-group" ng-show="redmineInit.step == 3">
         <label>Nhập Api Access Key từ tài khoản Redmine của bạn:</label>
-        <input type="text" name="redmine_api_key" ng-model="redmineSetting.apiKey" class="form-control"
-         placeholder="Nhập Api Key của bạn" required>
+        <input type="text" name="redmine_api_key" ng-model="redmineSetting.api_access_key"
+         class="form-control" placeholder="Nhập Api Key của bạn" required>
         <h4>
           <div class="alert alert-info">
 		  	<strong>Bạn có thể lấy Api Access Key của mình từ địa chỉ:</strong> 
-		  	  <a href="{{redmineSetting.url}}/my/account" target="_blank">
-        	  	{{redmineSetting.url}}/my/account
+		  	  <a href="{{redmineSetting.redmine_url}}/my/account" target="_blank">
+        	  	{{redmineSetting.redmine_url}}/my/account
         	  </a>
 		  </div>
         </h4>        

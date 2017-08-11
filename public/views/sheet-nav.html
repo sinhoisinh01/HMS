@@ -25,7 +25,8 @@
                         </ul>
                     </div>
 
-                    <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                    <div class="btn-group" uib-dropdown dropdown-append-to-body 
+                      ng-if="redmineSetting.redmine_url != undefined">
                         <button class="btn btn-default" uib-dropdown-toggle> Redmine <span class="caret"></span></button>
                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
                             <li role="menuitem"><a href="">Quản lý...</a></li>
@@ -39,7 +40,8 @@
                         </ul>
                     </div>
 
-                    <div class="btn-group" uib-dropdown dropdown-append-to-body>
+                    <div class="btn-group" uib-dropdown dropdown-append-to-body 
+                      ng-if="redmineSetting.redmine_url == undefined">
                         <button class="btn btn-default" uib-dropdown-toggle> Redmine <span class="caret"></span></button>
                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-to-body">
                             <li role="menuitem" class="clickable">
