@@ -165,7 +165,7 @@ angular.module('HMS')
         $scope.exportConstructionToRedmine = function() {
             if ($rootScope.construction_id) {
                 modal = $uibModal.open({
-                        templateUrl: 'views/modals/exportLoadingModal.html',
+                        templateUrl: 'views/modals/redmine/exportLoadingModal.html',
                         scope: $scope,
                         size: 'md'
                     });
@@ -186,7 +186,7 @@ angular.module('HMS')
         $scope.exportCategoryToRedmine = function() {
             if ($rootScope.category_id) {
                 modal = $uibModal.open({
-                        templateUrl: 'views/modals/exportLoadingModal.html',
+                        templateUrl: 'views/modals/redmine/exportLoadingModal.html',
                         scope: $scope,
                         size: 'md'
                     });
@@ -202,5 +202,32 @@ angular.module('HMS')
                     }, 3000);
                 });
             }
+        };
+
+        $scope.initRedmine = function() {
+            $scope.redmineInit = {
+                step: 1,
+                nextStep: function() {
+                    this.step++;
+                },
+                previousStep: function() {
+                    this.step--;
+                }
+            };
+            $uibModal.open({
+                templateUrl: 'views/modals/redmine/redmineInitModal.html',
+                scope: $scope
+            }).result.then(function (redmineSetting) {
+                console.log(redmineSetting);
+            });
+        };
+
+        $scope.configRedmine = function() {
+            $uibModal.open({
+                templateUrl: 'views/modals/redmine/redmineSettingsModal.html',
+                scope: $scope
+            }).result.then(function (redmineSetting) {
+                console.log(redmineSetting);
+            });
         };
     });
