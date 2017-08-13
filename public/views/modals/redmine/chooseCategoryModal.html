@@ -14,7 +14,9 @@
       </div>
       <!--tt>categoryCheckedList = {{categoryCheckedList}}</tt><br/-->
       <center>
-        <button type="button" class="btn btn-primary" ng-click="$close(categoryCheckedList)">Tạo dự án</button>
+        <button type="button" class="btn btn-primary" ng-disabled="categoryCheckedList[0] == undefined"
+         ng-click="$close(categoryCheckedList)">
+          Tạo dự án</button>
       </center>
     </form>
     

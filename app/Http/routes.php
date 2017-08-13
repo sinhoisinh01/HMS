@@ -112,5 +112,5 @@ $app->group(['middleware' => 'auth'],
         $app->get('redmine/setting', 'RedmineController@getSetting');
         $app->post('redmine/setting', 'RedmineController@updateSetting');
         $app->post('redmine/construction', 'RedmineController@addConstruction');
-        $app->post('redmine/category', 'RedmineController@addCategory');
+        $app->post('redmine/categories', 'RedmineController@addCategories');
     });

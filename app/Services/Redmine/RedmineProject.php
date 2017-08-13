@@ -19,7 +19,7 @@ class RedmineProject {
 	}
 
 	function get() {
-		$result = $this->client->project->listing();
+		$result = $this->client->project->show(59);
 		return $result;
 	}
 
@@ -37,6 +37,12 @@ class RedmineProject {
 		}
 		
 		return $result;
+	}
+
+	function addCategories($userId, $categoryIdList) {
+		foreach ($categoryIdList as $categoryId) {
+			$this->addCategory($userId, $categoryId);
+		}
 	}
 
 	function addCategory($userId, $categoryId, $constructionProjectId = NULL) {

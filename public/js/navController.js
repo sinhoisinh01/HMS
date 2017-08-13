@@ -1,5 +1,5 @@
 angular.module('HMS')
-    .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory, mySweetAlert) {
+    .controller('NavController', function (baseURL, $cookies, constructionFactory, $filter, $http, $rootScope, supplierFactory, $state, $stateParams, $scope, $uibModal, userFactory, mySweetAlert, $window) {
 
         $scope.getDateFormat = function (timestamp) {
             return new Date(timestamp);
@@ -172,7 +172,7 @@ angular.module('HMS')
         }
 
         $scope.exportConstructionToRedmine = function() {
-            modal = $uibModal.open({
+            var modal = $uibModal.open({
                     templateUrl: 'views/modals/redmine/exportLoadingModal.html',
                     scope: $scope,
                     size: 'md'
@@ -181,6 +181,10 @@ angular.module('HMS')
             .then(function(response) {
                 $rootScope.hasInternetError = false;
                 modal.close();
+                $window.open(
+                  $scope.redmineSetting.redmine_url + "/projects/" + response.data.identifier, 
+                  '_blank'
+                );
             }, function(error) {
                 $rootScope.hasInternetError = true;
                 setTimeout(function() { 
@@ -201,21 +205,26 @@ angular.module('HMS')
                 scope: $scope,
                 size: 'md'
               }).result.then(function(categoryCheckedList) {
-                for (var i = 0; i < categoryCheckedList.length; i++) {
-                  exportRedmineCategory(categoryCheckedList[i]);
-                }
+                var loadingModal = $uibModal.open({
+                    templateUrl: 'views/modals/redmine/exportLoadingModal.html',
+                    scope: $scope,
+                    size: 'md'
+                });
+                $http.post(baseURL + 'redmine/categories', {list_category_id: categoryCheckedList})
+                .then(function(response) {
+                    $rootScope.hasInternetError = false;
+                    loadingModal.close();
+                    $window.open($scope.redmineSetting.redmine_url + "/projects", '_blank');
+                }, function(error) {
+                    $rootScope.hasInternetError = true;
+                    setTimeout(function() { 
+                      $rootScope.hasInternetError = false;
+                      loadingModal.close();
+                    }, 3000);
+                });
               });
             });    
         };
-
-        function exportRedmineCategory(categoryId) {
-            $http.post(baseURL + 'redmine/category', {category_id: categoryId})
-            .then(function(response) {
-                $rootScope.hasInternetError = false;
-            }, function(error) {
-                $rootScope.hasInternetError = true;
-            });
-        }
 
         $scope.initRedmine = function() {
             $scope.redmineInit = {
@@ -233,7 +242,13 @@ angular.module('HMS')
             }).result.then(function (redmineSetting) {
                 $http.post(baseURL + 'redmine/init', {redmine_setting: redmineSetting})
                 .then(function(response) {
-
+                    swal({
+                      title: "Cài đặt hoàn tất",
+                      text: "Bạn đã có thể sử dụng các chức năng của Redmine",
+                      type: "success",
+                      confirmButtonText: "Đóng",
+                      closeOnConfirm: true
+                    });
                 }, function(error) {
                     $rootScope.hasInternetError = true;
                     setTimeout(function() { 
@@ -250,7 +265,12 @@ angular.module('HMS')
             }).result.then(function (redmineSetting) {
                 $http.post(baseURL + 'redmine/setting', {redmine_setting: redmineSetting})
                 .then(function(response) {
-
+                  swal({
+                    title: "Đã lưu",
+                    type: "success",
+                    confirmButtonText: "Đóng",
+                    closeOnConfirm: true
+                  });
                 }, function(error) {
                     $rootScope.hasInternetError = true;
                     setTimeout(function() { 

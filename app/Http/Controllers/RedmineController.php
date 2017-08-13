@@ -41,11 +41,11 @@ class RedmineController extends Controller {
 		));
 	}
 
-	function addCategory(Request $request) {
+	function addCategories(Request $request) {
 		$projectUtils = new RedmineProject( Auth::user()->redmine_setting()->first() );
-		return response()->json($projectUtils->addCategory(
+		return response()->json($projectUtils->addCategories(
 			Auth::user()->id, 
-			$request->input('category_id')
+			$request->input('list_category_id')
 		));
 	}
 }
