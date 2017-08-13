@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <button type="button" ng-click="$dismiss()" class="close">&times;</button>
+    <h2 class="modal-title">Tạo dự án Redmine</h2>
+</div>
+<div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="redmine_category_list">Chọn hạng mục cần tạo dự án Redmine:</label>
+        <select multiple class="form-control" id="redmine_category_list" ng-model="categoryCheckedList">
+          <option ng-repeat="category in categories" value="{{category.id}}">
+            {{category.name}}
+          </option>
+        </select>
+      </div>
+      <!--tt>categoryCheckedList = {{categoryCheckedList}}</tt><br/-->
+      <center>
+        <button type="button" class="btn btn-primary" ng-click="$close(categoryCheckedList)">Tạo dự án</button>
+      </center>
+    </form>
+    
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$dismiss()">Đóng</button>
+</div>

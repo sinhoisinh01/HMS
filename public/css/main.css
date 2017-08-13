@@ -365,4 +365,7 @@ i{
 	}
 }
 
-
+#redmine_category_list {
+	overflow-y: auto;
+	height: 350px !important;
+}

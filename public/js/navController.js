@@ -191,25 +191,31 @@ angular.module('HMS')
         };
 
         $scope.exportCategoryToRedmine = function() {
-            if ($rootScope.category_id) {
-                modal = $uibModal.open({
-                        templateUrl: 'views/modals/redmine/exportLoadingModal.html',
-                        scope: $scope,
-                        size: 'md'
-                    });
-                $http.post(baseURL + 'redmine/category', {category_id: $rootScope.category_id})
-                .then(function(response) {
-                    $rootScope.hasInternetError = false;
-                    modal.close();
-                }, function(error) {
-                    $rootScope.hasInternetError = true;
-                    setTimeout(function() { 
-                      $rootScope.hasInternetError = false;
-                      modal.close();
-                    }, 3000);
-                });
-            }
+            $scope.categories = [];
+            $http.get(baseURL + 'categories', {params: {construction_id: $stateParams.construction_id}})
+            .then(function (response) {
+              $scope.categories = response.data;
+              
+              $uibModal.open({
+                templateUrl: 'views/modals/redmine/chooseCategoryModal.html',
+                scope: $scope,
+                size: 'md'
+              }).result.then(function(categoryCheckedList) {
+                for (var i = 0; i < categoryCheckedList.length; i++) {
+                  exportRedmineCategory(categoryCheckedList[i]);
+                }
+              });
+            });    
         };
+
+        function exportRedmineCategory(categoryId) {
+            $http.post(baseURL + 'redmine/category', {category_id: categoryId})
+            .then(function(response) {
+                $rootScope.hasInternetError = false;
+            }, function(error) {
+                $rootScope.hasInternetError = true;
+            });
+        }
 
         $scope.initRedmine = function() {
             $scope.redmineInit = {
