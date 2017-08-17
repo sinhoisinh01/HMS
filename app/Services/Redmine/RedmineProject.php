@@ -2,6 +2,7 @@
 
 namespace App\Services\Redmine;
 
+use App\Services\Redmine\RedmineProjectCollection;
 use Redmine\Client;
 use App\Models\Construction;
 use App\Models\Category;
@@ -9,18 +10,26 @@ use App\Models\Subcategory;
 use App\Models\SubcategoryWork;
 use App\Models\Work;
 use App\Models\Description;
+use Illuminate\Support\Collection;
 
 class RedmineProject {
 
+	const PROJECT_PREFIX = 'hms';
 	private $client;
+	private $redmineCollectionUtil;
 
 	function __construct($redmineSetting) {
 		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
+		$this->redmineCollectionUtil = new RedmineProjectCollection($redmineSetting);
 	}
 
+	/*
+	 *	Author: Doan Phuc Sinh
+	 *	Summary: Get the project with all its childs
+	 *	Return: The projects array
+	 */
 	function get() {
-		$result = $this->client->project->show(59);
-		return $result;
+		return $this->redmineCollectionUtil->getAllRootProject();
 	}
 
 	function addConstruction($userId, $constructionId) {
