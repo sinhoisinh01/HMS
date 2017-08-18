@@ -13,9 +13,11 @@ class RedmineProjectCollection {
 	private $client;
 	private $hms_projects;
 	private $root_projects;
+	private $redmine_url;
 
 	function __construct($redmineSetting) {
 		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
+		$this->redmine_url = $redmineSetting->redmine_url;
 		$this->listAllHmsProject();
 		$this->listAllRootProject();
 	}
@@ -47,6 +49,7 @@ class RedmineProjectCollection {
 		foreach ($redmine_projects as $project_id) {
 			$project = $this->client->project->show($project_id)['project'];
 			if ( is_numeric( strpos($project['identifier'], self::PROJECT_PREFIX) ) ) {
+			  $project['project_url'] = $this->redmine_url . "/projects/" . $project['identifier'];
 			  array_push($hms_projects, $project);
 			}	
 		}

@@ -164,12 +164,33 @@ angular.module('HMS')
 
         /**-------------------------------Redmine-----------------------------------------------*/
         $scope.redmineSetting = {};
+        $scope.redmineProjects = [];
 
         function getRedmineSetting() {
             $http.get(baseURL + "redmine/setting").then(function(response) {
                 $scope.redmineSetting = response.data;
             });
         }
+
+        function getRedmineProjects() {
+            $http.get(baseURL + "redmine").then(function(response) {
+                $scope.redmineProjects = response.data;
+                for (var i = 0; i < $scope.redmineProjects.length; i++) {
+                    $scope.redmineProjects[i].isOpen = false;
+                    for (var j = 0; j < $scope.redmineProjects[i].childs.length; j++) {
+                        $scope.redmineProjects[i].childs[j].isOpen = false;
+                    }
+                }
+            });
+        }
+
+        $scope.manageRedmineProjects = function() {
+            $uibModal.open({
+                templateUrl: 'views/modals/redmine/manageRedmineProjectsModal.html',
+                scope: $scope,
+                size: 'md'
+            });
+        };
 
         $scope.exportConstructionToRedmine = function() {
             var modal = $uibModal.open({
@@ -281,5 +302,6 @@ angular.module('HMS')
         };
 
         getRedmineSetting();
+        getRedmineProjects();
         /**-------------------------------End Redmine---------------------------------------------*/
     });

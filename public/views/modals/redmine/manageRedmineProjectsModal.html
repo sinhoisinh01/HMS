@@ -1,1 +1,56 @@
-manageRedmineProjectsModal.html
+<div class="modal-header">
+    <button type="button" ng-click="$dismiss()" class="close">&times;</button>
+    <h2 class="modal-title">Quản lý dự án Redmine</h2>
+</div>
+<div class="modal-body">
+	<uib-accordion close-others="true" ng-if="redmineProjects.length != 0">
+	    <div uib-accordion-group class="panel-info"
+	     ng-repeat="project in redmineProjects" is-open="project.isOpen">
+	      <uib-accordion-heading>
+	      	<div class="row">
+	      	  <div class="col-sm-11 text-auto-ellipsis" data-toggle="tooltip" title="{{project.name}}">
+	      	  	{{project.name}}
+	      	  </div>
+	          <div class="col-sm-1">
+	        	<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': project.isOpen, 'glyphicon-chevron-right': !project.isOpen}"></i>
+	          </div>
+	      	</div>
+	      </uib-accordion-heading>
+	      <table class="table table-bordered table-condensed">
+	      	<tr>
+	      	  <th class="col-sm-3 col-md-4">{{project.identifier.indexOf('construction') != -1 ? 'Công trình' : 'Hạng mục'}}:</th>
+	      	  <td class="col-sm-9 col-md-8" ng-bind="project.name"></td>
+	      	</tr>
+	      	<tr>
+	      	  <th class="col-sm-3 col-md-4">Mô tả:</th>
+	      	  <td class="col-sm-9 col-md-8" ng-bind="project.description"></td>
+	      	</tr>
+	      	<tr>
+	      	  <th class="col-sm-3 col-md-4">Hạng mục{{project.identifier.indexOf('construction') != -1 ? ' ' : ' con'}}:</th>
+	      	  <td class="col-sm-9 col-md-8">
+	      	  	<ol ng-if="project.childs.length > 0">
+				  <li ng-repeat="child in project.childs">
+				  	<a href="{{child.project_url}}" target="_blank" ng-bind="child.name"></a>
+				  </li>
+				</ol>
+	      	  </td>
+	      	</tr>
+	      </table>
+	      <center>
+	      	<a href="{{project.project_url}}" target="_blank" class="btn btn-info">
+	      		Đi đến công trình
+	      	</a>
+	      </center>
+	      <!--div uib-accordion-group class="panel-info" ng-repeat="child in project.childs">
+	      	<uib-accordion-heading>
+	          {{child.name}}<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.isOpen, 'glyphicon-chevron-right': !status.isOpen}"></i>
+	      	</uib-accordion-heading>
+	      	This is just some content to illustrate fancy headings.
+	      </div-->
+	    </div>
+  	</uib-accordion>
+    <h3 ng-if="redmineProjects.length == 0"><center>Bạn chưa tạo Project Redmine nào</center></h3>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="$dismiss()">Đóng</button>
+</div>
