@@ -11,6 +11,7 @@ use App\Models\SubcategoryWork;
 use App\Models\Work;
 use App\Models\Description;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class RedmineProject {
 
@@ -35,9 +36,10 @@ class RedmineProject {
 	function addConstruction($userId, $constructionId) {
 		$construction = Construction::find($constructionId);
 		$result = $this->client->project->create([
-			'name' => $construction->name,
-		    'identifier' => 'hms-construction-' . $userId . "-" . $constructionId,
-		    'tracker_ids' => [],
+			'name' 			=> $construction->name,
+		    'identifier' 	=> 'hms-construction-' . $userId . "-" . $constructionId,
+		    'tracker_ids' 	=> [],
+		    'is_public' 	=> 0,
 		]);
 
 		$categories = Category::where('construction_id', $constructionId)->get();
@@ -61,6 +63,7 @@ class RedmineProject {
 		    'identifier' 	=> 'hms-category-' . $userId . "-" . $categoryId,
 		    'parent_id' 	=> $constructionProjectId,
 		    'tracker_ids' 	=> [],
+		    'is_public' 	=> 0,
 		]);
 		$subcategories = Subcategory::where('category_id', $categoryId)->get();
 		foreach ( $subcategories as $subcategory ) {
@@ -78,6 +81,7 @@ class RedmineProject {
 			    'identifier' 	=> 'hms-subcategory' . $userId . "-" . $subcategoryId,
 			    'parent_id' 	=> $categoryProjectId,
 			    'tracker_ids' 	=> [],
+			    'is_public' 	=> 0,
 			]);
 			
 		}
@@ -96,10 +100,21 @@ class RedmineProject {
 
 		$workDescriptions = $this->getWorkDescriptions($subcategoryWorkId);
 
+		// data to get category and subcategory name
+		$data = DB::table('subcategory_work')
+			->join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
+			->join('categories', 'subcategories.category_id', '=', 'categories.id')
+			->where('subcategory_work.id', $subcategoryWorkId)
+			->select('categories.name as category_name', 'subcategories.name as subcategory_name')
+			->first();
+
+		$work_prefix = '[' . $data->category_name . ']';
+		$work_prefix .= $data->subcategory_name != '' ? '[' . $data->subcategory_name . ']' : '';
+
 		$this->client->issue->create([
 		    'project_id' => $categoryProjectId,
 		    'tracker_id' => 2,
-		    'subject' => $work->name,
+		    'subject' => $work_prefix . $work->name,
 		    'description' => $workDescriptions,
 		    'assigned_to_id' => NULL,
 		    'custom_fields' => [],

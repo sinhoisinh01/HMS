@@ -163,16 +163,15 @@ angular.module('HMS')
         };
 
         /**-------------------------------Redmine-----------------------------------------------*/
-        $scope.redmineSetting = {};
-        $scope.redmineProjects = [];
-
         function getRedmineSetting() {
+            $scope.redmineSetting = {};
             $http.get(baseURL + "redmine/setting").then(function(response) {
                 $scope.redmineSetting = response.data;
             });
         }
 
         function getRedmineProjects() {
+            $scope.redmineProjects = [];
             $http.get(baseURL + "redmine").then(function(response) {
                 $scope.redmineProjects = response.data;
                 for (var i = 0; i < $scope.redmineProjects.length; i++) {
@@ -206,6 +205,7 @@ angular.module('HMS')
                   $scope.redmineSetting.redmine_url + "/projects/" + response.data.identifier, 
                   '_blank'
                 );
+                $scope.getRedmineProjects();
             }, function(error) {
                 $rootScope.hasInternetError = true;
                 setTimeout(function() { 
@@ -236,6 +236,7 @@ angular.module('HMS')
                     $rootScope.hasInternetError = false;
                     loadingModal.close();
                     $window.open($scope.redmineSetting.redmine_url + "/projects", '_blank');
+                    $scope.getRedmineProjects();
                 }, function(error) {
                     $rootScope.hasInternetError = true;
                     setTimeout(function() { 

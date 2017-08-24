@@ -20,4 +20,8 @@ class SubcategoryWork extends Model
     {
         return $this->belongsTo('App\Models\Work');
     }
+
+    public function subcategory() {
+        return $this->belongsTo('App\Models\Subcategory');
+    }
 }
