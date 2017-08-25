@@ -117,19 +117,46 @@ class RedmineProject {
 		    'subject' => $work_prefix . $work->name,
 		    'description' => $workDescriptions,
 		    'assigned_to_id' => NULL,
-		    'custom_fields' => [],
+		    'custom_fields' => [
+	    	  [
+	            'id' => 1,
+	            'name' => 'subcategory_work_id',
+	            'value' => $subcategoryWorkId,
+	          ]
+		    ],
 		    'watcher_user_ids' => [],
 		]);
 	}
 
+	/*
+	 * Author: Doan Phuc Sinh
+	 * Summary: get the description for work (issue) in redmine like the template below:
+	 *		Tổng khối lượng công việc: <subcategory_work.value> <subcategory_work.unit>
+	 *		[if has descriptions]
+	 *		1) + <description 1> - Số lượng: <description amount>
+	 *		Khối lượng (Dài x Rộng x Cao): <value> (<length> x <width> x <height)
+	 *		...
+	 *		n) + <description n> - Số lượng: <description amount>
+	 *		Khối lượng (Dài x Rộng x Cao): <value> (<length> x <width> x <height)
+	 * Params: int $subcategoryWorkId
+	 * Return: string $descriptionString
+	 */
 	private function getWorkDescriptions($subcategoryWorkId) {
-		$descriptionString = "";
+		$work_detail = SubcategoryWork::join('works', 'subcategory_work.work_id', '=', 'works.id')
+			->where('subcategory_work.id', $subcategoryWorkId)
+			->select('subcategory_work.value as value', 'works.unit as unit')
+			->first();
+		
+		$descriptionString = "Tổng khối lượng công việc: " . $work_detail->value;
+		$descriptionString .= is_numeric( substr($work_detail->unit, 0, 1) ) ? " x " : " ";
+		$descriptionString .= $work_detail->unit;
+
 		$descriptions = Description::where('subcategoryWork_id', $subcategoryWorkId)->get();
 		if ( $descriptions->count() > 0 ) {
 			foreach ( $descriptions as $description ) {
-				$descriptionString .= ($description->no + 1) . ") " . $description->name . " - Số lượng: " . $description->amount . "\n" .
+				$descriptionString .= "\n" . ($description->no + 1) . ") " . $description->name . " - Số lượng: " . $description->amount . "\n" .
 					"\t" . "Khối lượng (Dài x Rộng x Cao): " . $description->value . " (" . 
-					$description->length . " x " . $description->width . " x " . $description->height . ")\n";
+					$description->length . " x " . $description->width . " x " . $description->height . ")";
 			}
 		}
 		return $descriptionString;
