@@ -108,6 +108,7 @@ $app->group(['middleware' => 'auth'],
 
         // Redmine Api
         $app->get('redmine', 'RedmineController@get');
+        $app->get('redmine/sync', 'RedmineController@sync');
         $app->post('redmine/init', 'RedmineController@initRedmine');
         $app->get('redmine/setting', 'RedmineController@getSetting');
         $app->post('redmine/setting', 'RedmineController@updateSetting');

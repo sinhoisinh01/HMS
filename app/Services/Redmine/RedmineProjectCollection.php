@@ -15,7 +15,7 @@ class RedmineProjectCollection {
 	private $root_projects;
 	private $redmine_url;
 
-	function __construct($redmineSetting) {
+	public function __construct($redmineSetting) {
 		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
 		$this->redmine_url = $redmineSetting->redmine_url;
 		$this->listAllHmsProject();
@@ -49,8 +49,8 @@ class RedmineProjectCollection {
 		foreach ($redmine_projects as $project_id) {
 			$project = $this->client->project->show($project_id)['project'];
 			if ( is_numeric( strpos($project['identifier'], self::PROJECT_PREFIX) ) ) {
-			  $project['project_url'] = $this->redmine_url . "/projects/" . $project['identifier'];
-			  array_push($hms_projects, $project);
+				$project['project_url'] = $this->redmine_url . "/projects/" . $project['identifier'];
+				array_push($hms_projects, $project);
 			}	
 		}
 		$this->hms_projects = collect( $hms_projects );
@@ -62,7 +62,7 @@ class RedmineProjectCollection {
 	 */
 	private function listAllRootProject() {
 		$this->root_projects = $this->hms_projects->reject(function ($value, $key) {
-		    return isset( $value['parent'] );
+			return isset( $value['parent'] );
 		});
 	}
 
@@ -91,7 +91,7 @@ class RedmineProjectCollection {
 			foreach ($childsLevel1 as $index1 => $child1) {
 				array_push($root_project['childs'], $child1);
 			}
-		    return $root_project;
+			return $root_project;
 		});
 	}
 }

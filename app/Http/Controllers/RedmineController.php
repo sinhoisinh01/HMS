@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 use App\Services\Redmine\RedmineProject;
+use App\Services\Redmine\SynchronizeProject;
 use Illuminate\Support\Facades\Auth;
 use App\Models\RedmineSetting;
 
@@ -15,6 +16,12 @@ class RedmineController extends Controller {
 		$redmineSetting['user_id'] = Auth::user()->id;
 		RedmineSetting::where( 'user_id', Auth::user()->id )->forceDelete();
 		return response()->json( RedmineSetting::create( $redmineSetting ) );
+	}
+
+	function sync(Request $request) {
+		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
+		$result = $redmineSyncUtils->getIssuses();
+		return response()->json($result);
 	}
 
 	function getSetting() {

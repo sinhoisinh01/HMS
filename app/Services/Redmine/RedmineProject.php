@@ -3,6 +3,7 @@
 namespace App\Services\Redmine;
 
 use App\Services\Redmine\RedmineProjectCollection;
+use App\Services\Redmine\RedmineWithCurl;
 use Redmine\Client;
 use App\Models\Construction;
 use App\Models\Category;
@@ -16,12 +17,15 @@ use Illuminate\Support\Facades\DB;
 class RedmineProject {
 
 	const PROJECT_PREFIX = 'hms';
+	const SUBCATEGORY_WORK_ID_FIELD = 'HMS_swid';
 	private $client;
 	private $redmineCollectionUtil;
+	private $redmineCurlUtil;
 
 	function __construct($redmineSetting) {
 		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
 		$this->redmineCollectionUtil = new RedmineProjectCollection($redmineSetting);
+		$this->redmineCurlUtil = new RedmineWithCurl($redmineSetting);
 	}
 
 	/*
@@ -76,12 +80,12 @@ class RedmineProject {
 		$subcategory = Subcategory::find($subcategoryId);
 		$result = NULL;
 		if ( !empty($subcategory->name) ) {
-				$result = $this->client->project->create([
-				'name' 			=> $subcategory->name,
-			    'identifier' 	=> 'hms-subcategory' . $userId . "-" . $subcategoryId,
-			    'parent_id' 	=> $categoryProjectId,
-			    'tracker_ids' 	=> [],
-			    'is_public' 	=> 0,
+			$result = $this->client->project->create([
+				'name' 				=> $subcategory->name,
+		    'identifier' 	=> 'hms-subcategory' . $userId . "-" . $subcategoryId,
+		    'parent_id' 	=> $categoryProjectId,
+		    'tracker_ids' => [],
+		    'is_public' 	=> 0,
 			]);
 			
 		}
@@ -111,19 +115,17 @@ class RedmineProject {
 		$work_prefix = '[' . $data->category_name . ']';
 		$work_prefix .= $data->subcategory_name != '' ? '[' . $data->subcategory_name . ']' : '';
 
-		$this->client->issue->create([
+		// Use to add subcategory work id for work
+		$custom_fields = $this->redmineCurlUtil->getCustomFieldByName(self::SUBCATEGORY_WORK_ID_FIELD);
+		$custom_fields[0]['value'] = $subcategoryWorkId;
+
+		$result_test = $this->client->issue->create([
 		    'project_id' => $categoryProjectId,
 		    'tracker_id' => 2,
 		    'subject' => $work_prefix . $work->name,
 		    'description' => $workDescriptions,
 		    'assigned_to_id' => NULL,
-		    'custom_fields' => [
-	    	  [
-	            'id' => 1,
-	            'name' => 'subcategory_work_id',
-	            'value' => $subcategoryWorkId,
-	          ]
-		    ],
+		    'custom_fields' => $custom_fields,
 		    'watcher_user_ids' => [],
 		]);
 	}
