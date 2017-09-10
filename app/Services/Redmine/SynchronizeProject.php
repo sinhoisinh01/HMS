@@ -7,6 +7,7 @@ namespace App\Services\Redmine;
 
 use Redmine\Client;
 use App\Services\Redmine\RedmineWithCurl;
+use App\Services\Redmine\SyncIssues;
 use Illuminate\Support\Collection;
 
 class SynchronizeProject {
@@ -27,8 +28,8 @@ class SynchronizeProject {
    * Return: Issues as Eloquent Collection
    */
   public function getIssuses() {
-    $redmineCurlUtils = new RedmineWithCurl($this->redmineSetting);
-    $result = $redmineCurlUtils->getCustomFieldByName('HMS_swid');
-    return collect( $result );
+    $redmineIssueUtils = new SyncIssues($this->redmineSetting);
+    $result = $redmineIssueUtils->remove(4);
+    return $result;
   }
 }
