@@ -29,7 +29,8 @@ class SynchronizeProject {
    */
   public function getIssuses() {
     $redmineIssueUtils = new SyncIssues($this->redmineSetting);
-    $result = $redmineIssueUtils->remove(4);
+    $result = $redmineIssueUtils->remove(5);
+    $result = $redmineIssueUtils->add(3, 5);
     return $result;
   }
 }

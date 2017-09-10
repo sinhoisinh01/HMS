@@ -22,7 +22,7 @@ class RedmineProject {
 	private $redmineCollectionUtil;
 	private $redmineCurlUtil;
 
-	function __construct($redmineSetting) {
+	public function __construct($redmineSetting) {
 		$this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
 		$this->redmineCollectionUtil = new RedmineProjectCollection($redmineSetting);
 		$this->redmineCurlUtil = new RedmineWithCurl($redmineSetting);
@@ -33,11 +33,11 @@ class RedmineProject {
 	 *	Summary: Get the project with all its childs
 	 *	Return: The projects array
 	 */
-	function get() {
+	public function get() {
 		return $this->redmineCollectionUtil->getAllRootProject();
 	}
 
-	function addConstruction($userId, $constructionId) {
+	public function addConstruction($userId, $constructionId) {
 		$construction = Construction::find($constructionId);
 		$result = $this->client->project->create([
 			'name' 			=> $construction->name,
@@ -54,13 +54,13 @@ class RedmineProject {
 		return $result;
 	}
 
-	function addCategories($userId, $categoryIdList) {
+	public function addCategories($userId, $categoryIdList) {
 		foreach ($categoryIdList as $categoryId) {
 			$this->addCategory($userId, $categoryId);
 		}
 	}
 
-	function addCategory($userId, $categoryId, $constructionProjectId = NULL) {
+	public function addCategory($userId, $categoryId, $constructionProjectId = NULL) {
 		$category = Category::find($categoryId);
 		$result = $this->client->project->create([
 			'name' 			=> $category->name,
@@ -76,18 +76,17 @@ class RedmineProject {
 		return $result;
 	}
 
-	private function addSubcategory($userId, $subcategoryId, $categoryProjectId) {
+	public function addSubcategory($userId, $subcategoryId, $categoryProjectId) {
 		$subcategory = Subcategory::find($subcategoryId);
 		$result = NULL;
 		if ( !empty($subcategory->name) ) {
 			$result = $this->client->project->create([
 				'name' 				=> $subcategory->name,
-		    'identifier' 	=> 'hms-subcategory' . $userId . "-" . $subcategoryId,
+		    'identifier' 	=> 'hms-subcategory-' . $userId . "-" . $subcategoryId,
 		    'parent_id' 	=> $categoryProjectId,
 		    'tracker_ids' => [],
 		    'is_public' 	=> 0,
-			]);
-			
+			]);	
 		}
 		$subcategoryWorks = SubcategoryWork::where('subcategory_id', $subcategoryId)->get();
 		if ( !is_null($result) ) {
@@ -98,7 +97,7 @@ class RedmineProject {
 		}
 	}
 
-	private function addWork($userId, $subcategoryWorkId, $categoryProjectId) {
+	public function addWork($userId, $subcategoryWorkId, $categoryProjectId) {
 		$work = Work::join('subcategory_work', 'subcategory_work.work_id', '=', 'works.id')
 			->where('subcategory_work.id', $subcategoryWorkId)->first();
 
@@ -119,7 +118,7 @@ class RedmineProject {
 		$custom_fields = $this->redmineCurlUtil->getCustomFieldByName(self::SUBCATEGORY_WORK_ID_FIELD);
 		$custom_fields[0]['value'] = $subcategoryWorkId;
 
-		$result_test = $this->client->issue->create([
+		return $this->client->issue->create([
 		    'project_id' => $categoryProjectId,
 		    'tracker_id' => 2,
 		    'subject' => $work_prefix . $work->name,

@@ -8,13 +8,18 @@ namespace App\Services\Redmine;
 
 use Redmine\Client;
 use App\Services\Redmine\RedmineWithCurl;
+use App\Services\Redmine\RedmineProject;
+use Illuminate\Support\Facades\DB;
 
 class SyncIssues {
   const SUBCATEGORY_ID_FIELD_NAME = 'HMS_swid';
+  const CATEGORY_PREFIX = 'hms-category-';
+  const SUBCATEGORY_PREFIX = 'hms-subcategory-';
 
   private $client;
   private $redmine_url;
   private $redmineSetting;
+  private $redmineProjectService;
 
   // the Id of the custom field in redmine which store subcategory work id
   private $hmsSwidId;
@@ -23,6 +28,7 @@ class SyncIssues {
     $this->redmineSetting = $redmineSetting;
     $this->client = new Client( $redmineSetting->redmine_url, $redmineSetting->api_access_key );
     $this->redmine_url = $redmineSetting->redmine_url;
+    $this->redmineProjectService = new RedmineProject($redmineSetting);
     $this->setSwidId();
   }
 
@@ -32,8 +38,34 @@ class SyncIssues {
     $this->hmsSwidId = $customField[0]["id"];
   }
 
-  public function add() {
-
+  // Summary: Add work to redmine project as issue
+  // Return: New Redmine Issue if success, return null if errors
+  // Params:
+  //  @userId: int
+  //  @subcategoryId: int
+  public function add($userId, $subcategoryWorkId) {
+    // find redmine project id which new issue will belong to.
+    // data to get category id and subcategory name
+    $data = DB::table('subcategory_work')
+      ->join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
+      ->join('categories', 'subcategories.category_id', '=', 'categories.id')
+      ->where('subcategory_work.id', $subcategoryWorkId)
+      ->select(
+        'categories.id as category_id',
+        'subcategories.id as subcategory_id',
+        'subcategories.name as subcategory_name'
+      )
+      ->first();
+    $projectPrefix = $data->subcategory_name == '' ? self::CATEGORY_PREFIX : self::SUBCATEGORY_PREFIX;
+    $projectIdentifier =  $projectPrefix . $userId . '-';
+    $projectIdentifier .= $data->subcategory_name == '' ? $data->category_id : $data->subcategory_id;
+    $project = $this->client->project->show($projectIdentifier);
+    if (!$project) {
+      return null;
+    } else {
+      $redmineProjectId = $project["project"]["id"];
+      return $this->redmineProjectService->addWork($userId, $subcategoryWorkId, $redmineProjectId);
+    }
   }
 
   public function edit() {
