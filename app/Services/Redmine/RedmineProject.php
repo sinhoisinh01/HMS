@@ -98,21 +98,8 @@ class RedmineProject {
 	}
 
 	public function addWork($userId, $subcategoryWorkId, $categoryProjectId) {
-		$work = Work::join('subcategory_work', 'subcategory_work.work_id', '=', 'works.id')
-			->where('subcategory_work.id', $subcategoryWorkId)->first();
-
+		$workSubject = $this->getWorkSubject($subcategoryWorkId);
 		$workDescriptions = $this->getWorkDescriptions($subcategoryWorkId);
-
-		// data to get category and subcategory name
-		$data = DB::table('subcategory_work')
-			->join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
-			->join('categories', 'subcategories.category_id', '=', 'categories.id')
-			->where('subcategory_work.id', $subcategoryWorkId)
-			->select('categories.name as category_name', 'subcategories.name as subcategory_name')
-			->first();
-
-		$work_prefix = '[' . $data->category_name . ']';
-		$work_prefix .= $data->subcategory_name != '' ? '[' . $data->subcategory_name . ']' : '';
 
 		// Use to add subcategory work id for work
 		$custom_fields = $this->redmineCurlUtil->getCustomFieldByName(self::SUBCATEGORY_WORK_ID_FIELD);
@@ -121,7 +108,7 @@ class RedmineProject {
 		return $this->client->issue->create([
 		    'project_id' => $categoryProjectId,
 		    'tracker_id' => 2,
-		    'subject' => $work_prefix . $work->name,
+		    'subject' => $workSubject,
 		    'description' => $workDescriptions,
 		    'assigned_to_id' => NULL,
 		    'custom_fields' => $custom_fields,
@@ -142,7 +129,7 @@ class RedmineProject {
 	 * Params: int $subcategoryWorkId
 	 * Return: string $descriptionString
 	 */
-	private function getWorkDescriptions($subcategoryWorkId) {
+	public function getWorkDescriptions($subcategoryWorkId) {
 		$work_detail = SubcategoryWork::join('works', 'subcategory_work.work_id', '=', 'works.id')
 			->where('subcategory_work.id', $subcategoryWorkId)
 			->select('subcategory_work.value as value', 'works.unit as unit')
@@ -161,5 +148,30 @@ class RedmineProject {
 			}
 		}
 		return $descriptionString;
+	}
+
+	/*
+	 * Author: Doan Phuc Sinh
+	 * Summary: return work subject for Redmine Issue
+	 *	The subject will have the pattern like below:
+	 *		+ [<ctegory_name>][<subcategory_name (if exist)>]<work_name>
+	 * Params: int $subcategoryWorkId
+	 * Return: the subject name of issue. 
+	 */
+	public function getWorkSubject($subcategoryWorkId) {
+		$work = Work::join('subcategory_work', 'subcategory_work.work_id', '=', 'works.id')
+			->where('subcategory_work.id', $subcategoryWorkId)->first();
+		// data to get category and subcategory name
+		$data = DB::table('subcategory_work')
+			->join('subcategories', 'subcategory_work.subcategory_id', '=', 'subcategories.id')
+			->join('categories', 'subcategories.category_id', '=', 'categories.id')
+			->where('subcategory_work.id', $subcategoryWorkId)
+			->select('categories.name as category_name', 'subcategories.name as subcategory_name')
+			->first();
+
+		$work_prefix = '[' . $data->category_name . ']';
+		$work_prefix .= $data->subcategory_name != '' ? '[' . $data->subcategory_name . ']' : '';
+
+		return $work_prefix . $work->name;
 	}
 }

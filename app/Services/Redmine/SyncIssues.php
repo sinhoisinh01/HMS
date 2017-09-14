@@ -68,8 +68,35 @@ class SyncIssues {
     }
   }
 
-  public function edit() {
+  // Summary: update the issue which have field HMS_swid equals subcategoryId
+  // Return: 
+  //    return true if success
+  //    return false if fail.
+  // Params:
+  //  @subcategoryId: int
+  public function edit($subcategoryWorkId) {
+    // get Issue which have $subcategoryWorkId
+    $issues = $this->client->issue->all([
+      'cf_' . $this->hmsSwidId => $subcategoryWorkId
+    ]);
+    if ($issues['total_count'] == 0) {
+      return false;
+    } else {
+      $issue = $issues["issues"][0];
 
+      // new issue data to update
+      $workSubject = $this->redmineProjectService->getWorkSubject($subcategoryWorkId);
+      $workDescriptions = $this->redmineProjectService->getWorkDescriptions($subcategoryWorkId);
+
+      $this->client->issue->update(
+        $issue["id"], 
+        [
+          'subject'     => $workSubject,
+          'description' => $workDescriptions
+        ]
+      );
+      return true;
+    }
   }
 
   // Summary: remove the issue which have HMS_swid = $subcateogryId
