@@ -20,7 +20,7 @@ class RedmineController extends Controller {
 
 	function sync(Request $request) {
 		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
-		$result = $redmineSyncUtils->getIssuses();
+		$result = $redmineSyncUtils->syncIssuses(Auth::user()->id, $request->input('issuesString'));
 		return response()->json($result);
 	}
 

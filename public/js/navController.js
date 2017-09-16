@@ -164,142 +164,174 @@ angular.module('HMS')
 
         /**-------------------------------Redmine-----------------------------------------------*/
         function getRedmineSetting() {
-            $scope.redmineSetting = {};
-            $http.get(baseURL + "redmine/setting").then(function(response) {
-                $scope.redmineSetting = response.data;
-            });
+          $scope.redmineSetting = {};
+          $http.get(baseURL + "redmine/setting").then(function(response) {
+              $scope.redmineSetting = response.data;
+          });
         }
 
         function getRedmineProjects() {
-            $scope.redmineProjects = [];
-            $http.get(baseURL + "redmine").then(function(response) {
-                $scope.redmineProjects = response.data;
-                for (var i = 0; i < $scope.redmineProjects.length; i++) {
-                    $scope.redmineProjects[i].isOpen = false;
-                    for (var j = 0; j < $scope.redmineProjects[i].childs.length; j++) {
-                        $scope.redmineProjects[i].childs[j].isOpen = false;
-                    }
-                }
-            });
+          $scope.redmineProjects = [];
+          $http.get(baseURL + "redmine").then(function(response) {
+              $scope.redmineProjects = response.data;
+              for (var i = 0; i < $scope.redmineProjects.length; i++) {
+                  $scope.redmineProjects[i].isOpen = false;
+                  for (var j = 0; j < $scope.redmineProjects[i].childs.length; j++) {
+                      $scope.redmineProjects[i].childs[j].isOpen = false;
+                  }
+              }
+          });
         }
 
         $scope.manageRedmineProjects = function() {
-            $uibModal.open({
-                templateUrl: 'views/modals/redmine/manageRedmineProjectsModal.html',
-                scope: $scope,
-                size: 'md'
-            });
+          $uibModal.open({
+              templateUrl: 'views/modals/redmine/manageRedmineProjectsModal.html',
+              scope: $scope,
+              size: 'md'
+          });
         };
 
         $scope.exportConstructionToRedmine = function() {
-            var modal = $uibModal.open({
-                    templateUrl: 'views/modals/redmine/exportLoadingModal.html',
-                    scope: $scope,
-                    size: 'md'
-                });
-            $http.post(baseURL + 'redmine/construction', {construction_id: $stateParams.construction_id})
-            .then(function(response) {
+          var modal = $uibModal.open({
+            templateUrl: 'views/modals/redmine/exportLoadingModal.html',
+            scope: $scope,
+            size: 'md'
+          });
+          $http.post(baseURL + 'redmine/construction', {construction_id: $stateParams.construction_id})
+          .then(function(response) {
+              $rootScope.hasInternetError = false;
+              modal.close();
+              $window.open(
+                $scope.redmineSetting.redmine_url + "/projects/" + response.data.identifier, 
+                '_blank'
+              );
+              $scope.getRedmineProjects();
+          }, function(error) {
+              $rootScope.hasInternetError = true;
+              setTimeout(function() { 
                 $rootScope.hasInternetError = false;
                 modal.close();
-                $window.open(
-                  $scope.redmineSetting.redmine_url + "/projects/" + response.data.identifier, 
-                  '_blank'
-                );
-                $scope.getRedmineProjects();
+              }, 3000);
+          });
+        };
+
+        $scope.exportCategoryToRedmine = function() {
+          $scope.categories = [];
+          $http.get(baseURL + 'categories', {params: {construction_id: $stateParams.construction_id}})
+          .then(function (response) {
+            $scope.categories = response.data;
+            
+            $uibModal.open({
+              templateUrl: 'views/modals/redmine/chooseCategoryModal.html',
+              scope: $scope,
+              size: 'md'
+            }).result.then(function(categoryCheckedList) {
+              var loadingModal = $uibModal.open({
+                  templateUrl: 'views/modals/redmine/exportLoadingModal.html',
+                  scope: $scope,
+                  size: 'md'
+              });
+              $http.post(baseURL + 'redmine/categories', {list_category_id: categoryCheckedList})
+              .then(function(response) {
+                  $rootScope.hasInternetError = false;
+                  loadingModal.close();
+                  $window.open($scope.redmineSetting.redmine_url + "/projects", '_blank');
+                  $scope.getRedmineProjects();
+              }, function(error) {
+                  $rootScope.hasInternetError = true;
+                  setTimeout(function() { 
+                    $rootScope.hasInternetError = false;
+                    loadingModal.close();
+                  }, 3000);
+              });
+            });
+          });    
+        };
+
+        $scope.initRedmine = function() {
+          $scope.redmineInit = {
+            step: 1,
+            nextStep: function() {
+                this.step++;
+            },
+            previousStep: function() {
+                this.step--;
+            }
+          };
+          $uibModal.open({
+            templateUrl: 'views/modals/redmine/redmineInitModal.html',
+            scope: $scope
+          }).result.then(function (redmineSetting) {
+            $http.post(baseURL + 'redmine/init', {redmine_setting: redmineSetting})
+            .then(function(response) {
+              swal({
+                title: "Cài đặt hoàn tất",
+                text: "Bạn đã có thể sử dụng các chức năng của Redmine",
+                type: "success",
+                confirmButtonText: "Đóng",
+                closeOnConfirm: true
+              });
             }, function(error) {
                 $rootScope.hasInternetError = true;
                 setTimeout(function() { 
                   $rootScope.hasInternetError = false;
-                  modal.close();
                 }, 3000);
             });
-        };
-
-        $scope.exportCategoryToRedmine = function() {
-            $scope.categories = [];
-            $http.get(baseURL + 'categories', {params: {construction_id: $stateParams.construction_id}})
-            .then(function (response) {
-              $scope.categories = response.data;
-              
-              $uibModal.open({
-                templateUrl: 'views/modals/redmine/chooseCategoryModal.html',
-                scope: $scope,
-                size: 'md'
-              }).result.then(function(categoryCheckedList) {
-                var loadingModal = $uibModal.open({
-                    templateUrl: 'views/modals/redmine/exportLoadingModal.html',
-                    scope: $scope,
-                    size: 'md'
-                });
-                $http.post(baseURL + 'redmine/categories', {list_category_id: categoryCheckedList})
-                .then(function(response) {
-                    $rootScope.hasInternetError = false;
-                    loadingModal.close();
-                    $window.open($scope.redmineSetting.redmine_url + "/projects", '_blank');
-                    $scope.getRedmineProjects();
-                }, function(error) {
-                    $rootScope.hasInternetError = true;
-                    setTimeout(function() { 
-                      $rootScope.hasInternetError = false;
-                      loadingModal.close();
-                    }, 3000);
-                });
-              });
-            });    
-        };
-
-        $scope.initRedmine = function() {
-            $scope.redmineInit = {
-                step: 1,
-                nextStep: function() {
-                    this.step++;
-                },
-                previousStep: function() {
-                    this.step--;
-                }
-            };
-            $uibModal.open({
-                templateUrl: 'views/modals/redmine/redmineInitModal.html',
-                scope: $scope
-            }).result.then(function (redmineSetting) {
-                $http.post(baseURL + 'redmine/init', {redmine_setting: redmineSetting})
-                .then(function(response) {
-                    swal({
-                      title: "Cài đặt hoàn tất",
-                      text: "Bạn đã có thể sử dụng các chức năng của Redmine",
-                      type: "success",
-                      confirmButtonText: "Đóng",
-                      closeOnConfirm: true
-                    });
-                }, function(error) {
-                    $rootScope.hasInternetError = true;
-                    setTimeout(function() { 
-                      $rootScope.hasInternetError = false;
-                    }, 3000);
-                });
-            });
+          });
         };
 
         $scope.configRedmine = function() {
-            $uibModal.open({
-                templateUrl: 'views/modals/redmine/redmineSettingsModal.html',
-                scope: $scope
-            }).result.then(function (redmineSetting) {
-                $http.post(baseURL + 'redmine/setting', {redmine_setting: redmineSetting})
-                .then(function(response) {
-                  swal({
-                    title: "Đã lưu",
-                    type: "success",
-                    confirmButtonText: "Đóng",
-                    closeOnConfirm: true
-                  });
-                }, function(error) {
-                    $rootScope.hasInternetError = true;
-                    setTimeout(function() { 
-                      $rootScope.hasInternetError = false;
-                    }, 3000);
-                });
+          $uibModal.open({
+              templateUrl: 'views/modals/redmine/redmineSettingsModal.html',
+              scope: $scope
+          }).result.then(function (redmineSetting) {
+            $http.post(baseURL + 'redmine/setting', {redmine_setting: redmineSetting})
+            .then(function(response) {
+              swal({
+                title: "Đã lưu",
+                type: "success",
+                confirmButtonText: "Đóng",
+                closeOnConfirm: true
+              });
+            }, function(error) {
+                $rootScope.hasInternetError = true;
+                setTimeout(function() { 
+                  $rootScope.hasInternetError = false;
+                }, 3000);
             });
+          });
+        };
+
+        $scope.syncRedmine = function() {
+          var issuesString = decodeURIComponent($cookies.get('issuesString'));
+          console.log(issuesString);
+          if (issuesString == null) {
+            swal({
+                title: "Chưa có thay đổi nào",
+                type: "warning",
+                confirmButtonText: "Đóng",
+                closeOnConfirm: true
+              });
+          } else {
+            var modal = $uibModal.open({
+              templateUrl: 'views/modals/redmine/synchronizeModal.html',
+              scope: $scope,
+              size: 'md'
+            });
+            $http.post(baseURL + 'redmine/sync', {issuesString: issuesString})
+            .then(function(response) {
+              if (response.data) {
+                $rootScope.hasInternetError = false;
+                modal.close();
+                $cookies.remove('issuesString');
+              }
+            }, function(error) {
+              $rootScope.hasInternetError = true;
+              setTimeout(function() { 
+                $rootScope.hasInternetError = false;
+              }, 3000);
+            });
+          }    
         };
 
         getRedmineSetting();

@@ -215,7 +215,7 @@ angular.module('HMS')
                             else{
                                 var subcategoryWork = {id:sheet[i].id, subcategory_id:response.data.id,work_id:sheet[i].work_id,no:sheet[i].no,value:sheet[i].value};
                                 $http.post(baseURL + "subcategoryWork/" + subcategoryWork.id, {subcategoryWork:subcategoryWork}).then(function(){
-
+                                    syncRedmineWork(subcategoryWork.id, 'update');
                                 });
                             }
                         }
@@ -278,21 +278,27 @@ angular.module('HMS')
                 case 'subcategory':
                     var subcategory = {category_id: row.category_id, name: row.name, no: row.no};
                     $http.post(baseURL + "subcategory/" + row.id, {subcategory:subcategory});
-                break;
+                    break;
                 case 'userWork':
                     var subcategoryWork = {subcategory_id: row.subcategory_id, work_id: row.work_id, no: row.no, value: row.value};
-                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork});
+                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork})
+                    .then(function (response) {
+                        syncRedmineWork(row.id, 'update');
+                    });
                     var work = {code: row.code, document: '', name: row.name, unit: row.unit, construction_id: row.construction_id};
                     $http.post(baseURL + "work/" + row.work_id, {work:work});
-                break;
+                    break;
                 case 'work':
                     var subcategoryWork = {subcategory_id: row.subcategory_id, work_id: row.work_id, no: row.no, value: row.value};
-                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork});
-                break;
+                    $http.post(baseURL + "subcategoryWork/" + row.id, {subcategoryWork:subcategoryWork})
+                    .then(function (response) {
+                        syncRedmineWork(row.id, 'update');
+                    });
+                    break;
                 case 'description':
                     var description = {subcategoryWork_id: row.subcategoryWork_id, name: row.name, no: row.no, amount: row.amount, length: row.length, width: row.width, height: row.height, value: row.value};
                     $http.post(baseURL + "description/" + row.id, {description:description});
-                break;
+                    break;
             }
         }
     };
@@ -362,6 +368,7 @@ angular.module('HMS')
             work.type = "work";
             $scope.estimateSheet.splice($scope.rowPos,1,work);
             $scope.worksWindow.show = false;
+            syncRedmineWork(response.data.id, 'create');
         });
     };
     $scope.replaceWork = function(work){
@@ -374,8 +381,9 @@ angular.module('HMS')
             $scope.estimateSheet[$scope.rowPos].unit = work.unit;
             $scope.estimateSheet[$scope.rowPos].price = work.price;
             $scope.estimateSheet[$scope.rowPos].value = 0;
+            syncRedmineWork(oldWork.id, 'update');
         });
-    }
+    };
 
     /*Estimate Table Context Menu*/
     $scope.menuOptions = [
@@ -414,6 +422,7 @@ angular.module('HMS')
                     function(){
                         $scope.estimateSheet.splice(index, 1);
                         $http.delete(baseURL + "subcategoryWork/" + $itemScope.row.id).then(function(){
+                            syncRedmineWork($itemScope.row.id, 'delete');
                             while($scope.estimateSheet[index].type === "description" && $scope.estimateSheet[index].name)
                             {
                                 $scope.estimateSheet.splice(index, 1);
@@ -429,8 +438,25 @@ angular.module('HMS')
                     function(){
                         $scope.estimateSheet.splice(index, 1);
                     }
-                );
-                    
+                );     
         }]
     ];
+
+    /**-----------------------------Redmine-----------------------------------*/
+    /*
+     * Author: Doan Phuc Sinh
+     * Summary: update cookies issuesString to synch Issue for Redmine Project
+     * Params: subcategoryWorkId, type ('create', 'update', 'delete')
+     */
+    function syncRedmineWork(subcategoryWorkId, type) {
+        var typePrefix = type == 'create' ? "C:" : (type == 'update' ? "U:" : "D:");
+        var issueKeyword = typePrefix + subcategoryWorkId + ';';
+        console.log(issueKeyword);
+        if ($cookies.get('issuesString') == null) {
+            $cookies.put('issuesString', issueKeyword);
+        } else {
+            var newCookie = decodeURIComponent($cookies.get('issuesString')) + issueKeyword;
+            $cookies.put('issuesString', newCookie);
+        }
+    }
 });

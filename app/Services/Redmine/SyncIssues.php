@@ -39,7 +39,7 @@ class SyncIssues {
   }
 
   // Summary: Add work to redmine project as issue
-  // Return: New Redmine Issue if success, return null if errors
+  // Return: return true if success, return false if errors
   // Params:
   //  @userId: int
   //  @subcategoryId: int
@@ -61,7 +61,7 @@ class SyncIssues {
     $projectIdentifier .= $data->subcategory_name == '' ? $data->category_id : $data->subcategory_id;
     $project = $this->client->project->show($projectIdentifier);
     if (!$project) {
-      return null;
+      return false;
     } else {
       $redmineProjectId = $project["project"]["id"];
       return $this->redmineProjectService->addWork($userId, $subcategoryWorkId, $redmineProjectId);
