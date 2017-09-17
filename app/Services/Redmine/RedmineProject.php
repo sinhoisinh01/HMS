@@ -40,10 +40,10 @@ class RedmineProject {
 	public function addConstruction($userId, $constructionId) {
 		$construction = Construction::find($constructionId);
 		$result = $this->client->project->create([
-			'name' 			=> $construction->name,
-		    'identifier' 	=> 'hms-construction-' . $userId . "-" . $constructionId,
-		    'tracker_ids' 	=> [],
-		    'is_public' 	=> 0,
+			'name' 				=> $construction->name,
+	    'identifier' 	=> 'hms-construction-' . $userId . "-" . $constructionId,
+	    'tracker_ids' => [],
+	    'is_public' 	=> 0,
 		]);
 
 		$categories = Category::where('construction_id', $constructionId)->get();
@@ -64,10 +64,10 @@ class RedmineProject {
 		$category = Category::find($categoryId);
 		$result = $this->client->project->create([
 			'name' 			=> $category->name,
-		    'identifier' 	=> 'hms-category-' . $userId . "-" . $categoryId,
-		    'parent_id' 	=> $constructionProjectId,
-		    'tracker_ids' 	=> [],
-		    'is_public' 	=> 0,
+	    'identifier' 	=> 'hms-category-' . $userId . "-" . $categoryId,
+	    'parent_id' 	=> $constructionProjectId,
+	    'tracker_ids' 	=> [],
+	    'is_public' 	=> 0,
 		]);
 		$subcategories = Subcategory::where('category_id', $categoryId)->get();
 		foreach ( $subcategories as $subcategory ) {

@@ -9,6 +9,7 @@ namespace App\Services\Redmine;
 use Redmine\Client;
 use App\Services\Redmine\RedmineWithCurl;
 use App\Services\Redmine\RedmineProject;
+use App\Services\Redmine\SyncProject;
 use Illuminate\Support\Facades\DB;
 
 class SyncIssues {
@@ -61,11 +62,12 @@ class SyncIssues {
     $projectIdentifier .= $data->subcategory_name == '' ? $data->category_id : $data->subcategory_id;
     $project = $this->client->project->show($projectIdentifier);
     if (!$project) {
-      return false;
+      $redmineSyncProjectService = new SyncProject($this->redmineSetting);
+      $redmineProjectId = $redmineSyncProjectService->syncCategory($userId, $subcategoryWorkId);
     } else {
       $redmineProjectId = $project["project"]["id"];
-      return $this->redmineProjectService->addWork($userId, $subcategoryWorkId, $redmineProjectId);
     }
+    return $this->redmineProjectService->addWork($userId, $subcategoryWorkId, $redmineProjectId);
   }
 
   // Summary: update the issue which have field HMS_swid equals subcategoryId
