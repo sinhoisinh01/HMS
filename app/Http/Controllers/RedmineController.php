@@ -18,12 +18,6 @@ class RedmineController extends Controller {
 		return response()->json( RedmineSetting::create( $redmineSetting ) );
 	}
 
-	function sync(Request $request) {
-		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
-		$result = $redmineSyncUtils->syncIssuses(Auth::user()->id, $request->input('issuesString'));
-		return response()->json($result);
-	}
-
 	function getSetting() {
 		return response()->json( Auth::user()->redmine_setting()->first() );
 	}
@@ -55,4 +49,30 @@ class RedmineController extends Controller {
 			$request->input('list_category_id')
 		));
 	}
+
+	/**---------------------------------Synchronize Project-------------------------------*/
+
+	function sync(Request $request) {
+		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
+		$result = $redmineSyncUtils->syncIssuses(Auth::user()->id, $request->input('issuesString'));
+		return response()->json($result);
+	}
+
+	function updateProject(Request $request) {
+		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
+		$result = $redmineSyncUtils->updateProject(
+			Auth::user()->id, $request->input('type'), $request->input('id')
+		);
+		return response()->json($result);
+	}
+
+	function removeProject(Request $request) {
+		$redmineSyncUtils = new SynchronizeProject( Auth::user()->redmine_setting()->first() );
+		$result = $redmineSyncUtils->removeProject(
+			Auth::user()->id, $request->input('type'), $request->input('id')
+		);
+		return response()->json($result);
+	}
+
+	/**----------------------------End Synchronize Project-------------------------------*/
 }

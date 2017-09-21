@@ -56,7 +56,10 @@ angular.module('HMS')
                 construction.supplier_id = construction.supplier.id;
 				$scope.showConstructions = false;
                 constructionFactory.put(construction).then(function () {
-					$scope.showConstructions = true;
+					$http.post(baseURL + 'redmine/sync/update', {
+                      type: 'construction', id: construction.id
+                    });
+                    $scope.showConstructions = true;
 				});
 				$scope.constructions.forEach(function (con, i) {
 					if (con.id == construction.id) {
@@ -76,6 +79,9 @@ angular.module('HMS')
                     if (isConfirm) {
                         $scope.showConstructions = false;
                         constructionFactory.delete(construction_id).then(function () {
+                            $http.post(baseURL + 'redmine/sync/remove', {
+                                type: 'construction', id: construction_id
+                            });
                             $scope.showConstructions = true;
                         });
                         $scope.constructions = $scope.constructions.filter(function (con) {

@@ -38,6 +38,9 @@ angular.module('HMS')
                 var category = {construction_id:$stateParams.construction_id,name:name};
                 $http.post(baseURL + 'category/' + $scope.categories[index].id,
                     {category: category}).then(function () {
+                    $http.post(baseURL + 'redmine/sync/update', {
+                      type: 'category', id: $scope.categories[index].id
+                    });
                     $scope.categories[index].name = name;
                 });
             });
@@ -48,18 +51,19 @@ angular.module('HMS')
                 ,
                 function(){
                     $http.delete(baseURL + 'category/' + $scope.categories[index].id).then(function () {
-                    if ($location.path().indexOf('category/' + $scope.categories[index].id) != -1)
-                        $location.path('construction/' + $stateParams.construction_id);
-                    $scope.categories.splice(index, 1);
-                });
+                        $http.post(baseURL + 'redmine/sync/remove', {
+                            type: 'category', id: $scope.categories[index].id
+                        });
+                        if ($location.path().indexOf('category/' + $scope.categories[index].id) != -1)
+                            $location.path('construction/' + $stateParams.construction_id);
+                        $scope.categories.splice(index, 1);
+                    });
                     swal({
                         title:"Đã xóa",
                         type: "success"
                     });
                 }
-            );
-            
-                
+            );  
         };
     });
 	

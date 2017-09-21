@@ -277,7 +277,12 @@ angular.module('HMS')
             {
                 case 'subcategory':
                     var subcategory = {category_id: row.category_id, name: row.name, no: row.no};
-                    $http.post(baseURL + "subcategory/" + row.id, {subcategory:subcategory});
+                    $http.post(baseURL + "subcategory/" + row.id, {subcategory:subcategory})
+                    .then(function(response) {
+                        $http.post(baseURL + 'redmine/sync/update', {
+                          type: 'subcategory', id: row.id
+                        });
+                    });
                     break;
                 case 'userWork':
                     var subcategoryWork = {subcategory_id: row.subcategory_id, work_id: row.work_id, no: row.no, value: row.value};
@@ -405,7 +410,11 @@ angular.module('HMS')
                     ,
                     function(){
                         $scope.estimateSheet.splice(index, 1);
-                        $http.delete(baseURL + "subcategory/" + $itemScope.row.id).then(function(){
+                        var subcategoryId = $itemScope.row.id;
+                        $http.delete(baseURL + "subcategory/" + subcategoryId).then(function(){
+                            $http.post(baseURL + 'redmine/sync/remove', {
+                                type: 'subcategory', id: subcategoryId
+                            });
                             while($scope.estimateSheet[index].type !== "subcategory" && $scope.estimateSheet[index].name)
                             {
                                 $scope.estimateSheet.splice(index, 1);
