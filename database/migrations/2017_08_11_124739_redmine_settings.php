@@ -18,6 +18,7 @@ class RedmineSettings extends Migration
             $table->integer('user_id')->unsigned()->unique();
             $table->string('redmine_url');
             $table->string('api_access_key');
+            $table->boolean('is_auto_sync');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }

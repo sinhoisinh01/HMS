@@ -176,7 +176,10 @@ angular.module('HMS')
     function getRedmineSetting() {
       $scope.redmineSetting = {};
       $http.get(baseURL + "redmine/setting").then(function(response) {
-          $scope.redmineSetting = response.data;
+        $scope.redmineSetting = response.data;
+        if ($scope.redmineSetting.is_auto_sync == true) {
+          $scope.redmineSyncInterval = setInterval(autoSyncRedmine, 60000);
+        }
       });
     }
 
@@ -297,6 +300,9 @@ angular.module('HMS')
       }).result.then(function (redmineSetting) {
         $http.post(baseURL + 'redmine/setting', {redmine_setting: redmineSetting})
         .then(function(response) {
+          if ($scope.redmineSetting.is_auto_sync == false && $scope.redmineSyncInterval != undefined) {
+            clearInterval($scope.redmineSyncInterval);
+          }
           swal({
             title: "Đã lưu",
             type: "success",
@@ -343,6 +349,13 @@ angular.module('HMS')
         });
       }    
     };
+
+    function autoSyncRedmine() {
+      var issuesString = decodeURIComponent($cookies.get('issuesString'));
+      if (issuesString != null) {
+        $http.post(baseURL + 'redmine/sync', {issuesString: issuesString});
+      }
+    }
 
     getRedmineSetting();
     getRedmineProjects();
