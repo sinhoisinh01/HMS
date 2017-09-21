@@ -27,6 +27,10 @@
             <input type="text" name="redmine_api_key" class="form-control"
              ng-model="redmineSetting.api_access_key" placeholder="Nhập Api Key của bạn" required>
         </div>
+        <div class="form-group">
+            <label>Tự đồng bộ với Redmine: </label>
+            <toggle ng-model="autoSyncRedmine" ng-change="changed()" on="Mở" off="Tắt"></toggle>
+        </div>
     </form>
 </div>
 <div class="modal-footer">
