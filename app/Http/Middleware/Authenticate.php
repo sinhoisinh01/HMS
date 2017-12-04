@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Utils\UrlManagement;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
 class Authenticate
@@ -39,6 +40,6 @@ class Authenticate
         if ($this->auth->guard($guard)->user()) {
             return $next($request);
         }
-        return redirect('http://localhost:8080/HMS/public/HMS.html#/login/');
+        return redirect(UrlManagement::getBaseUrl() . 'HMS.html#/login/');
     }
 }
