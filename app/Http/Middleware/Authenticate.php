@@ -39,6 +39,6 @@ class Authenticate
         if ($this->auth->guard($guard)->user()) {
             return $next($request);
         }
-        return redirect('http://localhost/HMS/public/HMS.html#/login/');
+        return redirect('http://localhost:8080/HMS/public/HMS.html#/login/');
     }
 }

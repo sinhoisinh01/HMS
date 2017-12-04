@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "16bb712ff92bcff45cea88fb7a7c2ae8",
+    "content-hash": "5d160cf41e2ce87036a0b40911b1800f",
     "packages": [
         {
             "name": "PHPOffice/PHPExcel",
@@ -533,6 +533,51 @@
                 "uri"
             ],
             "time": "2016-02-18T21:54:00+00:00"
+        },
+        {
+            "name": "iboldurev/api-ai-php",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/iboldurev/dialogflow.git",
+                "reference": "b0aef50e1ccacbe86ca8ff173b5ef9f229d296c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/iboldurev/dialogflow/zipball/b0aef50e1ccacbe86ca8ff173b5ef9f229d296c8",
+                "reference": "b0aef50e1ccacbe86ca8ff173b5ef9f229d296c8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^6.2",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DialogFlow\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Boldyrev",
+                    "email": "iboldurev@gmail.com",
+                    "homepage": "https://github.com/iboldurev"
+                }
+            ],
+            "description": "Dialogflow php sdk",
+            "keywords": [
+                "Dialogflow",
+                "Dialogflow sdk",
+                "api.ai",
+                "bot"
+            ],
+            "abandoned": "iboldurev/dialogflow",
+            "time": "2017-10-27T19:44:35+00:00"
         },
         {
             "name": "illuminate/auth",

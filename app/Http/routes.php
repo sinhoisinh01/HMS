@@ -13,6 +13,7 @@ $app->get('/', function () {
 $app->get('/test', 'LoginController@test');
 $app->get('/login', 'LoginController@login');
 $app->get('/loginCallBack', 'LoginController@callBack');
+$app->post('/chatbot', 'ChatbotController@welcome');
 
 $app->group(['middleware' => 'auth'],
     function () use ($app) {
